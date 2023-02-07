@@ -1,6 +1,7 @@
 package io.mdt.ait.common.tiles;
 
 import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
 import com.qouteall.immersive_portals.api.PortalAPI;

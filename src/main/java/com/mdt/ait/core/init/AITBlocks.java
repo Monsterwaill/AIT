@@ -8,7 +8,6 @@ import com.mdt.ait.core.init.itemgroups.AITItemGroups;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -16,7 +15,6 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.function.Supplier;
 
@@ -27,7 +25,7 @@ public class AITBlocks {
 
     public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test_block", TestBlock::new);
     // public static final RegistryObject<Block> AMONGUS_BLOCK = BLOCKS.register("amongus_block", () -> new Block(Block.Properties.of(Material.STONE))); when does this get added????
-    public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TardisBlock::new);
+    public static final RegistryObject<Block> TARDIS_BLOCK = BLOCKS.register("tardis", TARDISBlock::new);
     public static final RegistryObject<Block> PHONE_BOOTH_BLOCK = registerBlock("phone_booth", () -> new PhoneBoothBlock(), AITItemGroups.AITITEMS);
     public static final RegistryObject<Block> ARS_EGG_BLOCK = BLOCKS.register("ars_egg", ArsEggBlock::new);
     public static final RegistryObject<Block> ARS_GENERATE_BLOCK = registerBlock("ars_generator", () -> new ARSGeneratorBlock(Block.Properties.of(Material.WOOL)), AITItemGroups.AITITEMS);

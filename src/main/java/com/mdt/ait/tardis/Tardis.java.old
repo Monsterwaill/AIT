@@ -2,7 +2,7 @@ package com.mdt.ait.tardis;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.common.tileentities.BasicInteriorDoorTile;
 import com.mdt.ait.common.tileentities.TardisTileEntity;
 import com.mdt.ait.core.init.AITDimensions;

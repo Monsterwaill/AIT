@@ -1,25 +1,15 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.network.depreciated.Network;
 import com.mdt.ait.network.depreciated.packets.MonitorExteriorChangePacket;
-import io.mdt.ait.common.tiles.TARDISTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.*;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import java.util.UUID;
@@ -42,7 +32,7 @@ public class TypewriterTile extends TileEntity {
         BlockPos bpos = new BlockPos(this.getBlockPos().getX() + 1,
                 this.getBlockPos().getY(), this.getBlockPos().getZ());
         Block tardisBlock = world.getBlockState(bpos).getBlock();
-        if(tardisBlock instanceof TardisBlock) {
+        if(tardisBlock instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
             //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }
@@ -54,7 +44,7 @@ public class TypewriterTile extends TileEntity {
         BlockPos bpos = new BlockPos(this.getBlockPos().getX() + 1,
                 this.getBlockPos().getY(), this.getBlockPos().getZ());
         Block tardisBlock = world.getBlockState(bpos).getBlock();
-        if(tardisBlock instanceof TardisBlock) {
+        if(tardisBlock instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
             //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }

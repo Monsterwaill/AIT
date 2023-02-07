@@ -4,7 +4,6 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.TSV;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.TSVBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.common.tileentities.TSVTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

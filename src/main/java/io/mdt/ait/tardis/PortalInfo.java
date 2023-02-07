@@ -11,6 +11,7 @@ public class PortalInfo {
     public PortalInfo(double width, double height, double x, double y, double z) {
         this.width = width;
         this.height = height;
+
         this.x = x;
         this.y = y;
         this.z = z;

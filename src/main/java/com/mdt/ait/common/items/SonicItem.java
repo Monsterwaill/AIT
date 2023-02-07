@@ -101,7 +101,7 @@ public class SonicItem extends Item {
             world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResultType.sidedSuccess(world.isClientSide());
         }
-        if (block instanceof TardisBlock) {
+        if (block instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if(tileEntity instanceof TARDISTileEntity) {
                 if (!world.isClientSide) {

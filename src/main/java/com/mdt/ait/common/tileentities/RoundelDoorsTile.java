@@ -1,18 +1,14 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.common.blocks.RoundelDoorsBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -23,11 +19,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 
 import static com.mdt.ait.core.init.enums.EnumDoorState.*;
-import static com.mdt.ait.core.init.enums.EnumDoorState.BOTH;
 
 public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity {
 

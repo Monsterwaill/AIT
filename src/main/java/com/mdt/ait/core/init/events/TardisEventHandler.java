@@ -3,7 +3,7 @@ package com.mdt.ait.core.init.events;
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.interfaces.ITardisBlock;
+import com.mdt.ait.core.init.interfaces.ITARDISBlock;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.tardis.exterior.TARDISExteriors;
@@ -19,7 +19,7 @@ public class TardisEventHandler {
 
     @SubscribeEvent
     public void onPlayerMine(BlockEvent.BreakEvent event) {
-        if (event.getState().getBlock() instanceof ITardisBlock) {
+        if (event.getState().getBlock() instanceof ITARDISBlock) {
             event.setCanceled(true);
         }
     }

@@ -2,7 +2,9 @@ package io.mdt.ait.tardis;
 
 import com.mdt.ait.core.init.AITDimensions;
 import net.minecraft.block.Block;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 

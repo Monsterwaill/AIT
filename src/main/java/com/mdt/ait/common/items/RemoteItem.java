@@ -1,11 +1,8 @@
 package com.mdt.ait.common.items;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.enums.EnumDoorState;
+import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.tardis.special.DematTransit;
 import io.mdt.ait.tardis.TARDIS;
 import net.minecraft.block.Block;
@@ -20,15 +17,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 
 public class RemoteItem extends Item {
 
@@ -53,7 +45,7 @@ public class RemoteItem extends Item {
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
-        if (!(block instanceof TardisBlock) && !(block instanceof BasicInteriorDoorBlock) && !(block instanceof BasicRotorBlock)) {
+        if (!(block instanceof TARDISBlock) && !(block instanceof BasicInteriorDoorBlock) && !(block instanceof BasicRotorBlock)) {
             context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.NOTE_BLOCK_BIT, SoundCategory.MASTER, 1, 0.5f);
             /*this.tardis = AIT.tardisManager.getTardis(TARDISKey.getTardisId(itemInHand));
             if(!world.isClientSide) {
@@ -77,7 +69,7 @@ public class RemoteItem extends Item {
             }*/
         }
 
-        if (block instanceof TardisBlock) {
+        if (block instanceof TARDISBlock) {
             /*if(TARDISKey.getTardisId(itemInHand).needsInitialization()) {
                 TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(context.getClickedPos());
                 assert tardisTileEntity != null;

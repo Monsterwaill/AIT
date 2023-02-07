@@ -1,25 +1,15 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.common.blocks.PhoneBoothBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
-import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumPhoneDoorState;
-import com.qouteall.immersive_portals.teleportation.ClientTeleportationManager;
-import com.qouteall.immersive_portals.teleportation.ServerTeleportationManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.FallingDustParticle;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -28,13 +18,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nonnull;
-
-import static com.mdt.ait.core.init.enums.EnumDoorState.CLOSED;
 
 public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
 

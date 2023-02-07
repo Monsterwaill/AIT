@@ -1,7 +1,7 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
-import com.mdt.ait.common.blocks.TardisBlock;
+import com.mdt.ait.common.blocks.TARDISBlock;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import net.minecraft.block.Block;
@@ -45,7 +45,7 @@ public class TARDISKey extends Item {
         BlockPos blockpos = context.getClickedPos();
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
-        if (block instanceof TardisBlock) {
+        if (block instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if (tileEntity instanceof TARDISTileEntity) {
                 //((TARDISTileEntity) tileEntity).keyUsedOnTardis(context, blockpos, blockstate, block); fixme
@@ -57,7 +57,7 @@ public class TARDISKey extends Item {
                 ((TARDISInteriorDoorTile) tileEntity).onKey(context, blockpos);
             }
         }
-        if (block instanceof TardisBlock) {
+        if (block instanceof TARDISBlock) {
             TARDISKey.getTardisId(itemInHand);
             TARDISTileEntity tardisTileEntity = (TARDISTileEntity) world.getBlockEntity(context.getClickedPos());
             /*if(tardisTileEntity.tard != null) {
