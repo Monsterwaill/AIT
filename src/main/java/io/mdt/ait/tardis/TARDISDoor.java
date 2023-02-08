@@ -12,15 +12,21 @@ public class TARDISDoor {
     private final BlockPos position;
 
     private final DoorState state = new DoorState();
+    private final DoublePortal portal = new DoublePortal();
 
     public TARDISDoor(BlockPos position) {
         this.position = position;
     }
 
+    /**
+     * Explicit link method.
+     *
+     * @param tardis {@link TARDIS} that the component will link to.
+     */
     public void link(TARDIS tardis) {
         this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(this.position);
         if (this.tile != null) {
-            this.tile.link(tardis);
+            tardis.link(this.tile);
         }
     }
 
@@ -38,6 +44,10 @@ public class TARDISDoor {
 
     public DoorState getState() {
         return this.state;
+    }
+
+    public DoublePortal getPortal() {
+        return this.portal;
     }
 
     public static class Serializer implements NBTSerializeable<TARDISDoor>, NBTUnserializeable<TARDISDoor> {

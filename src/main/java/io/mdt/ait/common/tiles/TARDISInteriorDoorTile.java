@@ -8,9 +8,7 @@ import com.qouteall.immersive_portals.api.PortalAPI;
 import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.DoorState;
-import io.mdt.ait.tardis.TARDIS;
-import io.mdt.ait.tardis.TARDISUtil;
+import io.mdt.ait.tardis.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -33,37 +31,30 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
+import java.util.Optional;
 import java.util.UUID;
 
-public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileEntity {
-
-    private TARDIS tardis;
+public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileEntity, ITARDISLinked {
     private float rightDoorRotation = 0;
     private float leftDoorRotation = 0;
     private Portal portal;
+
+    private final TARDISLink link = new TARDISLink();
 
     public TARDISInteriorDoorTile() {
         super(AITTiles.BASIC_INTERIOR_DOOR_TILE_ENTITY_TYPE.get());
     }
 
-    public void link(TARDIS tardis) {
-        this.tardis = tardis;
-    }
-
     public float getLeftDoorRotation() {
-        return leftDoorRotation;
+        return this.leftDoorRotation;
     }
 
     public float getRightDoorRotation() {
-        return rightDoorRotation;
+        return this.rightDoorRotation;
     }
 
     public DoorState getStateManger() {
-        if (this.tardis != null) {
-            return this.tardis.getDoor().getState();
-        }
-
-        return null;
+        return this.link.getDoor().map(TARDISDoor::getState).orElse(null);
     }
 
     @Override
@@ -140,7 +131,6 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
                         "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
             }
 
-            System.out.println("playing sound");
             world.playSound(null, pos, state.getSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             this.syncToClient();
         }
@@ -198,6 +188,11 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(this.worldPosition).inflate(10, 10, 10);
+    }
+
+    @Override
+    public TARDISLink getLink() {
+        return this.link;
     }
 
     @Override

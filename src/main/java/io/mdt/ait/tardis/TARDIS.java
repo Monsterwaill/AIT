@@ -61,8 +61,11 @@ public class TARDIS {
         }
 
         this.door = door;
-        System.out.println("TARDIS: LINKING DOOR");
         this.door.link(this);
+    }
+
+    public void link(ITARDISLinked linked) {
+        linked.getLink().link(this);
     }
 
     public UUID getUUID() {

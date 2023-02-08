@@ -11,6 +11,7 @@ import java.util.UUID;
 public class TARDISLink {
 
     private TARDIS tardis;
+    private boolean linked = false;
 
     public TARDISLink() {
 
@@ -18,6 +19,7 @@ public class TARDISLink {
 
     public void link(TARDIS tardis) {
         this.tardis = tardis;
+        this.linked = true;
     }
 
     public Optional<TARDIS> getTARDIS() {
@@ -30,5 +32,17 @@ public class TARDISLink {
         }
 
         return Optional.empty();
+    }
+
+    public Optional<TARDISDoor> getDoor() {
+        if (this.tardis != null) {
+            return Optional.of(this.tardis.getDoor());
+        }
+
+        return Optional.empty();
+    }
+
+    public boolean isLinked() {
+        return this.linked;
     }
 }
