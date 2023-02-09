@@ -60,43 +60,30 @@ public class BasicInteriorDoorBlock extends Block {
     @Override
     public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
         switch (pState.getValue(FACING)) {
-            case NORTH:
-                return NORTH_AABB;
-
-            case EAST:
-                return EAST_AABB;
-
-            case SOUTH:
-                return SOUTH_AABB;
-
-            case WEST:
-                return WEST_AABB;
-
-            default:
-                throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
-                        "//HOW THE HECK DID YOU GET HERE??");
+            case NORTH: return NORTH_AABB;
+            case EAST:  return EAST_AABB;
+            case SOUTH: return SOUTH_AABB;
+            case WEST:  return WEST_AABB;
         }
+
+        return null; // How did you get there?
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
-        TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        TileEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof TARDISInteriorDoorTile) {
-            if (pHandIn == Hand.MAIN_HAND) {
-                ((TARDISInteriorDoorTile) tileEntity).useOn(pWorldIn, pPlayer, pPos);
+            if (hand == Hand.MAIN_HAND) {
+                ((TARDISInteriorDoorTile) tileEntity).useOn(world, player, pos);
             }
         }
-        return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
+
+        return super.use(state, world, pos, player, hand, hit);
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override
@@ -105,13 +92,15 @@ public class BasicInteriorDoorBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState state, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
-        super.onPlace(state, world, blockPos, blockState2, bool);
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            ServerWorld serverWorld = ((ServerWorld) world);
-            TARDISInteriorDoorTile basicInteriorDoorTile = ((TARDISInteriorDoorTile) serverWorld.getBlockEntity(blockPos));
-            serverWorld.setBlockEntity(blockPos, basicInteriorDoorTile);
-        }
+    public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean bool) {
+        /*if (world.dimension() == AITDimensions.TARDIS_DIMENSION && !world.isClientSide) {
+            world.setBlockEntity(pos, world.getBlockEntity(pos));
+        }*/ // Probably redundant
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
     }
 
     @Nullable

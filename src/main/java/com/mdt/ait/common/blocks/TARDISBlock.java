@@ -26,20 +26,19 @@ import javax.annotation.Nullable;
 
 public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLinked { // ITARDISBlock has some of the same functionality as interface ICantBreak
 
-    private final TARDISLink link = new TARDISLink();
-
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
     }
 
     @Override
     public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
-        if(tile != null) {
-            tile.link(TARDISManager.create(pos, level.dimension()));
-        }
+        if (!level.isClientSide) {
+            TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
 
-        super.onPlace(state, level, pos, oldState, isMoving);
+            if(tile != null) {
+                tile.getLink().link(TARDISManager.create(pos, level.dimension()));
+            }
+        }
     }
 
     @Override
@@ -60,14 +59,16 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLi
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(BlockStateProperties.HORIZONTAL_FACING);
+    public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
+
+    /* Tile-Entity stuff */
 
     @Override
     public boolean hasTileEntity(BlockState state) {
@@ -79,6 +80,11 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLi
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TARDISTileEntity();
     }
+
+
+    /* TARDIS Linking */
+
+    private final TARDISLink link = new TARDISLink();
 
     @Override
     public TARDISLink getLink() {

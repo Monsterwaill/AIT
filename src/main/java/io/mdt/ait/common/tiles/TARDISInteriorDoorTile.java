@@ -4,10 +4,8 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.qouteall.immersive_portals.api.PortalAPI;
 import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
-import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,16 +21,12 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
-
-import java.util.Optional;
-import java.util.UUID;
 
 public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileEntity, ITARDISLinked {
     private float rightDoorRotation = 0;
@@ -54,7 +48,7 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
     }
 
     public DoorState getStateManger() {
-        return this.link.getDoor().map(TARDISDoor::getState).orElse(null);
+        return this.getDoor().map(TARDISDoor::getState).orElse(null);
     }
 
     @Override
@@ -124,6 +118,7 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
             if (!this.getStateManger().isLocked()) {
                 state = this.getStateManger().next();
 
+                TARDIS tardis = this.getTARDIS().get();
                 TARDISTileEntity tardisTileEntity = (TARDISTileEntity) AIT.server.getLevel(tardis.getDimension()).getBlockEntity(tardis.getPosition());
                 tardisTileEntity.syncToClient();
             } else {
@@ -139,10 +134,10 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
     public void onKey(ItemUseContext context, BlockPos blockpos) {
         PlayerEntity player = context.getPlayer();
         ItemStack itemStack = player.getMainHandItem();
-        BlockPos interiorDoorPos = this.tardis.getDoor().getPosition();
-        ServerWorld exteriorDimension = AIT.server.getLevel(this.tardis.getDimension());
+        BlockPos interiorDoorPos = this.getDoor().get().getPosition();
+        ServerWorld exteriorDimension = AIT.server.getLevel(this.getTARDIS().get().getDimension());
 
-        TARDISTileEntity tardisTileEntity = (TARDISTileEntity) exteriorDimension.getBlockEntity(this.tardis.getPosition());
+        TARDISTileEntity tardisTileEntity = (TARDISTileEntity) exteriorDimension.getBlockEntity(this.getTARDIS().get().getPosition());
 
         if (tardisTileEntity == null) {
             player.displayClientMessage(new TranslationTextComponent(
@@ -150,7 +145,7 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
             return;
         }
 
-        if (!this.tardis.ownsKey(itemStack)) {
+        if (!this.getTARDIS().get().ownsKey(itemStack)) {
             player.displayClientMessage(new TranslationTextComponent(
                     "This TARDIS is not yours!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);
             return;
