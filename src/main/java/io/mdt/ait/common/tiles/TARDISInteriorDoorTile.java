@@ -54,11 +54,13 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
     @Override
     public void setRemoved() {
         super.setRemoved();
+
         if (this.getLevel() != null && !this.getLevel().isClientSide) {
             ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
             ForgeChunkManager.forceChunk((ServerWorld) this.getLevel(), AIT.MOD_ID, this.getBlockPos(), chunkPos.x, chunkPos.z, false, false);
         }
-        syncToClient();
+
+        this.syncToClient();
     }
 
     public void setPortal(Portal portal) {

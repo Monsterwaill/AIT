@@ -26,7 +26,7 @@ public class TARDISDoor {
     public void link(TARDIS tardis) {
         this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(this.position);
         if (this.tile != null) {
-            tardis.link(this.tile);
+            this.tile.getLink().link(tardis);
         }
     }
 
