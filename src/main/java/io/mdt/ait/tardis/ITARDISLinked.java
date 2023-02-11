@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Used for identifying objects that need to be linked to tardis
  *
- * @implNote delegates some methods to {@link TARDISLink}.
+ * @implNote delegates methods to {@link TARDISLink} and unwraps {@link Optional}s.
  */
 public interface ITARDISLinked {
     TARDISLink getLink();
@@ -18,23 +18,23 @@ public interface ITARDISLinked {
         return this.getLink().isLinked();
     }
 
-    default Optional<TARDIS> getTARDIS() {
-        return this.getLink().getTARDIS();
+    default TARDIS getTARDIS() {
+        return this.getLink().getTARDIS().get();
     }
 
-    default Optional<UUID> getUUID() {
-        return this.getLink().getUUID();
+    default UUID getUUID() {
+        return this.getLink().getUUID().get();
     }
 
-    default Optional<TARDISDoor> getDoor() {
-        return this.getLink().getDoor();
+    default TARDISDoor getDoor() {
+        return this.getLink().getDoor().get();
     }
 
-    default Optional<TARDISExterior> getExterior() {
-        return this.getLink().getExterior();
+    default TARDISExterior getExterior() {
+        return this.getLink().getExterior().get();
     }
 
-    default Optional<TARDISInterior> getInterior() {
-        return this.getLink().getInterior();
+    default TARDISInterior getInterior() {
+        return this.getLink().getInterior().get();
     }
 }

@@ -67,7 +67,7 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
 
     /*@Override
     public void onChunkUnloaded() {
-        World world = this.getLevel();
+        World world = this.getExteriorLevel();
         entitiesMethod(world);
         super.onChunkUnloaded();
     }*/

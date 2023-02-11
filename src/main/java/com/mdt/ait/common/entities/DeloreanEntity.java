@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class DeloreanEntity extends CreatureEntity implements IMob {
-    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(BatEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(DeloreanEntity.class, DataSerializers.BYTE);
     public boolean isDriverDoorOpen;
     public boolean canEnterCar;
     public boolean continueAntiGrav;

@@ -97,7 +97,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                     /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     if(tardis.interiorDoorPosition != null) {
                         BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) level.getBlockEntity(tardis.interiorDoorPosition);
-                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
+                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
                         if (tardisTileEntity != null) {
                             assert basicInteriorDoorTile != null;
                             tardisTileEntity.setDoorState(basicInteriorDoorTile.currentstate);
@@ -129,7 +129,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                     /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     if(tardis.interiorDoorPosition != null) {
                         BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) level.getBlockEntity(tardis.interiorDoorPosition);
-                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
+                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
                         if(basicInteriorDoorTile != null) {
                             if (basicInteriorDoorTile.lockedState) {
                                 leverState = DoorSwitchStates.FIRST;

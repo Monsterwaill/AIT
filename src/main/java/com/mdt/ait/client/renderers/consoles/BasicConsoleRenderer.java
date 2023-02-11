@@ -30,12 +30,10 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
 
     public final int MaxLight = 15728880;
     public DevConsole model;
-    private final TileEntityRendererDispatcher rendererDispatcher;
 
-    public BasicConsoleRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public BasicConsoleRenderer(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
         this.model = new DevConsole();
-        this.rendererDispatcher = rendererDispatcherIn;
         this.texture = LOCATION;
     }
 

@@ -22,8 +22,6 @@ public class DevTool extends Item {
 
     public EnumDevToolModes current_mode;
 
-    private boolean isDirty = false;
-
     public DevTool(Properties p_i48487_1_) {
         super(p_i48487_1_.stacksTo(1).fireResistant());
     }
@@ -79,6 +77,7 @@ public class DevTool extends Item {
 
 
         this.loadNBT(tag);
+        boolean isDirty = false;
         if (this.current_mode == null) {
             this.current_mode = EnumDevToolModes.PLACE_EXTERIOR;
             saveNBT(tag);

@@ -133,10 +133,10 @@ public class RemoteItem extends Item {
     }
 
     public static void lockTardis(TARDIS tardis, boolean locked) {
-        /*ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        /*ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
 
         if (tardis.interiorDoorPosition != null) {
-            if (Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(tardis.interiorDoorPosition) instanceof BasicInteriorDoorTile) {
+            if (Objects.requireNonNull(AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(tardis.interiorDoorPosition) instanceof BasicInteriorDoorTile) {
                 assert tardisWorld != null;
                 BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(tardis.interiorDoorPosition);
                 assert interiorDoorTile != null;

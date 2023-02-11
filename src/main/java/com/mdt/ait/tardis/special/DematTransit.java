@@ -69,8 +69,8 @@ public class DematTransit {
     public void finishedDematAnimation() {
         /*if (this.tardisID != null) {
             Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
-            ServerWorld newDimension = AIT.server.getLevel(tardis.targetDimension);
+            ServerWorld oldDimension = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+            ServerWorld newDimension = AIT.server.getExteriorLevel(tardis.targetDimension);
             assert oldDimension != null;
             assert newDimension != null;
             tardis.landed = false;
@@ -125,9 +125,9 @@ public class DematTransit {
     public void landTardisPart1(BlockPos landing_position) {
         /*this.landingPosition = landing_position;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        ServerWorld oldDimension = AIT.server.getLevel(tardis.exterior_dimension);
-        ServerWorld newDimension = AIT.server.getLevel(tardis.targetDimension);
-        ServerWorld tardisDimension = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        ServerWorld oldDimension = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+        ServerWorld newDimension = AIT.server.getExteriorLevel(tardis.targetDimension);
+        ServerWorld tardisDimension = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         assert oldDimension != null;
         BlockState oldBlockState = oldDimension.getBlockState(tardis.exteriorPosition);
         TardisTileEntity oldTardisTileEntity = (TardisTileEntity) oldDimension.getBlockEntity(tardis.exteriorPosition);
@@ -148,8 +148,8 @@ public class DematTransit {
     public static void failLandTardis(TARDIS tardis, BlockPos blockpos, World world, PlayerEntity playerentity, BlockPos oldPos, RegistryKey oldDimension, Direction oldDirection) {
         /*tardis.setInteriorDoorState(EnumDoorState.CLOSED);
         tardis.setExteriorDoorState(EnumDoorState.CLOSED);
-        ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
-        ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        ServerWorld exteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+        ServerWorld interiorWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         interiorWorld.playSound(null, tardis.centerPosition, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
         exteriorWorld.playSound(null, tardis.exteriorPosition, AITSounds.TARDIS_FAIL_LANDING.get(), SoundCategory.MASTER, 1f, 1f);
         lockTardis(tardis,true);
@@ -171,8 +171,8 @@ public class DematTransit {
         /*this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         tardis.landed = false;
-        ServerWorld newDimension = AIT.server.getLevel(tardis.targetDimension);
-        ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        ServerWorld newDimension = AIT.server.getExteriorLevel(tardis.targetDimension);
+        ServerWorld tardisDim = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         assert newDimension != null;
         assert tardisDim != null;
         ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landingPosition, newDimension.getChunk(landingPosition).getPos().x, newDimension.getChunk(landingPosition).getPos().z, true, true);
@@ -202,8 +202,8 @@ public class DematTransit {
         /*this.readyForDemat = false;
         Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         tardis.landed = false;
-        ServerWorld newDimension = AIT.server.getLevel(tardis.targetDimension);
-        ServerWorld tardisDim = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        ServerWorld newDimension = AIT.server.getExteriorLevel(tardis.targetDimension);
+        ServerWorld tardisDim = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         assert newDimension != null;
         assert tardisDim != null;
         ForgeChunkManager.forceChunk(newDimension, AIT.MOD_ID, landingPosition, newDimension.getChunk(landingPosition).getPos().x, newDimension.getChunk(landingPosition).getPos().z, true, true);
@@ -233,15 +233,15 @@ public class DematTransit {
         /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
         tardis.lockedTardis = false;
         tardis.landed = true;
-        ServerWorld exteriorDimension = AIT.server.getLevel(tardis.exterior_dimension);
-        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        ServerWorld exteriorDimension = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+        ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         assert exteriorDimension != null;
         TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorDimension.getBlockEntity(tardis.exteriorPosition);
         assert tardisTileEntity != null;
         tardisTileEntity.setLockedState(false, EnumDoorState.CLOSED);
         assert tardisWorld != null;
         if (tardis.interiorDoorPosition != null) {
-            if (Objects.requireNonNull(AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(tardis.interiorDoorPosition) instanceof BasicInteriorDoorTile) {
+            if (Objects.requireNonNull(AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION)).getBlockEntity(tardis.interiorDoorPosition) instanceof BasicInteriorDoorTile) {
                 BasicInteriorDoorTile interiorDoorTile = (BasicInteriorDoorTile) tardisWorld.getBlockEntity(tardis.interiorDoorPosition);
                 assert interiorDoorTile != null;
                 interiorDoorTile.setLockedState(false, EnumDoorState.CLOSED);

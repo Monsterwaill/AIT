@@ -54,7 +54,7 @@ public class TARDISKey extends Item {
         if (block instanceof BasicInteriorDoorBlock) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if (tileEntity instanceof TARDISInteriorDoorTile) {
-                ((TARDISInteriorDoorTile) tileEntity).onKey(context, blockpos);
+                ((TARDISInteriorDoorTile) tileEntity).onKey(context);
             }
         }
         if (block instanceof TARDISBlock) {

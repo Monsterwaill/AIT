@@ -24,41 +24,25 @@ public class TARDIS {
     private BlockPos position;
     private RegistryKey<World> dimension;
 
-    private int maxEnergy;
-    private int energyRechargeRate;
-    private int currentEnergy;
+    public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior) {
+        this(uuid, position, dimension, exterior, interior, new TARDISDoor(
+                TARDISUtil.getInteriorPos(interior).offset(
+                        -interior.getCenter().getX() + interior.getDoorPosition().getX(),
+                        -interior.getCenter().getY() + interior.getDoorPosition().getY(),
+                        -interior.getCenter().getZ() + interior.getDoorPosition().getZ()
+                )
+        ));
 
-    /**
-     * @implNote DO NOT USE THIS CONSTRUCTOR UNDER ANY CIRCUMSTANCES. It can only be used by {@link TARDISBuilder} and {@link TARDIS.Serializer} classes.
-     */
-    public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door, boolean init) {
+        this.interior.place(TARDISUtil.getTARDISWorld(), TARDISUtil.getInteriorPos(this.interior));
+    }
+
+    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door) {
         this.uuid = uuid;
         this.position = position;
-        this.exterior = exterior;
-        this.interior = interior;
         this.dimension = dimension;
 
-        this.maxEnergy = TARDISConfig.TARDIS_BASE_ENERGY_STORAGE;
-        this.energyRechargeRate = TARDISConfig.TARDIS_BASE_RECHARGE_RATE;
-        this.currentEnergy = this.maxEnergy;
-
-        if (init) {
-            BlockPos interiorPosition = TARDISUtil.getTARDISCenter(TARDISManager.getLastIndex()).offset(
-                    -this.interior.getCenter().getX(),
-                    -this.interior.getCenter().getY(),
-                    -this.interior.getCenter().getZ()
-            );
-
-            this.interior.place(TARDISUtil.getTARDISWorld(), interiorPosition);
-
-            door = new TARDISDoor(
-                    interiorPosition.offset(
-                            this.interior.getDoorPosition().getX(),
-                            this.interior.getDoorPosition().getY(),
-                            this.interior.getDoorPosition().getZ()
-                    )
-            );
-        }
+        this.exterior = exterior;
+        this.interior = interior;
 
         this.door = door;
         this.door.link(this);
@@ -97,8 +81,9 @@ public class TARDIS {
     }
 
     public boolean ownsKey(ItemStack key) {
-        if (key.getOrCreateTag().hasUUID("uuid")) {
-            return key.getTag().getUUID("uuid").equals(this.uuid);
+        CompoundNBT nbt = key.getOrCreateTag();
+        if (nbt.hasUUID("uuid")) {
+            return nbt.getUUID("uuid").equals(this.uuid);
         }
 
         return false;
@@ -138,12 +123,10 @@ public class TARDIS {
 
             return new TARDIS(
                     nbt.getUUID("uuid"),
-                    BlockPos.of(nbt.getLong("position")),
-                    dimension,
+                    BlockPos.of(nbt.getLong("position")), dimension,
                     exteriorSerializer.unserialize(nbt.getCompound("exterior")),
                     interiorSerializer.unserialize(nbt.getCompound("interior")),
-                    doorSerializer.unserialize(nbt.getCompound("door")),
-                    false
+                    doorSerializer.unserialize(nbt.getCompound("door"))
             );
         }
     }

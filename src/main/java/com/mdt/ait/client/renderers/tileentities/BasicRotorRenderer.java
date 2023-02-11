@@ -25,12 +25,10 @@ public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
     public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/basic_rotor.png");
     public static final ResourceLocation LIGHTING = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/basic_rotor_emission.png");
     public BasicRotor model;
-    private final TileEntityRendererDispatcher rendererDispatcher;
 
-    public BasicRotorRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public BasicRotorRenderer(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
         this.model = new BasicRotor();
-        this.rendererDispatcher = rendererDispatcherIn;
     }
 
     @Override

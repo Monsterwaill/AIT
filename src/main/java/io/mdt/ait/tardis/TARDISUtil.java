@@ -1,10 +1,13 @@
 package io.mdt.ait.tardis;
 
+import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITDimensions;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.interior.TARDISInterior;
 import net.minecraft.block.Block;
-import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
@@ -38,7 +41,7 @@ public class TARDISUtil {
         return TARDISConfig.TARDIS_NAMES[random.nextInt(TARDISConfig.TARDIS_NAMES.length - 1)];
     }
 
-    public static String getRandomName(int iterations, Random random) {
+    public static String composeName(int iterations, Random random) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < iterations; i++) {
             builder.append(TARDISUtil.getRandomName(random));
@@ -50,5 +53,25 @@ public class TARDISUtil {
     public static BlockPos getTARDISCenter(int i) {
         int xz = TARDISConfig.TARDIS_DIMENSION_START - (TARDISConfig.TARDIS_AREA * i) + ((TARDISConfig.TARDIS_AREA - 1) / 2) + 1;
         return new BlockPos(xz, TARDISConfig.TARDIS_CENTER_Y, xz);
+    }
+
+    public static World getExteriorLevel(TARDIS tardis) {
+        return TARDISUtil.getLevel(tardis.getDimension());
+    }
+
+    public static World getLevel(RegistryKey<World> dimension) {
+        return AIT.server.getLevel(dimension);
+    }
+
+    public static BlockPos getInteriorPos(TARDISInterior interior) {
+        return TARDISUtil.getTARDISCenter(TARDISManager.getLastIndex()).offset(
+                -interior.getCenter().getX(),
+                -interior.getCenter().getY(),
+                -interior.getCenter().getZ()
+        );
+    }
+
+    public static TARDISTileEntity getExteriorTile(TARDIS tardis) {
+        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition());
     }
 }

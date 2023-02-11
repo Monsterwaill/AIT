@@ -158,7 +158,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         level.addFreshEntity(bolt);
                         //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
-                            /*Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getLevel().dimension());
+                            /*Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getExteriorLevel().dimension());
                             TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
                             assert tardisTileEntity != null;
                             tardisTileEntity.linkedTardis = tardis;

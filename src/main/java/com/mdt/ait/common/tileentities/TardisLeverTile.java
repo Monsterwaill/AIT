@@ -77,8 +77,8 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
                     /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-                    ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                    ServerWorld world = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+                    ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
                     assert world != null;
                     assert tardisWorld != null;
                     if (leverState == EnumLeverState.ACTIVE) {

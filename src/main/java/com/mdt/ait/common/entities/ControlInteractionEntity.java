@@ -1,6 +1,5 @@
 package com.mdt.ait.common.entities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
@@ -15,7 +14,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.AmbientEntity;
-import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -35,7 +33,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ControlInteractionEntity extends AmbientEntity {
-    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(BatEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(ControlInteractionEntity.class, DataSerializers.BYTE);
 
     public static final String Throttle = "throttle";
     public static final String coordinateX = "x";
@@ -48,8 +46,7 @@ public class ControlInteractionEntity extends AmbientEntity {
     public static float sizing = 0.125f;
     public static boolean hasBeenHit = false;
     public UUID tardisID;
-    public DematTransit dematTransit;
-    private RegistryKey<World> newDimension;
+
     public EnumDimensionControlState currentdimensionstate = EnumDimensionControlState.EARTH;
     public EnumExteriorFacingState currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
     public Direction newFacingDirection;
@@ -143,6 +140,7 @@ public class ControlInteractionEntity extends AmbientEntity {
     }
 
     public void changeDimensionFromControl() {
+        RegistryKey<World> newDimension;
         if(currentdimensionstate == EnumDimensionControlState.EARTH) {
             newDimension = World.OVERWORLD;
         }
@@ -209,16 +207,16 @@ public class ControlInteractionEntity extends AmbientEntity {
                     if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
                         currentdimensionstate = EnumDimensionControlState.EARTH;
                     }
-                    if (tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension()) {
                         currentdimensionstate = EnumDimensionControlState.NETHER;
                     }
-                    if (tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
                         currentdimensionstate = EnumDimensionControlState.END;
                     }
-                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
                         currentdimensionstate = EnumDimensionControlState.GALLIFREY;
                     }
-                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
                         currentdimensionstate = EnumDimensionControlState.MONDAS;
                     }
                 }
@@ -310,8 +308,8 @@ public class ControlInteractionEntity extends AmbientEntity {
         }
         BlockPos blockPos = new BlockPos(this.getX(), this.getY(), this.getZ());
         //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        //ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
-        //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        //ServerWorld world = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+        //ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         //assert world != null;
         //assert tardisWorld != null;
         /*if(this.getName() == ITextComponent.nullToEmpty("Throttle") && this.tardisID != null) {

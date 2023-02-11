@@ -23,7 +23,7 @@ public class TARDISManager {
 
     public static TARDIS create(BlockPos position, RegistryKey<World> dimension) {
         savedData.setDirty(true);
-        System.out.println("AITDEBUG" + TARDISInteriors.get("dev"));
+
         TARDIS tardis = new TARDISBuilder(UUID.randomUUID())
                 .at(position, dimension)
                 .exterior(TARDISExteriors.get("basic"))

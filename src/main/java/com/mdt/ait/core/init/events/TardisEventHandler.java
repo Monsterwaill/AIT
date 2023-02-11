@@ -51,7 +51,7 @@ public class TardisEventHandler {
                 ServerWorld serverWorld = (ServerWorld) event.getWorld();
                 if (serverWorld.dimension() == AITDimensions.TARDIS_DIMENSION) {
                     TARDIS tardis = TARDISManager.findTARDIS(event.getPos());
-                    BlockState blockState = serverWorld.getBlockState(tardis.getDoor().getPosition());
+                    BlockState blockState = serverWorld.getBlockState(tardis.getDoor().getDoorPosition());
                     Block block = blockState.getBlock();
                     if (block instanceof BasicInteriorDoorBlock) {
                         // @TODO: On destroy will make it so we can place the interior back in the same spot, basically it won't let the player replace the door where it originally was.

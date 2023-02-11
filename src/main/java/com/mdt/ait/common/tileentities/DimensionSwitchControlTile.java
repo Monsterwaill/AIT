@@ -42,7 +42,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
                     /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    ServerWorld ExteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
                     if (!canChangeDim) {
                         if (newDimension == null) {
                             newDimension = tardis.targetDimension;
@@ -54,19 +54,19 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
                                         currentdimensionstate = EnumDimensionControlState.EARTH;
                                         syncToClient();
                                     }
-                                    if (tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+                                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.NETHER;
                                         syncToClient();
                                     }
-                                    if (tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+                                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.END;
                                         syncToClient();
                                     }
-                                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+                                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.GALLIFREY;
                                         syncToClient();
                                     }
-                                    if (tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+                                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.MONDAS;
                                         syncToClient();
                                     }
@@ -132,7 +132,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         canChangeDim  = true;
 //        Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-//        ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+//        ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if(this.tardisID != null) {
@@ -159,16 +159,16 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
         if(tardis.exterior_dimension == AIT.server.overworld().dimension()) {
             currentdimensionstate = EnumDimensionControlState.EARTH;
         }
-        if(tardis.exterior_dimension == AIT.server.getLevel(World.NETHER).dimension()) {
+        if(tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension()) {
             currentdimensionstate = EnumDimensionControlState.NETHER;
         }
-        if(tardis.exterior_dimension == AIT.server.getLevel(World.END).dimension()) {
+        if(tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
             currentdimensionstate = EnumDimensionControlState.END;
         }
-        if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.GALLIFREY).dimension()) {
+        if(tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
             currentdimensionstate = EnumDimensionControlState.GALLIFREY;
         }
-        if(tardis.exterior_dimension == AIT.server.getLevel(AITDimensions.MONDAS).dimension()) {
+        if(tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
             currentdimensionstate = EnumDimensionControlState.MONDAS;
         }
         changeDimensionFromControl();

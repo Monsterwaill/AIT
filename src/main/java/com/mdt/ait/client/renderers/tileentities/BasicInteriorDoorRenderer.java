@@ -31,14 +31,12 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
     public static final ResourceLocation SNOW_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/mint_interior_doors_snow.png");
 
     public BasicInteriorDoor model;
-    private final TileEntityRendererDispatcher rendererDispatcher;
     public ResourceLocation texture;
 
-    public BasicInteriorDoorRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public BasicInteriorDoorRenderer(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
         this.model = new BasicInteriorDoor();
         this.texture = BASIC;
-        this.rendererDispatcher = rendererDispatcherIn;
     }
 
     @Override

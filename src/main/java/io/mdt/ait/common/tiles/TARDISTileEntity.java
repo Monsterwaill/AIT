@@ -1,17 +1,14 @@
 package io.mdt.ait.common.tiles;
 
-import com.mdt.ait.AIT;
+import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
-import com.qouteall.immersive_portals.api.PortalAPI;
-import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
 import io.mdt.ait.tardis.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -28,8 +25,6 @@ import javax.annotation.Nonnull;
 
 public class TARDISTileEntity extends TileEntity implements ITickableTileEntity, ITARDISLinked {
 
-    private Portal portal;
-
     public TARDISTileEntity() {
         this(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
     }
@@ -40,7 +35,7 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
 
     @Override
     public void tick() {
-        if (this.isLinked()) {
+        if (this.getLevel() != null && !this.getLevel().isClientSide && this.isLinked() && !this.getDoor().getPortal().isBuilt()) {
             this.spawnPortal();
         }
     }
@@ -50,177 +45,114 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
         return new AxisAlignedBB(this.worldPosition).inflate(1500, 1500, 1500);
     }
 
-    public void spawnPortal() {
-        if (this.getLevel() != null && !this.getLevel().isClientSide) {
-            ServerWorld tardisexteriordim = AIT.server.getLevel(this.getLevel().dimension());
-            ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
-            TARDISDoor door = this.getDoor().get();
+    private Vector3d getVectorByDirection(Direction direction, PortalInfo info) {
+        Vector3d position = null;
 
-            ForgeChunkManager.forceChunk(tardisexteriordim, "ait", this.getBlockPos(), chunkPos.x, chunkPos.z, true, true);
-            if (door.getPosition() != null) {
-                ForgeChunkManager.forceChunk(TARDISUtil.getTARDISWorld(), "ait", door.getPosition(), chunkPos.x, chunkPos.z, true, true);
-            }
+        switch (direction) {
+            case NORTH:
+                position = new Vector3d(
+                        this.getDoor().getDoorPosition().getX() + 0.5D,
+                        this.getDoor().getDoorPosition().getY() + info.y(),
+                        this.getDoor().getDoorPosition().getZ() + 0.865D
+                );
 
-            this.syncToClient();
+                break;
 
-            TARDISInteriorDoorTile basicInteriorDoorTile = door.getTile();
+            case SOUTH:
+                position = new Vector3d(
+                        this.getDoor().getDoorPosition().getX() + 0.5D,
+                        this.getDoor().getDoorPosition().getY() + info.y(),
+                        this.getDoor().getDoorPosition().getZ() + 0.135D
+                );
 
-            Portal portal = Portal.entityType.create(this.getLevel());
-            portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY(), (this.getBlockPos().getZ() + 1)));
+                break;
 
-            PortalInfo portalInfo = this.getExterior().get().portal();
+            case EAST:
+                position = new Vector3d(
+                        this.getDoor().getDoorPosition().getX() + 0.135D,
+                        this.getDoor().getDoorPosition().getY() + info.y(),
+                        this.getDoor().getDoorPosition().getZ() + 0.5D
+                );
 
+                break;
 
-            portal.setOrientationAndSize(new Vector3d(1.0D, 0.0D, 0.0D), new Vector3d(0.0D, 1.0D, 0.0D),
-                    portalInfo.width(), portalInfo.height());
+            case WEST:
+                position = new Vector3d(
+                        this.getDoor().getDoorPosition().getX() + 0.865D,
+                        this.getDoor().getDoorPosition().getY() + info.y(),
+                        this.getDoor().getDoorPosition().getZ() + 0.5D
+                );
 
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH) {
-                if (basicInteriorDoorTile.getFacing() == Direction.NORTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.865D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.135D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.EAST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.135D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.WEST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.865D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
-                }
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH) {
-                if (basicInteriorDoorTile.getFacing() == Direction.NORTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.865D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.135D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.EAST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.135D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.WEST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.865D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
-                }
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST) {
-                if (basicInteriorDoorTile.getFacing() == Direction.NORTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.865D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.135D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.EAST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.135D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.WEST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.235D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
-                }
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) {
-                if (basicInteriorDoorTile.getFacing() == Direction.NORTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.865D), new Quaternion(Vector3f.YP, 90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.SOUTH) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.5D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.135D), new Quaternion(Vector3f.YP, -90.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.EAST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.135D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, 0.0F, true), 1d);
-                }
-                if (basicInteriorDoorTile.getFacing() == Direction.WEST) {
-                    PortalManipulation.setPortalTransformation(portal, AITDimensions.TARDIS_DIMENSION, new Vector3d(
-                            door.getPosition().getX() + 0.865D,
-                            door.getPosition().getY() + portalInfo.y(),
-                            door.getPosition().getZ() + 0.5D), new Quaternion(Vector3f.YP, 180.0F, true), 1d);
-                }
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.NORTH) {
-                PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, 180, true));
-                portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() - portalInfo.z()));
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.SOUTH) {
-                PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, 0, true));
-                portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + 1 + portalInfo.z()));
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.EAST) {
-                PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, -90, true));
-                portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 1 + portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
-            }
-            if (this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING) == Direction.WEST) {
-                PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, 90, true));
-                portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
-            }
-
-            this.syncToClient();
-            if (portal.getDestinationWorld() == null) {
-                portal.setDestinationDimension(AITDimensions.TARDIS_DIMENSION);
-            }
-
-            PortalAPI.spawnServerEntity(portal);
-            portal.reloadAndSyncToClient();
-            this.portal = portal;
-
-            door.getTile().setPortal(this.portal);
+                break;
         }
+
+        return position;
+    }
+
+    private final float[][] portalRotation = {
+            { 180.0F, 0.0F, 90.0F, -90.0F },
+            { 0.0F, 180.0F, -90.0F, 90.0F },
+            { 90.0F, -90.0F, 0.0F, 180.0F },
+            { -90.0F, 90.0F, 180.0F, 0.0F }
+    };
+
+    public void spawnPortal() {
+        PortalInfo portalInfo = this.getExterior().portal();
+        ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
+        TARDISInteriorDoorTile doorTile = this.getDoor().getTile();
+
+        if (doorTile != null) {
+            ForgeChunkManager.forceChunk((ServerWorld) TARDISUtil.getExteriorLevel(this.getTARDIS()), "ait", this.getBlockPos(), chunkPos.x, chunkPos.z, true, true);
+            ForgeChunkManager.forceChunk(TARDISUtil.getTARDISWorld(), "ait", this.getDoor().getDoorPosition(), chunkPos.x, chunkPos.z, true, true);
+            this.syncToClient();
+
+            this.getDoor().getPortal()
+                    .from(this.getLevel(), this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY(), this.getBlockPos().getZ() + 1, portalInfo.width(), portalInfo.height())
+                    .to(
+                            AITDimensions.TARDIS_DIMENSION, this.getVectorByDirection(doorTile.getFacing(), portalInfo),
+                            new Quaternion(
+                                    Vector3f.YP,
+                                    this.portalRotation
+                                            [this.getFacing().ordinal() - 2]
+                                            [doorTile.getFacing().ordinal() - 2],
+                                    true
+                            )
+                    );
+
+            this.getDoor().getPortal().apply(portal -> {
+                PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, this.portalRotation[this.getFacing().ordinal() - 2][0], true));
+                if (this.getFacing() == Direction.NORTH) {
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() - portalInfo.z()));
+                } else if (this.getFacing() == Direction.SOUTH) {
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + 1 + portalInfo.z()));
+                } else if (this.getFacing() == Direction.WEST) {
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
+                } else {
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 1 + portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
+                }
+
+                return portal;
+            });
+
+            this.syncToClient();
+            this.getDoor().getPortal().build();
+        }
+    }
+
+    public Direction getFacing() {
+        return this.getBlockState().getValue(BasicInteriorDoorBlock.FACING);
     }
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
         this.getLink().link(TARDISManager.findTARDIS(nbt.getUUID("tardis")));
-        this.portal = (Portal) ((ServerWorld) this.getLevel()).getEntity(nbt.getUUID("portal"));
-
         super.load(state, nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
-        if (this.getTARDIS().isPresent()) {
-            nbt.putUUID("tardis", this.getUUID().get());
-            nbt.putUUID("portal", this.portal.getUUID());
+        if (this.isLinked()) {
+            nbt.putUUID("tardis", this.getUUID());
         }
 
         return super.save(nbt);

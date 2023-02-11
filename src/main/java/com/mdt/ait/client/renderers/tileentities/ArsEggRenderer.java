@@ -23,12 +23,11 @@ public class ArsEggRenderer extends TileEntityRenderer<ArsEggTile> {
     public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/ars_eggs/ars_egg.png");
     public static final ResourceLocation LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/ars_eggs/ars_egg_emission.png");
     public ArsEgg model;
-    private final TileEntityRendererDispatcher rendererDispatcher;
 
-    public ArsEggRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public ArsEggRenderer(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+
         this.model = new ArsEgg();
-        this.rendererDispatcher = rendererDispatcherIn;
     }
 
     @Override

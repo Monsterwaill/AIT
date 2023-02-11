@@ -35,7 +35,7 @@ public class HartnellRotorTile extends TileEntity implements ITickableTileEntity
 
     public void getFlightState() {
         //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        //ServerWorld world = AIT.server.getLevel(tardis.exterior_dimension);
+        //ServerWorld world = AIT.server.getExteriorLevel(tardis.exterior_dimension);
         //assert world != null;
         //TardisTileEntity tardisTileEntity = (TardisTileEntity) world.getBlockEntity(tardis.exterior_position);
         //assert tardisTileEntity != null;

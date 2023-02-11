@@ -2,6 +2,7 @@ package io.mdt.ait.tardis;
 
 import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 public class DoublePortal {
 
     private Portal portal;
+    private boolean isBuilt;
 
     public DoublePortal() { }
 
@@ -30,13 +32,13 @@ public class DoublePortal {
         return this;
     }
 
-    public DoublePortal to(World world, Vector3d vector, Quaternion rotation) {
-        return this.to(world, vector, rotation, 1.0D);
+    public DoublePortal to(RegistryKey<World> dimension, Vector3d vector, Quaternion rotation) {
+        return this.to(dimension, vector, rotation, 1.0D);
     }
 
-    public DoublePortal to(World world, Vector3d vector, Quaternion rotation, double scale) {
-        portal.setDestinationDimension(world.dimension());
-        PortalManipulation.setPortalTransformation(portal, world.dimension(), vector, rotation, scale);
+    public DoublePortal to(RegistryKey<World> dimension, Vector3d vector, Quaternion rotation, double scale) {
+        portal.setDestinationDimension(dimension);
+        PortalManipulation.setPortalTransformation(portal, dimension, vector, rotation, scale);
 
         return this;
     }
@@ -53,5 +55,9 @@ public class DoublePortal {
 
     public Portal get() {
         return this.portal;
+    }
+
+    public boolean isBuilt() {
+        return this.portal != null && this.portal.isAlive();
     }
 }

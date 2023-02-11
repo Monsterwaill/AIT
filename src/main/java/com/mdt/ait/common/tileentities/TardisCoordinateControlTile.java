@@ -126,7 +126,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         canChangePos = true;
-        //ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+        //ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
@@ -271,7 +271,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
                     /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
+                    ServerWorld ExteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
                     if (!canChangePos) {
                         setListedPosition(tardis.targetPosition);
                         if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) != null) {

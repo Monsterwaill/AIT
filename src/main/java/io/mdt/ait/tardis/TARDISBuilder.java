@@ -39,7 +39,7 @@ public class TARDISBuilder {
 
     public TARDIS build() {
         return new TARDIS(
-                this.uuid, this.position, this.dimension, this.exterior, this.interior, null, true
+                this.uuid, this.position, this.dimension, this.exterior, this.interior
         );
     }
 }

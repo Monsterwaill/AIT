@@ -42,8 +42,8 @@ public class TardisMonitorC2SExteriorChangePacket implements IPacket {
         final AtomicBoolean success = new AtomicBoolean(false);
         ctx.get().enqueueWork(() -> {
             /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-            ServerWorld exteriorWorld = AIT.server.getLevel(tardis.exterior_dimension);
-            ServerWorld interiorWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+            ServerWorld exteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+            ServerWorld interiorWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
             assert exteriorWorld != null;
             assert interiorWorld != null;
             TardisTileEntity tardisTileEntity = (TardisTileEntity) exteriorWorld.getBlockEntity(tardis.exteriorPosition);

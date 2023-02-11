@@ -5,33 +5,31 @@ import io.mdt.ait.NBTUnserializeable;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
+import org.apache.logging.log4j.util.TriConsumer;
+
+import java.util.function.BiConsumer;
 
 public class TARDISDoor {
 
     private TARDISInteriorDoorTile tile;
-    private final BlockPos position;
+    private final BlockPos doorPosition;
 
     private final DoorState state = new DoorState();
     private final DoublePortal portal = new DoublePortal();
 
-    public TARDISDoor(BlockPos position) {
-        this.position = position;
+    public TARDISDoor(BlockPos doorPosition) {
+        this.doorPosition = doorPosition;
     }
 
-    /**
-     * Explicit link method.
-     *
-     * @param tardis {@link TARDIS} that the component will link to.
-     */
     public void link(TARDIS tardis) {
-        this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(this.position);
+        this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(doorPosition);
         if (this.tile != null) {
             this.tile.getLink().link(tardis);
         }
     }
 
-    public BlockPos getPosition() {
-        return this.position;
+    public BlockPos getDoorPosition() {
+        return this.doorPosition;
     }
 
     public TARDISInteriorDoorTile getTile() {
@@ -53,16 +51,16 @@ public class TARDISDoor {
     public static class Serializer implements NBTSerializeable<TARDISDoor>, NBTUnserializeable<TARDISDoor> {
 
         @Override
-        public CompoundNBT serialize(TARDISDoor tardisDoor, CompoundNBT nbt) {
-            nbt.putInt("state", tardisDoor.state.getRaw());
-            nbt.putLong("position", tardisDoor.position.asLong());
+        public CompoundNBT serialize(TARDISDoor door, CompoundNBT nbt) {
+            nbt.putInt("state", door.state.getRaw());
+            nbt.putLong("door_position", door.getTile().getBlockPos().asLong());
 
             return nbt;
         }
 
         @Override
         public TARDISDoor unserialize(CompoundNBT nbt) {
-            TARDISDoor door = new TARDISDoor(BlockPos.of(nbt.getLong("position")));
+            TARDISDoor door = new TARDISDoor(BlockPos.of(nbt.getLong("door_position")));
             door.state.fromRaw(nbt.getInt("state"));
 
             return door;

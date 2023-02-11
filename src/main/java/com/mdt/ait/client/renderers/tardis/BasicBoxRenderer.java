@@ -107,12 +107,12 @@ public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
     public void render(TARDISTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
         BlockPos belowTardis = tile.getBlockPos().below(1);
         ++spinnn;
-        /*if(tile.getLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
+        /*if(tile.getExteriorLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
             MatrixStackIn.translate(0, +tile.upDown, 0);
         } else {
             MatrixStackIn.translate(0, 0, 0);
         }
-        //ServerWorld level = AIT.server.getLevel(tile.linked_tardis.exterior_dimension);
+        //ServerWorld level = AIT.server.getExteriorLevel(tile.linked_tardis.exterior_dimension);
         /*if(AIT.tardisManager.getBlockUnderTardis(tile.linked_tardis_id, level)) {
             if (tile.currentfloatstate == EnumRotorState.MOVING) {
                 if (tile.floatTick < 0.4f/*1.5f*//*) {
