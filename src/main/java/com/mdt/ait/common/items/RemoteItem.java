@@ -211,7 +211,7 @@ public class RemoteItem extends Item {
             pTooltip.add(new TranslationTextComponent("Linked TARDIS: " + TARDISKey.getTardisId(pStack))
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.DARK_AQUA)));
         } else {
-            pTooltip.add(new TranslationTextComponent("Link to TARDIS via the exterior!")
+            pTooltip.add(new TranslationTextComponent("Shift click exterior to link!")
                     .setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.AQUA)));
             // i tricked you!
             // you got me mzsty - Duzo

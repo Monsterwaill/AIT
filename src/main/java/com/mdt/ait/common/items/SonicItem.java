@@ -33,6 +33,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
@@ -83,6 +85,7 @@ public class SonicItem extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable World pWorldIn, List<ITextComponent> pTooltip, ITooltipFlag pFlagIn) {
         super.appendHoverText(pStack, pWorldIn, pTooltip, pFlagIn);
         pTooltip.add(new TranslationTextComponent("Sonic Screwdriver"));
+        pTooltip.add(new TranslationTextComponent("Shift click in TARDIS Dimension to open ARS GUI").setStyle(Style.EMPTY.withItalic(true).withColor(TextFormatting.GREEN)));
     }
 
 
