@@ -2,7 +2,6 @@ modLoader="javafml"
 loaderVersion="[36,)"
 license="All rights reserved"
 
-
 [[mods]]
 modId="ait"
 version="${file.jarVersion}"

@@ -32,6 +32,7 @@ public class ARSGeneratorBlock extends Block {
     public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
             if (checkHeldItem(pPlayer, AITItems.TENNANT_SONIC.get()) || checkHeldItem(pPlayer, AITItems.WHITTAKER_SONIC.get())) {
                 ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
+                assert tardisWorld != null;
                 BaseStructure baseStructure = new BaseStructure(tardisWorld, this.structure_name);
                 Direction block_direction = pHit.getDirection().getOpposite();
                 SonicItem sonic = (SonicItem) pPlayer.getMainHandItem().getItem();

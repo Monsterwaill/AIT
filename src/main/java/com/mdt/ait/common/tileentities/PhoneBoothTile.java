@@ -118,15 +118,15 @@ public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
 
     public void entityInside(BlockState pState, World pLevel, BlockPos pPos, Entity pEntity) {
         if(pEntity instanceof PlayerEntity) {
-            if(this.currentstate == EnumPhoneDoorState.FIRST) {
+            /*if(this.currentstate == EnumPhoneDoorState.FIRST) {
                 System.out.println(pEntity.getDisplayName());
             /*LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, pLevel);
             bolt.setPos(pPos.getX() - 0.5, pPos.getY() + 2.5, pPos.getZ() - 0.5);
-            pLevel.addFreshEntity(bolt);*/
+            pLevel.addFreshEntity(bolt);*//*
                 atNewLocation = true;
                 pEntity.moveTo(pPos.getX() + 0.5, 128.125, pPos.getZ() + 0.5);
                 this.setDoorState(EnumPhoneDoorState.CLOSED);
-            }
+            }*/
 
             pLevel.addParticle(ParticleTypes.CLOUD, pPos.getX() + 0.5, pPos.getY() + 2.5, pPos.getZ() + 0.5, 0.1, 0.1, 0.1);
         }
