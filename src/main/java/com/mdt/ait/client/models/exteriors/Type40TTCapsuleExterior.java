@@ -5,11 +5,11 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.1
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class Type40TTCapsuleExterior extends BasicBoxModel {
+public class Type40TTCapsuleExterior extends BasicBoxModelExteriorSchema {
 	public final ModelRenderer box;
 	public final ModelRenderer door_slat_1;
 	public final ModelRenderer door_slat_2;

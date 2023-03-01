@@ -6,11 +6,11 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.4.3
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class RaniExterior extends BasicBoxModel {
+public class RaniExterior extends BasicBoxModelExteriorSchema {
 	public final ModelRenderer box;
 	public final ModelRenderer walls;
 	public final ModelRenderer roof;

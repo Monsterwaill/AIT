@@ -1,21 +1,26 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.tardis.link;
 
-import io.mdt.ait.tardis.exterior.TARDISExterior;
-import io.mdt.ait.tardis.interior.TARDISInterior;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.door.TARDISDoor;
+import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
+import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
 
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Used for identifying objects that need to be linked to tardis
+ * Used for identifying objects that need to be linked to a TARDIS
  *
  * @implNote delegates methods to {@link TARDISLink} and unwraps {@link Optional}s.
  */
-public interface ITARDISLinked {
+public interface ITARDISLinkable {
     TARDISLink getLink();
 
     default boolean isLinked() {
         return this.getLink().isLinked();
+    }
+    default void link(TARDIS tardis) {
+        this.getLink().link(tardis);
     }
 
     default TARDIS getTARDIS() {
@@ -30,11 +35,11 @@ public interface ITARDISLinked {
         return this.getLink().getDoor().get();
     }
 
-    default TARDISExterior getExterior() {
+    default TARDISExteriorSchema getExterior() {
         return this.getLink().getExterior().get();
     }
 
-    default TARDISInterior getInterior() {
+    default TARDISInteriorSchema getInterior() {
         return this.getLink().getInterior().get();
     }
 }

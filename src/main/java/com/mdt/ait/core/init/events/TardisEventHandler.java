@@ -50,7 +50,7 @@ public class TardisEventHandler {
             if (!event.getWorld().isClientSide()) {
                 ServerWorld serverWorld = (ServerWorld) event.getWorld();
                 if (serverWorld.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                    TARDIS tardis = TARDISManager.findTARDIS(event.getPos());
+                    TARDIS tardis = TARDISManager.getInstance().findTARDIS(event.getPos());
                     BlockState blockState = serverWorld.getBlockState(tardis.getDoor().getDoorPosition());
                     Block block = blockState.getBlock();
                     if (block instanceof BasicInteriorDoorBlock) {
@@ -79,7 +79,7 @@ public class TardisEventHandler {
 
             if (world.dimension().equals(AITDimensions.TARDIS_DIMENSION)) {
                 if (this.loaded) {
-                    AIT.dimensionSavedDataManager.computeIfAbsent(TARDISManager::getSavedData, "ait"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
+                    AIT.dimensionSavedDataManager.computeIfAbsent(() -> TARDISManager.getInstance().getSavedData(), "ait"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
 
                     TARDISExteriors.init();
                     TARDISInteriors.init();

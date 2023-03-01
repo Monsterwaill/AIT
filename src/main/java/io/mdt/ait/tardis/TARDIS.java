@@ -1,9 +1,11 @@
 package io.mdt.ait.tardis;
 
-import io.mdt.ait.NBTSerializeable;
-import io.mdt.ait.NBTUnserializeable;
-import io.mdt.ait.tardis.exterior.TARDISExterior;
-import io.mdt.ait.tardis.interior.TARDISInterior;
+import io.mdt.ait.nbt.NBTSerializeable;
+import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.tardis.door.TARDISDoor;
+import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
+import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
+import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.RegistryKey;
@@ -17,14 +19,14 @@ public class TARDIS {
 
     private final UUID uuid;
 
-    private TARDISExterior exterior;
-    private TARDISInterior interior;
+    private TARDISExteriorSchema exterior;
+    private TARDISInteriorSchema interior;
     private final TARDISDoor door;
 
     private BlockPos position;
     private RegistryKey<World> dimension;
 
-    public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior) {
+    public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema exterior, TARDISInteriorSchema interior) {
         this(uuid, position, dimension, exterior, interior, new TARDISDoor(
                 TARDISUtil.getInteriorPos(interior).offset(
                         -interior.getCenter().getX() + interior.getDoorPosition().getX(),
@@ -36,7 +38,7 @@ public class TARDIS {
         this.interior.place(TARDISUtil.getTARDISWorld(), TARDISUtil.getInteriorPos(this.interior));
     }
 
-    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door) {
+    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema exterior, TARDISInteriorSchema interior, TARDISDoor door) {
         this.uuid = uuid;
         this.position = position;
         this.dimension = dimension;
@@ -55,20 +57,23 @@ public class TARDIS {
     public BlockPos getPosition() {
         return this.position;
     }
+    public RegistryKey<World> getDimension() {
+        return this.dimension;
+    }
 
-    public TARDISExterior getExterior() {
+    public TARDISExteriorSchema getExterior() {
         return this.exterior;
     }
 
-    public void setExterior(TARDISExterior exterior) {
+    public void setExterior(TARDISExteriorSchema exterior) {
         this.exterior = exterior;
     }
 
-    public TARDISInterior getInterior() {
+    public TARDISInteriorSchema getInterior() {
         return this.interior;
     }
 
-    public void setInterior(TARDISInterior interior) {
+    public void setInterior(TARDISInteriorSchema interior) {
         this.interior = interior;
     }
 
@@ -76,9 +81,6 @@ public class TARDIS {
         return this.door;
     }
 
-    public RegistryKey<World> getDimension() {
-        return this.dimension;
-    }
 
     public boolean ownsKey(ItemStack key) {
         CompoundNBT nbt = key.getOrCreateTag();
@@ -91,12 +93,12 @@ public class TARDIS {
 
     public static class Serializer implements NBTSerializeable<TARDIS>, NBTUnserializeable<TARDIS> {
 
-        private static final TARDISExterior.Serializer exteriorSerializer =  new TARDISExterior.Serializer();
-        private static final TARDISInterior.Serializer interiorSerializer =  new TARDISInterior.Serializer();
+        private static final TARDISExteriorSchema.Serializer exteriorSerializer =  new TARDISExteriorSchema.Serializer();
+        private static final TARDISInteriorSchema.Serializer interiorSerializer =  new TARDISInteriorSchema.Serializer();
         private static final TARDISDoor.Serializer doorSerializer = new TARDISDoor.Serializer();
 
         @Override
-        public CompoundNBT serialize(TARDIS tardis, CompoundNBT nbt) {
+        public void serialize(TARDIS tardis, CompoundNBT nbt) {
             nbt.putUUID("uuid", tardis.getUUID());
             nbt.putLong("position", tardis.position.asLong());
 
@@ -108,7 +110,6 @@ public class TARDIS {
             nbt.put("exterior", exteriorSerializer.serialize(tardis.exterior));
             nbt.put("interior", interiorSerializer.serialize(tardis.interior));
             nbt.put("door", doorSerializer.serialize(tardis.door));
-            return nbt;
         }
 
         @Override

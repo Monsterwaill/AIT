@@ -1,4 +1,4 @@
-package io.mdt.ait;
+package io.mdt.ait.nbt;
 
 import net.minecraft.nbt.CompoundNBT;
 

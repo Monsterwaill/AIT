@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis;
 
-import io.mdt.ait.NBTSerializeable;
-import io.mdt.ait.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTSerializeable;
+import io.mdt.ait.nbt.NBTUnserializeable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.common.util.Constants;
@@ -77,12 +77,12 @@ public class TARDISMap extends HashMap<UUID, TARDIS> {
 
     public static class Serializer implements NBTSerializeable<TARDISMap>, NBTUnserializeable<TARDISMap> {
 
-        private static final TARDIS.Serializer tardisSerializer = new TARDIS.Serializer();
+        private static final TARDIS.Serializer TARDIS_SERIALIZER = new TARDIS.Serializer();
 
         @Override
-        public CompoundNBT serialize(TARDISMap map, CompoundNBT nbt) {
+        public void serialize(TARDISMap map, CompoundNBT nbt) {
             ListNBT tardisNBTs = new ListNBT();
-            map.forEach((id, tardis) -> tardisNBTs.add(tardisSerializer.serialize(tardis)));
+            map.forEach((id, tardis) -> tardisNBTs.add(TARDIS_SERIALIZER.serialize(tardis)));
 
             ListNBT referenceNBTs = new ListNBT();
             map.getReferences().forEach(uuid -> {
@@ -94,15 +94,14 @@ public class TARDISMap extends HashMap<UUID, TARDIS> {
 
             nbt.put("tardises", tardisNBTs);
             nbt.put("references", referenceNBTs);
-            return nbt;
         }
 
 
         @Override
         public TARDISMap unserialize(CompoundNBT nbt) {
             TARDISMap map = new TARDISMap();
-            nbt.getList("tardises", Constants.NBT.TAG_COMPOUND).forEach(inbt -> map.put(tardisSerializer.unserialize((CompoundNBT) inbt)));
-            nbt.getList("references", Constants.NBT.TAG_COMPOUND).forEach(inbt -> map.references.add(((CompoundNBT) inbt).getUUID("uuid")));
+            nbt.getList("tardises", Constants.NBT.TAG_COMPOUND).forEach(inbt -> map.put(TARDIS_SERIALIZER.unserialize((CompoundNBT) inbt)));
+            nbt.getList("references", Constants.NBT.TAG_COMPOUND).forEach(inbt -> map.getReferences().add(((CompoundNBT) inbt).getUUID("uuid")));
 
             return map;
         }

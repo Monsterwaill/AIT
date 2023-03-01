@@ -1,7 +1,9 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.tardis.link;
 
-import io.mdt.ait.tardis.exterior.TARDISExterior;
-import io.mdt.ait.tardis.interior.TARDISInterior;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.door.TARDISDoor;
+import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
+import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +47,7 @@ public class TARDISLink {
         return Optional.empty();
     }
 
-    public Optional<TARDISExterior> getExterior() {
+    public Optional<TARDISExteriorSchema> getExterior() {
         if (this.tardis != null) {
             return Optional.of(this.tardis.getExterior());
         }
@@ -53,7 +55,7 @@ public class TARDISLink {
         return Optional.empty();
     }
 
-    public Optional<TARDISInterior> getInterior() {
+    public Optional<TARDISInteriorSchema> getInterior() {
         if (this.tardis != null) {
             return Optional.of(this.tardis.getInterior());
         }

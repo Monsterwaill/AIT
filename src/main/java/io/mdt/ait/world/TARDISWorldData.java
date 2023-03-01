@@ -1,17 +1,18 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.world;
 
 import com.mdt.ait.AIT;
+import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.storage.WorldSavedData;
 
 /**
- * Saves TARDIS dimension data.
+ * Saves TARDIS dimension data
  *
  * @implNote WorldSavedData doesn't exist in later versions, once updated to later versions this won't work
  */
 public class TARDISWorldData extends WorldSavedData {
 
-    private final TARDISManager.Serializer managerSerializer = new TARDISManager.Serializer();
+    private static final TARDISManager.Serializer MANAGER_SERIALIZER = new TARDISManager.Serializer();
 
     public TARDISWorldData() {
         super(AIT.MOD_ID);
@@ -19,11 +20,12 @@ public class TARDISWorldData extends WorldSavedData {
 
     @Override
     public void load(CompoundNBT nbt) {
-        this.managerSerializer.unserialize(nbt);
+        MANAGER_SERIALIZER.unserialize(nbt);
     }
 
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
-        return this.managerSerializer.serialize(TARDISManager.getInstance(), nbt);
+        MANAGER_SERIALIZER.serialize(TARDISManager.getInstance(), nbt);
+        return nbt;
     }
 }

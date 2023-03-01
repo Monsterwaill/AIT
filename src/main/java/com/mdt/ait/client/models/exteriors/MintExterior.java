@@ -6,10 +6,10 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.2.4
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class MintExterior extends BasicBoxModel {
+public class MintExterior extends BasicBoxModelExteriorSchema {
 	public final ModelRenderer right_door;
 	private final ModelRenderer cube_r1;
 	public final ModelRenderer left_door;

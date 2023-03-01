@@ -1,4 +1,4 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.config;
 
 import com.mdt.ait.core.init.AITBlocks;
 import net.minecraft.block.Block;

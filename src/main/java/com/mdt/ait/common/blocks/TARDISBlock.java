@@ -2,8 +2,8 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.core.init.interfaces.ITARDISBlock;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.ITARDISLinked;
-import io.mdt.ait.tardis.TARDISLink;
+import io.mdt.ait.tardis.link.ITARDISLinkable;
+import io.mdt.ait.tardis.link.TARDISLink;
 import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLinked { // ITARDISBlock has some of the same functionality as interface ICantBreak
+public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLinkable { // ITARDISBlock has some of the same functionality as interface ICantBreak
 
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());

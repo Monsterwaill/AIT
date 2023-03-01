@@ -4,13 +4,15 @@ import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
-import io.mdt.ait.tardis.*;
+import io.mdt.ait.tardis.link.impl.TARDISLinkableTileEntity;
+import io.mdt.ait.tardis.portal.Portal3i;
+import io.mdt.ait.tardis.TARDISManager;
+import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,7 +25,7 @@ import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nonnull;
 
-public class TARDISTileEntity extends TileEntity implements ITickableTileEntity, ITARDISLinked {
+public class TARDISTileEntity extends TARDISLinkableTileEntity implements ITickableTileEntity {
 
     public TARDISTileEntity() {
         this(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
@@ -45,7 +47,7 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
         return new AxisAlignedBB(this.worldPosition).inflate(1500, 1500, 1500);
     }
 
-    private Vector3d getVectorByDirection(Direction direction, PortalInfo info) {
+    private Vector3d getVectorByDirection(Direction direction, Portal3i info) {
         Vector3d position = null;
 
         switch (direction) {
@@ -97,7 +99,7 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
     };
 
     public void spawnPortal() {
-        PortalInfo portalInfo = this.getExterior().portal();
+        Portal3i portal3i = this.getExterior().portal();
         ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
         TARDISInteriorDoorTile doorTile = this.getDoor().getTile();
 
@@ -107,9 +109,9 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
             this.syncToClient();
 
             this.getDoor().getPortal()
-                    .from(this.getLevel(), this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY(), this.getBlockPos().getZ() + 1, portalInfo.width(), portalInfo.height())
+                    .from(this.getLevel(), this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY(), this.getBlockPos().getZ() + 1, portal3i.width(), portal3i.height())
                     .to(
-                            AITDimensions.TARDIS_DIMENSION, this.getVectorByDirection(doorTile.getFacing(), portalInfo),
+                            AITDimensions.TARDIS_DIMENSION, this.getVectorByDirection(doorTile.getFacing(), portal3i),
                             new Quaternion(
                                     Vector3f.YP,
                                     this.portalRotation
@@ -122,13 +124,13 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
             this.getDoor().getPortal().apply(portal -> {
                 PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, this.portalRotation[this.getFacing().ordinal() - 2][0], true));
                 if (this.getFacing() == Direction.NORTH) {
-                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() - portalInfo.z()));
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portal3i.x(), this.getBlockPos().getY() + portal3i.y(), this.getBlockPos().getZ() - portal3i.z()));
                 } else if (this.getFacing() == Direction.SOUTH) {
-                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portalInfo.x(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + 1 + portalInfo.z()));
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + portal3i.x(), this.getBlockPos().getY() + portal3i.y(), this.getBlockPos().getZ() + 1 + portal3i.z()));
                 } else if (this.getFacing() == Direction.WEST) {
-                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() - portal3i.z(), this.getBlockPos().getY() + portal3i.y(), this.getBlockPos().getZ() + portal3i.x()));
                 } else {
-                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 1 + portalInfo.z(), this.getBlockPos().getY() + portalInfo.y(), this.getBlockPos().getZ() + portalInfo.x()));
+                    portal.setOriginPos(new Vector3d(this.getBlockPos().getX() + 1 + portal3i.z(), this.getBlockPos().getY() + portal3i.y(), this.getBlockPos().getZ() + portal3i.x()));
                 }
 
                 return portal;
@@ -145,7 +147,7 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
-        this.getLink().link(TARDISManager.findTARDIS(nbt.getUUID("tardis")));
+        this.getLink().link(TARDISManager.getInstance().findTARDIS(nbt.getUUID("tardis")));
         super.load(state, nbt);
     }
 
@@ -180,12 +182,5 @@ public class TARDISTileEntity extends TileEntity implements ITickableTileEntity,
             this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
             this.setChanged();
         }
-    }
-
-    private final TARDISLink link = new TARDISLink();
-
-    @Override
-    public TARDISLink getLink() {
-        return this.link;
     }
 }

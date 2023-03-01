@@ -1,9 +1,12 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.util;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.interior.TARDISInterior;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.config.TARDISConfig;
+import io.mdt.ait.tardis.TARDISManager;
+import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
 import net.minecraft.block.Block;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
@@ -63,7 +66,7 @@ public class TARDISUtil {
         return AIT.server.getLevel(dimension);
     }
 
-    public static BlockPos getInteriorPos(TARDISInterior interior) {
+    public static BlockPos getInteriorPos(TARDISInteriorSchema interior) {
         return TARDISUtil.getTARDISCenter(TARDISManager.getLastIndex()).offset(
                 -interior.getCenter().getX(),
                 -interior.getCenter().getY(),

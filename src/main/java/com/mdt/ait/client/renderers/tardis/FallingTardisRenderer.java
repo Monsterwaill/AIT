@@ -4,7 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.FallingTardisEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
@@ -69,12 +69,12 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
     /*//Outlines
     public static final ResourceLocation TX3_OUTLINE_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tx3_outline.png");*/
 
-    public BasicBoxModel model;
+    public BasicBoxModelExteriorSchema model;
     private final EntityRendererManager rendererDispatcher;
 
     public FallingTardisRenderer(EntityRendererManager rendererDispatcherIn) {
         super(rendererDispatcherIn);
-        this.model = new BasicBoxModel();
+        this.model = new BasicBoxModelExteriorSchema();
         this.rendererDispatcher = rendererDispatcherIn;
         this.texture = LOCATION;
     }

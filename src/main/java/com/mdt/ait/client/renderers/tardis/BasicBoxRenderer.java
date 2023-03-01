@@ -2,14 +2,14 @@ package com.mdt.ait.client.renderers.tardis;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.renderers.AITRenderTypes;
-import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.exterior.model.BasicBoxModel;
+import io.mdt.ait.tardis.exterior.TARDISExteriorModelSchema;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
@@ -21,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
 
     private ResourceLocation texture;
     private ResourceLocation lm_texture;
-    public final int MaxLight = 15728880;
+    public final int maxLight = 15728880;
     protected static final RenderState.CullState CULL = new RenderState.CullState(true);
     public float spinnn = 0;
 
@@ -93,62 +94,33 @@ public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
     /*//Outlines
     public static final ResourceLocation TX3_OUTLINE_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tx3_outline.png");*/
 
-    public BasicBoxModel model;
+    public TARDISExteriorModelSchema<?> model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
-    public BasicBoxRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
-        this.model = new BasicBoxModel();
-        this.rendererDispatcher = rendererDispatcherIn;
+    public BasicBoxRenderer(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+        this.model = new BasicBoxModelExteriorSchema();
+        this.rendererDispatcher = dispatcher;
         this.texture = LOCATION;
     }
 
     @Override
-    public void render(TARDISTileEntity tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(TARDISTileEntity tile, float PartialTicks, MatrixStack stack, IRenderTypeBuffer Buffer, int light, int overlay) {
         BlockPos belowTardis = tile.getBlockPos().below(1);
         ++spinnn;
-        /*if(tile.getExteriorLevel().getBlockState(belowTardis).getBlock() instanceof AirBlock) {
-            MatrixStackIn.translate(0, +tile.upDown, 0);
-        } else {
-            MatrixStackIn.translate(0, 0, 0);
-        }
-        //ServerWorld level = AIT.server.getExteriorLevel(tile.linked_tardis.exterior_dimension);
-        /*if(AIT.tardisManager.getBlockUnderTardis(tile.linked_tardis_id, level)) {
-            if (tile.currentfloatstate == EnumRotorState.MOVING) {
-                if (tile.floatTick < 0.4f/*1.5f*//*) {
-                    tile.floatTick += 0.0005f;
-                } else {
-                    tile.floatTick = 0.8f/*1.5f*//*;
-                    tile.currentfloatstate = EnumRotorState.STATIC;
-                }
-            }
-            if (tile.currentfloatstate == EnumRotorState.STATIC) {
-                if (tile.floatTick > 0.0f) {
-                    tile.floatTick -= 0.0005f;
-                } else {
-                    tile.floatTick = 0.0f;
-                    tile.currentfloatstate = EnumRotorState.MOVING;
-                }
-            }
-        }*/
-        MatrixStackIn.pushPose();
-        //MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(spinnn));
-        //MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(22.0f));
-        //MatrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(22.0f));
-        //MatrixStackIn.translate(0, 0, -0.5);
-        EnumExteriorType exterior = EnumExteriorType.values()[tile.serializeNBT().getInt("currentexterior")];
-        EnumDoorState door = EnumDoorState.values()[tile.serializeNBT().getInt("currentstate")];
-        int exteriortype = tile.serializeNBT().getInt("currentexterior");
-        EnumMatState materialState = EnumMatState.values()[tile.serializeNBT().getInt("matState")];
-        int mattype = tile.serializeNBT().getInt("matState");
+
+
+
+        this.model = tile.getTARDIS().getExterior().model();
+        stack.pushPose();
+
         /*if(materialState != EnumMatState.SOLID) {
-            ++tile.spinny;
+            ++spinny;
         } else if (materialState == EnumMatState.SOLID) {
-            tile.spinny = 0;
+            spinny = 0;
         }*/ //FIXME: dis
-        if (exterior.getSerializedName().equals("basic_box") && exteriortype == 0) {
-            this.model = new BasicBoxModel();
-            this.smithMintPosterText(MatrixStackIn, Buffer, CombinedLight);
+        if (tile.getTARDIS().getExterior().getId().equals("basic")) {
+            this.smithMintPosterText(stack, Buffer, light);
             LocalDate localdate = LocalDate.now();
             int i = localdate.get(ChronoField.DAY_OF_MONTH);
             int j = localdate.get(ChronoField.MONTH_OF_YEAR);
@@ -159,331 +131,333 @@ public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
                 this.texture = SNOW_LOCATION;
                 this.model.christmas_stuff.visible = false;
             } else if (tile.getLevel().getBiome(tile.getBlockPos()).getPrecipitation() == Biome.RainType.NONE) {
-                if(tile.getLevel().dimension() != tile.getLevel().NETHER ||
-                tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
-                        tile.getLevel().dimension() != tile.getLevel().END ||
-                tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION ||
-                tile.getLevel().dimension() != AITDimensions.VORTEX_DIMENSION) {
-                        this.texture = SAND_LOCATION;
-                        this.model.christmas_stuff.visible = false;
+                if(tile.getLevel().dimension() != World.NETHER ||
+                        tile.getLevel().dimension() != AITDimensions.GALLIFREY ||
+                        tile.getLevel().dimension() != World.END ||
+                        tile.getLevel().dimension() != AITDimensions.TARDIS_DIMENSION ||
+                        tile.getLevel().dimension() != AITDimensions.VORTEX_DIMENSION) {
+                    this.texture = SAND_LOCATION;
+                    this.model.christmas_stuff.visible = false;
                 }
             } else {
                 this.texture = LOCATION;
                 this.model.christmas_stuff.visible = false;
             }
+
             if(!door.equals(EnumDoorState.CLOSED)) {
-                //this.model.right_door.yRot = (float) Math.toRadians(tile.rightDoorRotation);
-                //this.model.left_door.yRot = -(float) Math.toRadians(tile.leftDoorRotation);
                 this.model.right_door.visible = false;
                 this.model.left_door.visible = false;
             } else {
                 this.model.right_door.visible = true;
                 this.model.left_door.visible = true;
             }
-            MatrixStackIn.translate(0.5f, 0f, 0.5f);
-            MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0, 1.4949, 0);
-            MatrixStackIn.scale(1.001f, 1.0001f, 1.001f);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+            stack.translate(0.5f, 0f, 0.5f);
+            stack.scale(0.725f, 0.725f, 0.725f);
+            stack.pushPose();
+            stack.translate(0, 1.4949, 0);
+            stack.scale(1.001f, 1.0001f, 1.001f);
+            stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
+            model.render(tile, stack, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), maxLight, overlay, 1, 1, 1, 1);
+            stack.popPose();
         }
 
-        MatrixStackIn.translate(0, 1.5f, 0);
-        MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        MatrixStackIn.popPose();
+        stack.translate(0, 1.5f, 0);
+        stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
+        model.render(tile, stack, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), light, overlay, 1, 1, 1, 1);
+        stack.popPose();
+
+        model.render(tile, stack, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), maxLight, overlay, 1, 1, 1, 1);
+        model.render(tile, stack, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), light, overlay, 1, 1, 1, 1);
     }
 
-    public void smithMintPosterText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.75f, -0.37f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void smithMintPosterText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.75f, -0.37f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.37f, 2.75f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.37f, 2.75f, 0.09f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.75f, 1.37f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.37f, 2.75f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.37f, 2.75f, 0.09f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.75f, 1.37f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void coralText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.6f, -0.30f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void coralText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.6f, -0.30f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.30f, 2.6f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.30f, 2.6f, 0.0900f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.6f, 1.30f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.30f, 2.6f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.30f, 2.6f, 0.0900f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.6f, 1.30f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void hudolinText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.68f, -0.33f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void hudolinText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.68f, -0.33f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.33f, 2.68f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.33f, 2.68f, 0.0900f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.68f, 1.33f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.33f, 2.68f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.33f, 2.68f, 0.0900f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.68f, 1.33f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void cushingText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.825f, -0.375f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void cushingText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.825f, -0.375f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.375f, 2.825f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.375f, 2.825f, 0.0900f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.825f, 1.375f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.375f, 2.825f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.375f, 2.825f, 0.0900f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.825f, 1.375f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void classicText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.475f, -0.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void classicText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.475f, -0.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE === BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.28f, 2.475f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.28f, 2.475f, 0.09f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.475f, 1.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.28f, 2.475f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.28f, 2.475f, 0.09f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.475f, 1.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void hartnellText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.6775f, -0.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void hartnellText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.6775f, -0.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.28f, 2.6775f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.28f, 2.6775f, 0.0900f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.6775f, 1.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.28f, 2.6775f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.28f, 2.6775f, 0.0900f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.6775f, 1.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void BakerText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.475f, -0.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void BakerText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.475f, -0.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.28f, 2.475f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.28f, 2.475f, 0.09f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.475f, 1.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.28f, 2.475f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.28f, 2.475f, 0.09f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.475f, 1.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void shalkaText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.925f, 2.88f, -0.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void shalkaText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.925f, 2.88f, -0.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("POLICE -=- BOX").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.28f, 2.88f, 0.925f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.28f, 2.88f, 0.0900f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.09f, 2.88f, 1.28f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.28f, 2.88f, 0.925f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.28f, 2.88f, 0.0900f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.09f, 2.88f, 1.28f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
-    public void boothText(MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.975f, 2.93f, -0.18f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+    public void boothText(MatrixStack stack, IRenderTypeBuffer Buffer, int light) {
+        stack.pushPose();
+        stack.translate(0.975f, 2.93f, -0.18f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent("T E L E P H O N E").getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 0, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(1.18f, 2.93f, 0.975f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 0, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(-0.18f, 2.93f, 0.04f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 0, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.04f, 2.93f, 1.18f);
-        MatrixStackIn.scale(0.0125f, 0.0125f, 0.0125f);
-        MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
-        fontRenderer.drawInBatch(irp, -5, 5, 0, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
-        MatrixStackIn.popPose();
+        fontRenderer.drawInBatch(irp, -5, 5, 0, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(1.18f, 2.93f, 0.975f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 0, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(-0.18f, 2.93f, 0.04f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 0, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
+        stack.pushPose();
+        stack.translate(0.04f, 2.93f, 1.18f);
+        stack.scale(0.0125f, 0.0125f, 0.0125f);
+        stack.mulPose(Vector3f.XP.rotationDegrees(180.0f));
+        fontRenderer.drawInBatch(irp, -5, 5, 0, false, stack.last().pose(), Buffer, false, 0, maxLight);
+        stack.popPose();
     }
 
     @Override

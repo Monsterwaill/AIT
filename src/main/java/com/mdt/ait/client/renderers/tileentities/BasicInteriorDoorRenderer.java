@@ -6,8 +6,8 @@ import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import io.mdt.ait.tardis.DoorState;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
+import io.mdt.ait.tardis.door.TARDISDoorStates;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -106,7 +106,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             this.texture = TARDIM;
             MatrixStackIn.translate(0, -1.5, 0);
             MatrixStackIn.scale(1f, 1f, 1f);
-            if(tile.getStateManger().getState() != DoorState.State.CLOSED) {
+            if(tile.getStateManger().getState() != TARDISDoorStates.CLOSED) {
                 ((TARDIMInteriorDoor) this.model).door.visible = false;
             } else {
                 ((TARDIMInteriorDoor) this.model).door.visible = true;
@@ -125,7 +125,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             this.texture = FALLOUT_SHELTER;
             MatrixStackIn.scale(1f, 1f, 1f);
             MatrixStackIn.translate(0, -1.5, 0);
-            if(tile.getStateManger().getState() != DoorState.State.CLOSED) {
+            if(tile.getStateManger().getState() != TARDISDoorStates.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;

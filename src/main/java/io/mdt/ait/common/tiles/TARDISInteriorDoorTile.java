@@ -4,10 +4,11 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import io.mdt.ait.tardis.DoorState;
-import io.mdt.ait.tardis.ITARDISLinked;
-import io.mdt.ait.tardis.TARDISLink;
-import io.mdt.ait.tardis.TARDISUtil;
+import io.mdt.ait.tardis.door.TARDISDoorState;
+import io.mdt.ait.tardis.door.TARDISDoorStates;
+import io.mdt.ait.tardis.link.ITARDISLinkable;
+import io.mdt.ait.tardis.link.TARDISLink;
+import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUseContext;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
-public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileEntity, ITARDISLinked {
+public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileEntity, ITARDISLinkable {
 
     private float rightDoorRotation = 0;
     private float leftDoorRotation = 0;
@@ -45,7 +46,7 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
         return this.rightDoorRotation;
     }
 
-    public DoorState getStateManger() {
+    public TARDISDoorState getStateManger() {
         return this.getDoor().getState();
     }
 
@@ -61,7 +62,7 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
         this.syncToClient();
     }
 
-    DoorState.State previousState = DoorState.State.CLOSED;
+    TARDISDoorStates previousState = TARDISDoorStates.CLOSED;
 
     @Override
     public void tick() {
@@ -70,12 +71,12 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
 
 
         if (this.getStateManger() != null) {
-            DoorState.State state = this.getStateManger().getState();
+            TARDISDoorStates state = this.getStateManger().getState();
             if (state != this.previousState) {
-                this.rightDoorRotation = state == DoorState.State.FIRST ? 0.0f : 87.5f;
-                this.leftDoorRotation = state == DoorState.State.FIRST ? 0.0f : (state == DoorState.State.BOTH ? 0.0f : 87.5f);
+                this.rightDoorRotation = state == TARDISDoorStates.FIRST ? 0.0f : 87.5f;
+                this.leftDoorRotation = state == TARDISDoorStates.FIRST ? 0.0f : (state == TARDISDoorStates.BOTH ? 0.0f : 87.5f);
             }
-            if (state != DoorState.State.CLOSED) {
+            if (state != TARDISDoorStates.CLOSED) {
                 if (this.rightDoorRotation < 87.5f) {
                     this.rightDoorRotation += 5.0f;
                 } else {
@@ -87,14 +88,14 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
                     this.rightDoorRotation -= 15.0f;
                 }
             }
-            if (state == DoorState.State.BOTH) {
+            if (state == TARDISDoorStates.BOTH) {
                 if (this.leftDoorRotation < 87.5f) {
                     this.leftDoorRotation += 5.0f;
                 } else {
                     this.leftDoorRotation = 87.5f;
                 }
             }
-            if(state == DoorState.State.CLOSED) {
+            if(state == TARDISDoorStates.CLOSED) {
                 if(this.leftDoorRotation == -2.5f) {
                     this.leftDoorRotation = 0.0f;
                 }
@@ -109,11 +110,12 @@ public class TARDISInteriorDoorTile extends TileEntity implements ITickableTileE
 
     public void useOn(World world, PlayerEntity player, BlockPos pos) {
         if (!world.isClientSide) {
-            DoorState.State state = this.getStateManger().getState();
+            TARDISDoorStates state = this.getStateManger().getState();
+
             if (!this.getStateManger().isLocked()) {
                 state = this.getStateManger().next();
 
-                TARDISUtil.getExteriorTile(this.getTARDIS()).syncToClient();
+                //TARDISUtil.getExteriorTile(this.getTARDIS()).syncToClient();
             } else {
                 player.displayClientMessage(new TranslationTextComponent(
                         "Door is locked!").setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)), true);

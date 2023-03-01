@@ -1,4 +1,4 @@
-package io.mdt.ait.tardis;
+package io.mdt.ait.tardis.portal;
 
 import com.qouteall.immersive_portals.portal.Portal;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
@@ -12,7 +12,6 @@ import java.util.function.Function;
 public class DoublePortal {
 
     private Portal portal;
-    private boolean isBuilt;
 
     public DoublePortal() { }
 

@@ -1,9 +1,9 @@
 package io.mdt.ait.tardis.interior;
 
-import io.mdt.ait.NBTSerializeable;
-import io.mdt.ait.NBTUnserializeable;
-import io.mdt.ait.tardis.TARDISConfig;
-import io.mdt.ait.tardis.TARDISUtil;
+import io.mdt.ait.nbt.NBTSerializeable;
+import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.config.TARDISConfig;
+import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.Constants;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class TARDISInterior {
+public abstract class TARDISInteriorSchema {
 
     private final String id;
     private final TranslationTextComponent name;
@@ -26,7 +26,7 @@ public abstract class TARDISInterior {
     private BlockPos center;
     private BlockPos doorPosition;
 
-    public TARDISInterior(String id, String translation, ResourceLocation location) {
+    public TARDISInteriorSchema(String id, String translation, ResourceLocation location) {
         this.id = id;
         this.name = new TranslationTextComponent(translation);
 
@@ -98,16 +98,15 @@ public abstract class TARDISInterior {
         return this.doorPosition;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISInterior>, NBTUnserializeable<TARDISInterior> {
+    public static class Serializer implements NBTSerializeable<TARDISInteriorSchema>, NBTUnserializeable<TARDISInteriorSchema> {
 
         @Override
-        public CompoundNBT serialize(TARDISInterior interior, CompoundNBT nbt) {
+        public void serialize(TARDISInteriorSchema interior, CompoundNBT nbt) {
             nbt.putString("id", interior.id);
-            return nbt;
         }
 
         @Override
-        public TARDISInterior unserialize(CompoundNBT nbt) {
+        public TARDISInteriorSchema unserialize(CompoundNBT nbt) {
             return TARDISInteriors.get(nbt.getString("id"));
         }
     }
