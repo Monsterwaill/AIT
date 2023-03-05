@@ -2,7 +2,7 @@ package io.mdt.ait.tardis.exterior.impl;
 
 import io.mdt.ait.tardis.portal.Portal3i;
 import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
-import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 
@@ -14,7 +14,7 @@ public class BasicBoxExteriorSchema extends TARDISExteriorSchema {
 
     @Override
     public <T extends Entity> EntityModel<T> model() {
-        return new BasicBoxModelExteriorSchema<>();
+        return new BasicBoxModel<>();
     }
 
     @Override

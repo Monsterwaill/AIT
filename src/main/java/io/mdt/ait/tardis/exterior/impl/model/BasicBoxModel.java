@@ -4,15 +4,11 @@ import com.mdt.ait.common.blocks.FallingTardisEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.StringTextComponent;
 
-public class BasicBoxModelExteriorSchema<T extends Entity> extends EntityModel<T> {
+public class BasicBoxModel<T extends Entity> extends EntityModel<T> {
 
     public final ModelRenderer box;
     public final ModelRenderer base;
@@ -43,7 +39,7 @@ public class BasicBoxModelExteriorSchema<T extends Entity> extends EntityModel<T
     public int lightIn;
     public int overlayIn;
 
-    public BasicBoxModelExteriorSchema() {
+    public BasicBoxModel() {
         texWidth = 256;
         texHeight = 256;
 

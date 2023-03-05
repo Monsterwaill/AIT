@@ -4,12 +4,10 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.exterior.TARDISExteriorModelSchema;
-import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModel;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
@@ -99,7 +97,7 @@ public class BasicBoxRenderer extends TileEntityRenderer<TARDISTileEntity> {
 
     public BasicBoxRenderer(TileEntityRendererDispatcher dispatcher) {
         super(dispatcher);
-        this.model = new BasicBoxModelExteriorSchema();
+        this.model = new BasicBoxModel();
         this.rendererDispatcher = dispatcher;
         this.texture = LOCATION;
     }

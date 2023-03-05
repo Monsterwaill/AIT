@@ -6,11 +6,11 @@ package com.mdt.ait.client.models.exteriors;// Made with Blockbench 4.5.2
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModelExteriorSchema;
+import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ClockExterior extends BasicBoxModelExteriorSchema {
+public class ClockExterior extends BasicBoxModel {
 	public final ModelRenderer bone4;
 	public final ModelRenderer bone;
 	public final ModelRenderer bone2;
