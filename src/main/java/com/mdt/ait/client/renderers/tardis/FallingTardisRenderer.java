@@ -86,7 +86,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-        this.model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
+        this.model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         /*EnumExteriorType exterior = EnumExteriorType.values()[tardisEntity.serializeNBT().getInt("currentexterior")];
         int exteriortype = tardisEntity.serializeNBT().getInt("currentexterior");
@@ -103,7 +103,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("mint_box") && exteriortype == 1) {
@@ -116,7 +116,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(MINT_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(MINT_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("coral_box") && exteriortype == 2) {
@@ -129,7 +129,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CORAL_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CORAL_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("poster_box") && exteriortype == 3) {
@@ -142,7 +142,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(POSTER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(POSTER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("baker_box") && exteriortype == 4) {
@@ -155,7 +155,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BAKER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BAKER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5) {
@@ -188,7 +188,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.scale(0.23f, 0.23f, 0.23f);
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(NUKA_COLA_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(NUKA_COLA_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("siege_mode") && exteriortype == 8) {
@@ -200,7 +200,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(45.0f));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(SIEGE_MODE_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(SIEGE_MODE_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("arcade_cabinet_exterior") && exteriortype == 9) {
@@ -215,7 +215,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getBlockState().getValue(TardisBlock.FACING).getOpposite().toYRot()));
-            ((ArcadeCabinet)this.model).door.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(TRON_LOCATION)), CombinedLight, 0, 1, 1, 1, 1);
+            ((ArcadeCabinet)this.model).door.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(TRON_LOCATION)), CombinedLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.655f, 0.655f, 0.655f);
@@ -223,7 +223,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getBlockState().getValue(TardisBlock.FACING).getOpposite().toYRot()));
-            ((ArcadeCabinet)this.model).base.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TRON_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            ((ArcadeCabinet)this.model).base.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(TRON_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("cushing_exterior") && exteriortype == 10) {
@@ -237,7 +237,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("classic_exterior") && exteriortype == 11) {
@@ -251,7 +251,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CLASSIC_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CLASSIC_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("hartnell_exterior") && exteriortype == 12) {
@@ -264,7 +264,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("hudolin_exterior") && exteriortype == 13) {
@@ -277,7 +277,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HUDOLIN_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(HUDOLIN_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("tx3_exterior") && exteriortype == 14) {
@@ -289,9 +289,9 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TX3_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(TX3_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.pushPose();
-            ((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(TX3_LOCATION)), MaxLight, 0, 1, 1, 1, 1);
+            ((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(TX3_LOCATION)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
             MatrixStackIn.pushPose();
             ((TxThreeCapsule)this.model).universe.render(MatrixStackIn, Buffer.getBuffer(RenderType.endPortal(16)), MaxLight, 0, 1, 1, 1, 1);
@@ -310,7 +310,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TARDIM_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(TARDIM_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("shalka_exterior") && exteriortype == 16) {
@@ -323,7 +323,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(SHALKA_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(SHALKA_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("booth_exterior") && exteriortype == 17) {
@@ -336,7 +336,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4875f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BOOTH_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BOOTH_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("steve_exterior") && exteriortype == 18) {
@@ -352,7 +352,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4875f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(FALLOUT_SHELTER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(FALLOUT_SHELTER_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("rani_exterior") && exteriortype == 20) {
@@ -364,7 +364,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
             MatrixStackIn.translate(0, 1.4875f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(RANI_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
+            model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(RANI_LM_LOCATION, false)), MaxLight, 0, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
@@ -409,7 +409,7 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-        model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
+        model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
         MatrixStackIn.popPose();*/
     }
 

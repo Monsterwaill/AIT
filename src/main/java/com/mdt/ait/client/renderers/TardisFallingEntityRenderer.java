@@ -102,7 +102,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("mint_box") && exteriortype == 1) {
@@ -117,7 +117,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(MINT_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(MINT_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("coral_box") && exteriortype == 2) {
@@ -132,7 +132,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CORAL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CORAL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("poster_box") && exteriortype == 3) {
@@ -147,7 +147,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(POSTER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(POSTER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("baker_box") && exteriortype == 4) {
@@ -163,7 +163,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BAKER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BAKER_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("type_40_tt_capsule") && exteriortype == 5) {
@@ -217,7 +217,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.scale(0.23f, 0.23f, 0.23f);
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(NUKA_COLA_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(NUKA_COLA_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("siege_mode") && exteriortype == 8) {
@@ -229,7 +229,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(45.0f));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(SIEGE_MODE_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(SIEGE_MODE_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("arcade_cabinet_exterior") && exteriortype == 9) {
@@ -245,7 +245,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 0, -tile.arcadeDoorDistance);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            ((ArcadeCabinet)this.model).door.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(TRON_LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            ((ArcadeCabinet)this.model).door.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(TRON_LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
             MatrixStackIn.translate(0.5, 0, 0.5);
             MatrixStackIn.scale(0.655f, 0.655f, 0.655f);
@@ -253,7 +253,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            ((ArcadeCabinet)this.model).base.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(TRON_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            ((ArcadeCabinet)this.model).base.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(TRON_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("cushing_exterior") && exteriortype == 10) {
@@ -269,7 +269,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CUSHING_BASE_LM_NW_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("classic_exterior") && exteriortype == 11) {
@@ -285,7 +285,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(CLASSIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(CLASSIC_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (exterior.getSerializedName().equals("hartnell_exterior") && exteriortype == 12) {
@@ -300,7 +300,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
             MatrixStackIn.translate(0, 1.4949f, 0);
             MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(HARTNELL_LM_LOCATION, false)), MaxLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
@@ -332,7 +332,7 @@ public class TardisFallingEntityRenderer extends FallingBlockRenderer {
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisBlock.FACING).toYRot()));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 

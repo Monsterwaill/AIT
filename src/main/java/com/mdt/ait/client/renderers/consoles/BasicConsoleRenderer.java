@@ -58,7 +58,7 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             } else {
                 ((BorealisConsole)this.model).handbrake.xRot = 150f;
             }
-            //model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(BOREALIS_LM_LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            //model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(BOREALIS_LM_LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
         }
         if (console.getSerializedName().equals("hudolin_console") && consoletype == 1) {
@@ -72,7 +72,7 @@ public class BasicConsoleRenderer extends TileEntityRenderer<ConsoleTileEntity> 
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ConsoleBlock.FACING).toYRot()));
             MatrixStackIn.pushPose();
             MatrixStackIn.scale(1.001F, 1.001F, 1.001F);
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LM_HUDOLIN, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LM_HUDOLIN, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
             MatrixStackIn.popPose();
         }

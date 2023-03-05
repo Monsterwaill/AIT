@@ -8,8 +8,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AITRenderTypes extends RenderType {
 
@@ -33,12 +31,12 @@ public class AITRenderTypes extends RenderType {
         super(p_i225992_1_, p_i225992_2_, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, p_i225992_7_, p_i225992_8_);
     }
 
-    public static RenderType TardisLightmap(ResourceLocation locationIn, boolean bool) {
+    public static RenderType tardisLightmap(ResourceLocation locationIn, boolean bool) {
         RenderType.State rendertype$state = RenderType.State.builder().setTextureState(new TextureState(locationIn, false, false)).setTransparencyState(GENERIC).setCullState(CULL).setAlphaState(DEFAULT_ALPHA).setWriteMaskState(COLOR_DEPTH_WRITE).setFogState(NO_FOG).createCompositeState(true);
         return create("tardis_lightmap", DefaultVertexFormats.NEW_ENTITY, 7, 256, false, true, rendertype$state);
     }
 
-    public static RenderType TardisRenderOver(ResourceLocation locationIn) {
+    public static RenderType tardisRenderOver(ResourceLocation locationIn) {
         State state = State.builder().setTextureState(new TextureState(locationIn, false, false)).setDiffuseLightingState(DIFFUSE_LIGHTING_ENABLED).setTransparencyState(GENERIC).setAlphaState(DEFAULT_ALPHA).setShadeModelState(SMOOTH_SHADE).setCullState(CULL).setLightmapState(RenderState.LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
         return RenderType.create("tardis", DefaultVertexFormats.NEW_ENTITY, 7, 256, state);
     }

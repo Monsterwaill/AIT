@@ -4,15 +4,15 @@ import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
 import com.qouteall.immersive_portals.portal.PortalManipulation;
+import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableTileEntity;
 import io.mdt.ait.tardis.portal.Portal3i;
-import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -25,7 +25,7 @@ import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nonnull;
 
-public class TARDISTileEntity extends TARDISLinkableTileEntity implements ITickableTileEntity {
+public class TARDISTileEntity extends TARDISLinkableTileEntity {
 
     public TARDISTileEntity() {
         this(AITTiles.TARDIS_TILE_ENTITY_TYPE.get());
@@ -36,7 +36,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity implements ITicka
     }
 
     @Override
-    public void tick() {
+    public void link(TARDIS tardis) {
         if (this.getLevel() != null && !this.getLevel().isClientSide && this.isLinked() && !this.getDoor().getPortal().isBuilt()) {
             this.spawnPortal();
         }
@@ -147,7 +147,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity implements ITicka
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
-        this.getLink().link(TARDISManager.getInstance().findTARDIS(nbt.getUUID("tardis")));
+        this.link(TARDISManager.getInstance().findTARDIS(nbt.getUUID("tardis")));
         super.load(state, nbt);
     }
 

@@ -132,7 +132,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             }
         }
         //System.out.println(interiordoor.getSerializedName() + interiordoortype);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

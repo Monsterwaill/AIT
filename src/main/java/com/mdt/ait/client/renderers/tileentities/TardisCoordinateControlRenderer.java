@@ -100,17 +100,17 @@ public class TardisCoordinateControlRenderer extends TileEntityRenderer<TardisCo
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoordinateControlBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0, tile.shiftingPositionEx, 0);
-        model.x.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.x.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0, tile.shiftingPositionY, 0);
-        model.y.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.y.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0, tile.shiftingPositionZ, 0);
-        model.z.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.z.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 

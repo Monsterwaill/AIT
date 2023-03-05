@@ -12,22 +12,22 @@ public class TARDISDoorState {
     private int index = 0;
     private boolean isLocked;
 
-    public TARDISDoorStates getState() {
+    public TARDISDoorStates get() {
         return this.isLocked ? TARDISDoorStates.LOCKED : this.states[index];
     }
 
     public TARDISDoorStates next() {
         this.index = this.index + 1 == this.states.length ? 0 : this.index + 1;
-        return this.getState();
+        return this.get();
     }
 
     public TARDISDoorStates previous() {
         this.index = this.index == 0 ? this.states.length - 1 : this.index - 1;
-        return this.getState();
+        return this.get();
     }
 
     public boolean isClosed() {
-        return this.isLocked || this.getState() == TARDISDoorStates.CLOSED;
+        return this.isLocked || this.get() == TARDISDoorStates.CLOSED;
     }
 
     public boolean isLocked() {

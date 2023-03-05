@@ -1,12 +1,9 @@
 package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.tileentities.TSV;
 import com.mdt.ait.client.models.tileentities.VortexModelTemp;
 import com.mdt.ait.client.renderers.AITRenderTypes;
-import com.mdt.ait.common.blocks.TSVBlock;
 import com.mdt.ait.common.blocks.VortexBlock;
-import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.VortexTileTemp;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -36,7 +33,7 @@ public class VortexRenderer extends TileEntityRenderer<VortexTileTemp> {
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
         model.vortex.zRot = (tile.spinning % 60) / 2;
         MatrixStackIn.scale(2, 2, 2);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

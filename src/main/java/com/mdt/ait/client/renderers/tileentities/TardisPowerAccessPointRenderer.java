@@ -3,7 +3,6 @@ package com.mdt.ait.client.renderers.tileentities;
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.controls.TardisPowerAccessPoint;
 import com.mdt.ait.client.renderers.AITRenderTypes;
-import com.mdt.ait.common.blocks.TSVBlock;
 import com.mdt.ait.common.blocks.TardisPowerAccessPointBlock;
 import com.mdt.ait.common.tileentities.TardisPowerAccessPointTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -35,7 +34,7 @@ public class TardisPowerAccessPointRenderer extends TileEntityRenderer<TardisPow
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisPowerAccessPointBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

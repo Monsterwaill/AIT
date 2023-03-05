@@ -41,9 +41,9 @@ public class PhoneBoothRenderer extends TileEntityRenderer<PhoneBoothTile> {
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
         MatrixStackIn.translate(0, 0.005, 0);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LM_LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LM_LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 

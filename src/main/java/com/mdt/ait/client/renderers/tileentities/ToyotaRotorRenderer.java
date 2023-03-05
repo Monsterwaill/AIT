@@ -57,13 +57,13 @@ public class ToyotaRotorRenderer extends TileEntityRenderer<ToyotaRotorTile> {
         //if(tile.isInFlight) {
             MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
         //}
-        model.toppipe.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.toppipe.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

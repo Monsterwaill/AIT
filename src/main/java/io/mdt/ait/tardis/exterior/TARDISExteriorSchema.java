@@ -1,16 +1,15 @@
 package io.mdt.ait.tardis.exterior;
 
+import com.mdt.ait.client.renderers.tardis.RenderInfo;
+import com.mdt.ait.client.renderers.tardis.TARDISRenderer;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.nbt.NBTSerializeable;
 import io.mdt.ait.nbt.NBTUnserializeable;
 import io.mdt.ait.tardis.portal.Portal3i;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.function.Supplier;
-
-public abstract class TARDISExteriorSchema {
+public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> {
 
     private final String id;
     private final TranslationTextComponent name;
@@ -20,7 +19,9 @@ public abstract class TARDISExteriorSchema {
         this.name = new TranslationTextComponent(translation);
     }
 
-    public abstract <T extends Entity> Supplier<TARDISExteriorModelSchema<T>> model(TARDISTileEntity tile);
+    public abstract T render(RenderInfo info, TARDISTileEntity tile, T model);
+    protected abstract T model();
+
     public abstract Portal3i portal();
 
     public String getId() {
@@ -29,6 +30,10 @@ public abstract class TARDISExteriorSchema {
 
     public String getName() {
         return this.name.getString();
+    }
+
+    public T render(RenderInfo info, TARDISTileEntity tile) {
+        return this.render(info, tile, this.model());
     }
 
     public static class Serializer implements NBTSerializeable<TARDISExteriorSchema>, NBTUnserializeable<TARDISExteriorSchema> {

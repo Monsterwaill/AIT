@@ -2,10 +2,8 @@ package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.RoundelFace;
-import com.mdt.ait.client.models.tileentities.TSV;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.RoundelFaceBlock;
-import com.mdt.ait.common.blocks.TSVBlock;
 import com.mdt.ait.common.tileentities.RoundelFaceTile;
 import com.mdt.ait.core.init.enums.EnumRoundelFaceState;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -46,7 +44,7 @@ public class RoundelFaceRenderer extends TileEntityRenderer<RoundelFaceTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(RoundelFaceBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(roundelLocation)), 15728880, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(roundelLocation)), 15728880, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

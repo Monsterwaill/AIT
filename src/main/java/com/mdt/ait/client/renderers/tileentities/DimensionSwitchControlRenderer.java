@@ -1,14 +1,11 @@
 package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.exteriors.BakerExterior;
 import com.mdt.ait.client.models.tileentities.controls.DimensionSwitchControl;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.DimensionSwitchControlBlock;
-import com.mdt.ait.common.blocks.RampBlock;
 import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
-import com.mdt.ait.common.tileentities.RampTile;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -104,9 +101,9 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisLeverBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         model.planet.yRot = (float) Math.toRadians(tile.spinny / 32);
-        //model.planet.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        //model.planet.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 

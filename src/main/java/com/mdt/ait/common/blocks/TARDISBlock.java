@@ -36,7 +36,7 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLi
             TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
 
             if(tile != null) {
-                tile.getLink().link(TARDISManager.create(pos, level.dimension()));
+                tile.link(TARDISManager.getInstance().create(pos, level.dimension()));
             }
         }
     }

@@ -2,10 +2,8 @@ package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.HudolinRotor;
-import com.mdt.ait.client.models.tileentities.controls.BasicRotor;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.tileentities.BasicRotorTile;
 import com.mdt.ait.common.tileentities.HudolinRotorTile;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -55,13 +53,13 @@ public class HudolinRotorRenderer extends TileEntityRenderer<HudolinRotorTile> {
             MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicRotorBlock.FACING).toYRot()));
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
-            model.bottom.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
+            model.bottom.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
             MatrixStackIn.popPose();
             MatrixStackIn.pushPose();
             MatrixStackIn.translate(0, -tile.rotorTick / 1.25, 0);
-            model.top.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
+            model.top.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
             MatrixStackIn.popPose();
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
             MatrixStackIn.popPose();
     }
 }

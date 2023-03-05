@@ -1,16 +1,11 @@
 package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.tileentities.TSV;
 import com.mdt.ait.client.models.tileentities.TardisCoral;
 import com.mdt.ait.client.renderers.AITRenderTypes;
-import com.mdt.ait.common.blocks.TSVBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
-import com.mdt.ait.common.tileentities.TSVTile;
 import com.mdt.ait.common.tileentities.TardisCoralTile;
 import com.mdt.ait.core.init.enums.EnumCoralState;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -105,7 +100,7 @@ public class TardisCoralRenderer extends TileEntityRenderer<TardisCoralTile> {
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisCoralBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(coralStateLocation)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(coralStateLocation)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }

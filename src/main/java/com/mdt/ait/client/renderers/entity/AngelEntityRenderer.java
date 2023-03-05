@@ -79,7 +79,7 @@ public class AngelEntityRenderer extends MobRenderer {
         }*//*
         pMatrixStack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         pMatrixStack.translate(0, -1.5, 0);
-        this.model.renderToBuffer(pMatrixStack, pBuffer.getBuffer(AITRenderTypes.TardisRenderOver(TEXTURE_1)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1,1);
+        this.model.renderToBuffer(pMatrixStack, pBuffer.getBuffer(AITRenderTypes.tardisRenderOver(TEXTURE_1)), pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1,1);
         pMatrixStack.popPose();
     }*/
 

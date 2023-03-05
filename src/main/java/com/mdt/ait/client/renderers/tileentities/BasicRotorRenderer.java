@@ -2,13 +2,9 @@ package com.mdt.ait.client.renderers.tileentities;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.controls.BasicRotor;
-import com.mdt.ait.client.models.tileentities.controls.TardisLever;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.BasicRotorBlock;
-import com.mdt.ait.common.blocks.TardisLeverBlock;
 import com.mdt.ait.common.tileentities.BasicRotorTile;
-import com.mdt.ait.common.tileentities.TardisLeverTile;
-import com.mdt.ait.core.init.enums.EnumLeverState;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -16,8 +12,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-
-import static com.mdt.ait.core.init.enums.EnumDoorState.FIRST;
 
 
 public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
@@ -63,12 +57,12 @@ public class BasicRotorRenderer extends TileEntityRenderer<BasicRotorTile> {
         //}
         MatrixStackIn.pushPose();
         model.rotor.yRot = (float) Math.toRadians(tile.spinny / 64);
-        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.casing.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisLightmap(LIGHTING, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.casing.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.rotor.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.TardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
     }
 }
