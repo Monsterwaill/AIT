@@ -236,7 +236,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                         if (basicInteriorDoorTile != null) {
                             basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
                             tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
-                            syncToClient();
+                            sync();
                         }*/
                     //}
                     if (this.dematTransit != null) {
@@ -256,7 +256,7 @@ public class TardisLeverTile extends TileEntity implements ITickableTileEntity {
                                         basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
                                         tardisWorld.playSound(null, interiorDoorPos, AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 7, 1);
                                         flightTicks = 0;
-                                        syncToClient();
+                                        sync();
                                     }
                                 }*/
                             }

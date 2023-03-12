@@ -28,17 +28,20 @@ public class TARDIS {
 
     public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema exterior, TARDISInteriorSchema interior) {
         this(uuid, position, dimension, exterior, interior, new TARDISDoor(
-                TARDISUtil.getInteriorPos(interior).offset(
-                        -interior.getCenter().getX() + interior.getDoorPosition().getX(),
-                        -interior.getCenter().getY() + interior.getDoorPosition().getY(),
-                        -interior.getCenter().getZ() + interior.getDoorPosition().getZ()
+                TARDISUtil.getInteriorPos(interior).offset( // FIXME: This is wrong
+                        interior.getDoorPosition().getX(),
+                        interior.getDoorPosition().getY(),
+                        interior.getDoorPosition().getZ()
                 )
-        ));
+        ), false);
 
+        System.out.println(TARDISUtil.getInteriorPos(this.interior));
+        System.out.println(exterior);
         this.interior.place(TARDISUtil.getTARDISWorld(), TARDISUtil.getInteriorPos(this.interior));
+        this.door.link(this);
     }
 
-    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema exterior, TARDISInteriorSchema interior, TARDISDoor door) {
+    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema exterior, TARDISInteriorSchema interior, TARDISDoor door, boolean init) {
         this.uuid = uuid;
         this.position = position;
         this.dimension = dimension;
@@ -47,7 +50,10 @@ public class TARDIS {
         this.interior = interior;
 
         this.door = door;
-        this.door.link(this);
+
+        if (init) {
+            this.door.link(this);
+        }
     }
 
     public UUID getUUID() {
@@ -127,7 +133,7 @@ public class TARDIS {
                     BlockPos.of(nbt.getLong("position")), dimension,
                     exteriorSerializer.unserialize(nbt.getCompound("exterior")),
                     interiorSerializer.unserialize(nbt.getCompound("interior")),
-                    doorSerializer.unserialize(nbt.getCompound("door"))
+                    doorSerializer.unserialize(nbt.getCompound("door")), true
             );
         }
     }

@@ -39,7 +39,7 @@ public class HudolinRotorTile extends TileEntity implements ITickableTileEntity 
         if(this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    TARDIS tardis = TARDISManager.findTARDIS(tardisID);
+                    TARDIS tardis = TARDISManager.getInstance().findTARDIS(tardisID);
                     /*if(!tardis.landed) {
                         isInFlight = true;
                     } else {

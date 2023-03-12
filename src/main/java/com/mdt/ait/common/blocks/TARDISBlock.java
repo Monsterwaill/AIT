@@ -5,17 +5,22 @@ import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.link.ITARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
 import io.mdt.ait.tardis.TARDISManager;
+import io.mdt.ait.tardis.link.impl.TARDISLinkableFallingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -24,7 +29,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLinkable { // ITARDISBlock has some of the same functionality as interface ICantBreak
+public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBlock { // ITARDISBlock has some of the same functionality as interface ICantBreak
 
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
@@ -68,6 +73,16 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLi
         return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    @Override
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        TileEntity tile = world.getBlockEntity(pos);
+        if (tile instanceof TARDISTileEntity) {
+            ((TARDISTileEntity) tile).use(world, player, pos, hand);
+        }
+
+        return ActionResultType.PASS;
+    }
+
     /* Tile-Entity stuff */
 
     @Override
@@ -79,15 +94,5 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock, ITARDISLi
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TARDISTileEntity();
-    }
-
-
-    /* TARDIS Linking */
-
-    private final TARDISLink link = new TARDISLink();
-
-    @Override
-    public TARDISLink getLink() {
-        return this.link;
     }
 }

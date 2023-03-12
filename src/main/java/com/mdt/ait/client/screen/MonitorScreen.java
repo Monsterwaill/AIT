@@ -56,7 +56,7 @@ public class MonitorScreen extends Screen {
         this.tardisID = tardisid;
         this.SelectedTardis = BASIC_EXTERIOR_SCREEN;
         if(!world.isClientSide) {
-            tardis = TARDISManager.findTARDIS(this.tardisID);
+            tardis = TARDISManager.getInstance().findTARDIS(this.tardisID);
         }
     }
 

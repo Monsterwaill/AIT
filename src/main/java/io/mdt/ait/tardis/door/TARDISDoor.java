@@ -30,7 +30,7 @@ public class TARDISDoor extends TARDISLinkable {
     public void link(TARDIS tardis) {
         this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(position);
         if (this.tile != null) {
-            this.tile.getLink().link(tardis);
+            this.tile.link(tardis);
         }
     }
 

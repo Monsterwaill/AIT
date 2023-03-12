@@ -1,7 +1,6 @@
 package io.mdt.ait.tardis.exterior;
 
 import com.mdt.ait.client.renderers.tardis.RenderInfo;
-import com.mdt.ait.client.renderers.tardis.TARDISRenderer;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.nbt.NBTSerializeable;
 import io.mdt.ait.nbt.NBTUnserializeable;
@@ -36,15 +35,15 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
         return this.render(info, tile, this.model());
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISExteriorSchema>, NBTUnserializeable<TARDISExteriorSchema> {
+    public static class Serializer implements NBTSerializeable<TARDISExteriorSchema<?>>, NBTUnserializeable<TARDISExteriorSchema<?>> {
 
         @Override
-        public void serialize(TARDISExteriorSchema exterior, CompoundNBT nbt) {
+        public void serialize(TARDISExteriorSchema<?> exterior, CompoundNBT nbt) {
             nbt.putString("id", exterior.id);
         }
 
         @Override
-        public TARDISExteriorSchema unserialize(CompoundNBT nbt) {
+        public TARDISExteriorSchema<?> unserialize(CompoundNBT nbt) {
             return TARDISExteriors.get(nbt.getString("id"));
         }
     }

@@ -106,7 +106,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             this.texture = TARDIM;
             MatrixStackIn.translate(0, -1.5, 0);
             MatrixStackIn.scale(1f, 1f, 1f);
-            if(tile.getStateManger().getState() != TARDISDoorStates.CLOSED) {
+            if(tile.getState().get() != TARDISDoorStates.CLOSED) {
                 ((TARDIMInteriorDoor) this.model).door.visible = false;
             } else {
                 ((TARDIMInteriorDoor) this.model).door.visible = true;
@@ -125,7 +125,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             this.texture = FALLOUT_SHELTER;
             MatrixStackIn.scale(1f, 1f, 1f);
             MatrixStackIn.translate(0, -1.5, 0);
-            if(tile.getStateManger().getState() != TARDISDoorStates.CLOSED) {
+            if(tile.getState().get() != TARDISDoorStates.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;

@@ -52,23 +52,23 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
                                 } else {
                                     if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.EARTH;
-                                        syncToClient();
+                                        sync();
                                     }
                                     if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.NETHER;
-                                        syncToClient();
+                                        sync();
                                     }
                                     if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.END;
-                                        syncToClient();
+                                        sync();
                                     }
                                     if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.GALLIFREY;
-                                        syncToClient();
+                                        sync();
                                     }
                                     if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
                                         currentdimensionstate = EnumDimensionControlState.MONDAS;
-                                        syncToClient();
+                                        sync();
                                     }
                                 }
                             }
@@ -172,7 +172,7 @@ public class DimensionSwitchControlTile extends TileEntity implements ITickableT
             currentdimensionstate = EnumDimensionControlState.MONDAS;
         }
         changeDimensionFromControl();
-        syncToClient();*/
+        sync();*/
     }
 
     @Override

@@ -208,7 +208,7 @@ public class BasicBoxModel extends TARDISExteriorModelSchema {
         cube_r15.texOffs(248, 194).addBox(-1.0F, -9.0F, -66.0F, 2.0F, 9.0F, 0.0F, 0.001F, false);
     }
 
-    private void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    protected void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;

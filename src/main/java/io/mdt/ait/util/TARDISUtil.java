@@ -59,15 +59,15 @@ public class TARDISUtil {
     }
 
     public static World getExteriorLevel(TARDIS tardis) {
-        return TARDISUtil.getLevel(tardis.getDimension());
+        return TARDISUtil.getWorld(tardis.getDimension());
     }
 
-    public static World getLevel(RegistryKey<World> dimension) {
+    public static World getWorld(RegistryKey<World> dimension) {
         return AIT.server.getLevel(dimension);
     }
 
     public static BlockPos getInteriorPos(TARDISInteriorSchema interior) {
-        return TARDISUtil.getTARDISCenter(TARDISManager.getLastIndex()).offset(
+        return TARDISUtil.getTARDISCenter(TARDISManager.getInstance().getLastIndex()).offset(
                 -interior.getCenter().getX(),
                 -interior.getCenter().getY(),
                 -interior.getCenter().getZ()

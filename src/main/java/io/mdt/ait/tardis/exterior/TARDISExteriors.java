@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TARDISExteriors {
 
-    private static final Map<String, TARDISExteriorSchema> exteriors = new HashMap<>();
+    private static final Map<String, TARDISExteriorSchema<?>> exteriors = new HashMap<>();
 
     /**
      * All default exteriors are registered here!
@@ -16,11 +16,11 @@ public class TARDISExteriors {
         TARDISExteriors.register(new BasicBoxExteriorSchema());
     }
 
-    public static void register(TARDISExteriorSchema exterior) {
+    public static void register(TARDISExteriorSchema<?> exterior) {
         exteriors.put(exterior.getId(), exterior);
     }
 
-    public static TARDISExteriorSchema get(String id) {
+    public static TARDISExteriorSchema<?> get(String id) {
         return exteriors.get(id);
     }
 }

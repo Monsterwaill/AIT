@@ -78,7 +78,7 @@ public class TennantMonitorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = TARDISManager.findUUID(blockPos);
+            this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
             assert tennantMonitorTile != null;
             tennantMonitorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, tennantMonitorTile);
@@ -89,7 +89,7 @@ public class TennantMonitorBlock extends Block {
     public void tick(BlockState pState, ServerWorld world, BlockPos blockPos, Random pRand) {
         super.tick(pState, world, blockPos, pRand);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION && tardisID == null) {
-            this.tardisID = TARDISManager.findUUID(blockPos);
+            this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
         }
     }
 
@@ -107,7 +107,7 @@ public class TennantMonitorBlock extends Block {
             if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
                         TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
                         if (!worldIn.isClientSide) {
-                            this.tardisID = TARDISManager.findUUID(pos);
+                            this.tardisID = TARDISManager.getInstance().findUUID(pos);
                 }
                 assert tennantMonitorTile != null;
                 tennantMonitorTile.tardisID = tardisID;

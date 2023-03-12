@@ -37,7 +37,8 @@ public class TARDISRenderer extends TileEntityRenderer<TARDISTileEntity> {
 
     @Override
     public void render(TARDISTileEntity tile, float ticks, MatrixStack stack, IRenderTypeBuffer buffer, int light, int overlay) {
-        ++spinnn;
+        if (tile.isLinked()) {
+            ++spinnn;
 
         /*if(materialState != EnumMatState.SOLID) {
             ++spinny;
@@ -45,17 +46,19 @@ public class TARDISRenderer extends TileEntityRenderer<TARDISTileEntity> {
             spinny = 0;
         }*/ //FIXME: dis
 
-        stack.pushPose();
-        TARDISExteriorModelSchema model = tile.getTARDIS().getExterior().render(new RenderInfo(this, stack, buffer, light, overlay, ticks), tile);
+            stack.pushPose();
+            // FIXME: it crashes here, TARDIS.getExterior() is null.
+            TARDISExteriorModelSchema model = tile.getTARDIS().getExterior().render(new RenderInfo(this, stack, buffer, light, overlay, ticks), tile);
 
-        stack.translate(0, 1.5f, 0);
-        stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
-        model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay, 1, 1, 1, 1);
-        stack.popPose();
+            stack.translate(0, 1.5f, 0);
+            stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+            stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
+            model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay, 1, 1, 1, 1);
+            stack.popPose();
 
-        model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), maxLight, overlay);
-        model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay);
+            //model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), maxLight, overlay);
+            //model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay);
+        }
     }
 
     public void setTexture(ResourceLocation texture) {

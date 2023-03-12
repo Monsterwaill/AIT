@@ -44,7 +44,7 @@ public class ArsEggBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ArsEggTile arsEggTile = (ArsEggTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = TARDISManager.findUUID(blockPos);
+            this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
             assert arsEggTile != null;
             arsEggTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, arsEggTile);

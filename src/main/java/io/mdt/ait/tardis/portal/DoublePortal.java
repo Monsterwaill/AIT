@@ -59,4 +59,8 @@ public class DoublePortal {
     public boolean isBuilt() {
         return this.portal != null && this.portal.isAlive();
     }
+
+    public void setPortal(Portal portal) {
+        this.portal = portal;
+    }
 }

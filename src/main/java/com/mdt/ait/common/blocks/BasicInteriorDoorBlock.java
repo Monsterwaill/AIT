@@ -1,6 +1,5 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -22,7 +21,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -74,7 +72,7 @@ public class BasicInteriorDoorBlock extends Block {
         TileEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof TARDISInteriorDoorTile) {
             if (hand == Hand.MAIN_HAND) {
-                ((TARDISInteriorDoorTile) tileEntity).useOn(world, player, pos);
+                ((TARDISInteriorDoorTile) tileEntity).use(world, player, pos);
             }
         }
 

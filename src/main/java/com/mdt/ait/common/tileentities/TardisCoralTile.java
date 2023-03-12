@@ -112,7 +112,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                         level.addFreshEntity(bolt);
                         //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
-                            TARDIS tardis = TARDISManager.create(worldPosition, entity.getLevel().dimension());
+                            TARDIS tardis = TARDISManager.getInstance().create(worldPosition, entity.getLevel().dimension());
                             TARDISTileEntity tardisTileEntity = (TARDISTileEntity) level.getBlockEntity(worldPosition);
                             /*tardisTileEntity.linkedTardis = tardis; FIXME: this
                             tardisTileEntity.linkedTardisId = tardis.tardisId;
@@ -166,7 +166,7 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                             tardisTileEntity.matState = EnumMatState.REMAT;
                             tardis.exteriorFacing = facingDirection;
                             tardisTileEntity.currentexterior = EnumExteriorType.HELLBENT_TT_CAPSULE;//pickRandomExterior();
-                            syncToClient();*/ // FIXME: this
+                            sync();*/ // FIXME: this
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

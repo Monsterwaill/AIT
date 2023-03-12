@@ -75,12 +75,11 @@ public class TARDISManager {
     public static class Serializer implements NBTSerializeable<TARDISManager>, NBTUnserializeable<TARDISManager> {
 
         private static final TARDISMap.Serializer MAP_SERIALIZER = new TARDISMap.Serializer();
-        private static final TARDISManager MANAGER = TARDISManager.getInstance();
 
         @Override
         public void serialize(TARDISManager manager, CompoundNBT nbt) {
-            MAP_SERIALIZER.serialize(MANAGER.getTARDISMap(), nbt);
-            MANAGER.getSavedData().setDirty(false);
+            MAP_SERIALIZER.serialize(manager.getTARDISMap(), nbt);
+            manager.getSavedData().setDirty(false);
         }
 
         /**
@@ -90,9 +89,11 @@ public class TARDISManager {
          */
         @Override
         public TARDISManager unserialize(CompoundNBT nbt) {
-            MANAGER.getTARDISMap().set(MAP_SERIALIZER.unserialize(nbt));
-            MANAGER.getSavedData().setDirty(false);
-            return MANAGER;
+            TARDISManager manager = TARDISManager.getInstance();
+
+            manager.getTARDISMap().set(MAP_SERIALIZER.unserialize(nbt));
+            manager.getSavedData().setDirty(false);
+            return manager;
         }
     }
 }

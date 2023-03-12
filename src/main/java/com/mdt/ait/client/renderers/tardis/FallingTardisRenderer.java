@@ -86,7 +86,8 @@ public class FallingTardisRenderer extends EntityRenderer<FallingTardisEntity> {
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tardisEntity.getDirection().toYRot()));
-        this.model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
+        // TODO: falling
+        //this.model.renderFalling(tardisEntity, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, 0, 1, 1, 1, 1);
         MatrixStackIn.popPose();
         /*EnumExteriorType exterior = EnumExteriorType.values()[tardisEntity.serializeNBT().getInt("currentexterior")];
         int exteriortype = tardisEntity.serializeNBT().getInt("currentexterior");

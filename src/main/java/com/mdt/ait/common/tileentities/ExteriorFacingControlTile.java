@@ -129,7 +129,7 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
                         currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
                     }
                     changeDirectionFromControl();
-                    syncToClient();*/
+                    sync();*/
                 }
             }
         }

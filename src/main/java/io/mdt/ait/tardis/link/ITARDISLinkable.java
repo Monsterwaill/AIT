@@ -19,27 +19,28 @@ public interface ITARDISLinkable {
     default boolean isLinked() {
         return this.getLink().isLinked();
     }
+
     default void link(TARDIS tardis) {
         this.getLink().link(tardis);
     }
 
     default TARDIS getTARDIS() {
-        return this.getLink().getTARDIS().get();
+        return this.getLink().getTARDIS().orElse(null);
     }
 
     default UUID getUUID() {
-        return this.getLink().getUUID().get();
+        return this.getLink().getUUID().orElse(null);
     }
 
     default TARDISDoor getDoor() {
-        return this.getLink().getDoor().get();
+        return this.getLink().getDoor().orElse(null);
     }
 
     default TARDISExteriorSchema getExterior() {
-        return this.getLink().getExterior().get();
+        return this.getLink().getExterior().orElse(null);
     }
 
     default TARDISInteriorSchema getInterior() {
-        return this.getLink().getInterior().get();
+        return this.getLink().getInterior().orElse(null);
     }
 }

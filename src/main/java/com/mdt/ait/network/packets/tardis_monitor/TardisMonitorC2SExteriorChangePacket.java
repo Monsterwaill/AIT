@@ -58,9 +58,9 @@ public class TardisMonitorC2SExteriorChangePacket implements IPacket {
                 exteriorWorld.playSound(null, tardis.exteriorPosition, AITSounds.TYPEWRITER_DING.get(), SoundCategory.MASTER, 4f, 1f);
                 tardis.setExteriorType(tardisTileEntity.getLastExterior());
             }
-            tardisTileEntity.syncToClient();
+            tardisTileEntity.sync();
             if(basicInteriorDoorTile != null) {
-                basicInteriorDoorTile.syncToClient();
+                basicInteriorDoorTile.sync();
             }
             success.set(true);*/
         });

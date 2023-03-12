@@ -45,7 +45,7 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
         if(this.tardisID != null) {
             if(this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    TARDIS tardis = TARDISManager.findTARDIS(this.tardisID);
+                    TARDIS tardis = TARDISManager.getInstance().findTARDIS(this.tardisID);
                     ServerWorld ExteriorWorld = AIT.server.getLevel(tardis.getDimension());
                     if (!atCurrentCoordinates) {
                         addToRotorSpin(thing);

@@ -78,7 +78,7 @@ public class TardisLeverBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             TardisLeverTile tardisLeverTile = (TardisLeverTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = TARDISManager.findUUID(blockPos);
+            this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
             assert tardisLeverTile != null;
             tardisLeverTile.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, tardisLeverTile);

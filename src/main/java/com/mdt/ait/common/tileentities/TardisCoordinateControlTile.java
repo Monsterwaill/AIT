@@ -80,7 +80,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                     this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
                     setListedPosition(tardis.targetPosition);
                     AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exteriorPosition);
-                    syncToClient();*/
+                    sync();*/
                 }
             }
         }
