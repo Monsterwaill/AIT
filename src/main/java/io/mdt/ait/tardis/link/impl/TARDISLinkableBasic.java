@@ -3,9 +3,9 @@ package io.mdt.ait.tardis.link.impl;
 import io.mdt.ait.tardis.link.ITARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
 
-public class TARDISLinkable implements ITARDISLinkable {
+public abstract class TARDISLinkableBasic implements ITARDISLinkable {
 
-    protected final TARDISLink link = new TARDISLink();
+    private final TARDISLink link = new TARDISLink();
 
     @Override
     public TARDISLink getLink() {

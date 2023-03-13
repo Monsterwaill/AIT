@@ -78,6 +78,10 @@ public abstract class TARDISInteriorSchema {
         }));
     }
 
+    public void place(ServerWorld world) {
+        this.place(world, TARDISUtil.getInteriorPos(this));
+    }
+
     public void place(ServerWorld world, BlockPos pos) {
         this.template.placeInWorld(world, pos, new PlacementSettings(), new Random());
     }

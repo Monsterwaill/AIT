@@ -2,13 +2,13 @@ package io.mdt.ait.tardis.link.impl;
 
 import io.mdt.ait.tardis.link.ITARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
-import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 
-public abstract class TARDISLinkableBlock extends Block implements ITARDISLinkable {
+public abstract class TARDISLinkableItem extends Item implements ITARDISLinkable {
 
     private final TARDISLink link = new TARDISLink();
 
-    public TARDISLinkableBlock(Properties properties) {
+    public TARDISLinkableItem(Properties properties) {
         super(properties);
     }
 

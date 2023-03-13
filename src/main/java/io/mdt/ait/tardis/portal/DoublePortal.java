@@ -31,8 +31,16 @@ public class DoublePortal {
         return this;
     }
 
+    public DoublePortal to(RegistryKey<World> dimension, double x, double y, double z, Quaternion rotation) {
+        return this.to(dimension, x, y, z, rotation, 1.0D);
+    }
+
     public DoublePortal to(RegistryKey<World> dimension, Vector3d vector, Quaternion rotation) {
         return this.to(dimension, vector, rotation, 1.0D);
+    }
+
+    public DoublePortal to(RegistryKey<World> dimension, double x, double y, double z, Quaternion rotation, double scale) {
+        return this.to(dimension, new Vector3d(x, y, z), rotation, scale);
     }
 
     public DoublePortal to(RegistryKey<World> dimension, Vector3d vector, Quaternion rotation, double scale) {

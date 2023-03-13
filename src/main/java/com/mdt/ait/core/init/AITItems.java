@@ -4,15 +4,11 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.common.AITArmorMaterials;
 import com.mdt.ait.common.items.*;
 import com.mdt.ait.core.init.itemgroups.AITItemGroups;
-import net.minecraft.block.Block;
-import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.concurrent.locks.ReentrantLock;
 
 public class AITItems {
 
@@ -30,7 +26,7 @@ public class AITItems {
 
     //Useful Items
     public static final RegistryObject<Item> STATTENHEIM_REMOTE = ITEMS.register(
-            "stattenheim_remote", () -> new RemoteItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
+            "stattenheim_remote", () -> new StattenheimRemoteItem(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<Item> RICKS_PORTAL_GUN = ITEMS.register(
             "ricks_portal_gun", () -> new Item(new Item.Properties().tab(AITItemGroups.AITITEMS)));
     public static final RegistryObject<SlingRingItem> SLING_RING = ITEMS.register(

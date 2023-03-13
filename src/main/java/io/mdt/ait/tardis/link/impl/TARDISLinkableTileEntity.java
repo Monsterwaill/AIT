@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntityType;
 
 public abstract class TARDISLinkableTileEntity extends TileEntity implements ITARDISLinkable {
 
-    protected final TARDISLink link = new TARDISLink();
+    private final TARDISLink link = new TARDISLink();
 
     public TARDISLinkableTileEntity(TileEntityType<?> type) {
         super(type);

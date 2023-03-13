@@ -6,11 +6,11 @@ import io.mdt.ait.nbt.NBTUnserializeable;
 import io.mdt.ait.tardis.portal.DoublePortal;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.util.TARDISUtil;
-import io.mdt.ait.tardis.link.impl.TARDISLinkable;
+import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 
-public class TARDISDoor extends TARDISLinkable {
+public class TARDISDoor extends TARDISLinkableBasic {
 
     private TARDISInteriorDoorTile tile;
     private final BlockPos position;
@@ -28,6 +28,8 @@ public class TARDISDoor extends TARDISLinkable {
     }
 
     public void link(TARDIS tardis) {
+        super.link(tardis);
+
         this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(position);
         if (this.tile != null) {
             this.tile.link(tardis);
@@ -40,10 +42,6 @@ public class TARDISDoor extends TARDISLinkable {
 
     public TARDISInteriorDoorTile getTile() {
         return this.tile;
-    }
-
-    public void setTile(TARDISInteriorDoorTile tile) {
-        this.tile = tile;
     }
 
     public TARDISDoorState getState() {
@@ -61,13 +59,13 @@ public class TARDISDoor extends TARDISLinkable {
         @Override
         public void serialize(TARDISDoor door, CompoundNBT nbt) {
             STATE_SERIALIZER.serialize(door.state, nbt);
-            nbt.putLong("door_position", door.getTile().getBlockPos().asLong());
+            nbt.putLong("tile", door.getTile().getBlockPos().asLong());
         }
 
         @Override
         public TARDISDoor unserialize(CompoundNBT nbt) {
             return new TARDISDoor(
-                    BlockPos.of(nbt.getLong("door_position")),
+                    BlockPos.of(nbt.getLong("tile")),
                     STATE_SERIALIZER.unserialize(nbt)
             );
         }
