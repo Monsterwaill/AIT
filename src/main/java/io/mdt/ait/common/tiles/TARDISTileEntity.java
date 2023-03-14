@@ -125,7 +125,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
             TARDISDoor door = this.getDoor();
             TARDISInteriorDoorTile doorTile = door.getTile();
 
-            Portal3i portal3i = this.getExterior().portal();
+            Portal3i portal3i = this.getExterior().getSchema().portal();
             DoublePortal doublePortal = this.getDoor().getPortal().from(
                     this.level,
                     this.getBlockPos().getX() + 0.5D,

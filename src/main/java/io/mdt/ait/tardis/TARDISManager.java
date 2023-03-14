@@ -22,6 +22,13 @@ public class TARDISManager {
     private final TARDISWorldData savedData = new TARDISWorldData();
 
 
+    /**
+     * Creates a TARDIS instance.
+     *
+     * @param position position where the TARDIS should be created
+     * @param dimension
+     * @return
+     */
     public TARDIS create(BlockPos position, RegistryKey<World> dimension) {
         savedData.setDirty(true);
 
@@ -77,16 +84,11 @@ public class TARDISManager {
         private static final TARDISMap.Serializer MAP_SERIALIZER = new TARDISMap.Serializer();
 
         @Override
-        public void serialize(TARDISManager manager, CompoundNBT nbt) {
-            MAP_SERIALIZER.serialize(manager.getTARDISMap(), nbt);
+        public void serialize(CompoundNBT nbt, TARDISManager manager) {
+            MAP_SERIALIZER.serialize(nbt, manager.getTARDISMap());
             manager.getSavedData().setDirty(false);
         }
 
-        /**
-         *
-         * @param nbt NBT that needs to be unserialized
-         * @return Singleton instance of {@link TARDISManager}
-         */
         @Override
         public TARDISManager unserialize(CompoundNBT nbt) {
             TARDISManager manager = TARDISManager.getInstance();

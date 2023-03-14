@@ -32,7 +32,7 @@ public class TARDISInterior extends TARDISLinkableBasic {
         private static final TARDISInteriorSchema.Serializer SCHEMA_SERIALIZER = new TARDISInteriorSchema.Serializer();
 
         @Override
-        public void serialize(TARDISInterior interior, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDISInterior interior) {
             SCHEMA_SERIALIZER.serialize(interior.schema, nbt);
         }
 

@@ -38,7 +38,7 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
     public static class Serializer implements NBTSerializeable<TARDISExteriorSchema<?>>, NBTUnserializeable<TARDISExteriorSchema<?>> {
 
         @Override
-        public void serialize(TARDISExteriorSchema<?> exterior, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDISExteriorSchema<?> exterior) {
             nbt.putString("id", exterior.id);
         }
 

@@ -105,7 +105,7 @@ public abstract class TARDISInteriorSchema {
     public static class Serializer implements NBTSerializeable<TARDISInteriorSchema>, NBTUnserializeable<TARDISInteriorSchema> {
 
         @Override
-        public void serialize(TARDISInteriorSchema interior, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDISInteriorSchema interior) {
             nbt.putString("id", interior.id);
         }
 

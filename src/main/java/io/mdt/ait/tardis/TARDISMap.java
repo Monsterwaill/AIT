@@ -80,7 +80,7 @@ public class TARDISMap extends HashMap<UUID, TARDIS> {
         private static final TARDIS.Serializer TARDIS_SERIALIZER = new TARDIS.Serializer();
 
         @Override
-        public void serialize(TARDISMap map, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDISMap map) {
             ListNBT tardisNBTs = new ListNBT();
             map.forEach((id, tardis) -> tardisNBTs.add(TARDIS_SERIALIZER.serialize(tardis)));
 

@@ -59,7 +59,7 @@ public class TARDISUtil {
     }
 
     public static World getExteriorLevel(TARDIS tardis) {
-        return TARDISUtil.getWorld(tardis.getDimension());
+        return TARDISUtil.getWorld(tardis.getPosition().getDimension());
     }
 
     public static World getWorld(RegistryKey<World> dimension) {
@@ -75,6 +75,6 @@ public class TARDISUtil {
     }
 
     public static TARDISTileEntity getExteriorTile(TARDIS tardis) {
-        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition());
+        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition().get());
     }
 }

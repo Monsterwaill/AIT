@@ -57,8 +57,8 @@ public class TARDISDoor extends TARDISLinkableBasic {
         private static final TARDISDoorState.Serializer STATE_SERIALIZER = new TARDISDoorState.Serializer();
 
         @Override
-        public void serialize(TARDISDoor door, CompoundNBT nbt) {
-            STATE_SERIALIZER.serialize(door.state, nbt);
+        public void serialize(CompoundNBT nbt, TARDISDoor door) {
+            STATE_SERIALIZER.serialize(nbt, door.state);
             nbt.putLong("tile", door.getTile().getBlockPos().asLong());
         }
 

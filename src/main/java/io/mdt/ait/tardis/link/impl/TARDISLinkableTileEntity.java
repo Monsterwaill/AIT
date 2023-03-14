@@ -1,14 +1,14 @@
 package io.mdt.ait.tardis.link.impl;
 
 import io.mdt.ait.tardis.TARDISManager;
-import io.mdt.ait.tardis.link.ITARDISLinkable;
+import io.mdt.ait.tardis.link.TARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
-public abstract class TARDISLinkableTileEntity extends TileEntity implements ITARDISLinkable {
+public abstract class TARDISLinkableTileEntity extends TileEntity implements TARDISLinkable {
 
     private final TARDISLink link = new TARDISLink();
 

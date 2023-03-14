@@ -50,7 +50,7 @@ public class TARDISDoorState {
     public static class Serializer implements NBTSerializeable<TARDISDoorState>, NBTUnserializeable<TARDISDoorState> {
 
         @Override
-        public void serialize(TARDISDoorState state, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDISDoorState state) {
             nbt.putInt("door", this.getRaw(state));
         }
 

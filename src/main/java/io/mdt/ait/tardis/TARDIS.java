@@ -1,7 +1,8 @@
 package io.mdt.ait.tardis;
 
 import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTSerializers;
+import io.mdt.ait.nbt.wrapped.AbsoluteBlockPos;
+import io.mdt.ait.nbt.wrapped.NBTSerializers;
 import io.mdt.ait.nbt.NBTUnserializeable;
 import io.mdt.ait.tardis.door.TARDISDoor;
 import io.mdt.ait.tardis.exterior.TARDISExterior;
@@ -12,7 +13,6 @@ import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,12 +26,11 @@ public class TARDIS {
     private final TARDISInterior interior;
     private final TARDISDoor door;
 
-    private BlockPos position;
-    private RegistryKey<World> dimension;
+    private AbsoluteBlockPos position;
 
     public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema<?> exterior, TARDISInteriorSchema interior) {
         this(
-                uuid, position, dimension,
+                uuid, new AbsoluteBlockPos(dimension, position),
                 new TARDISExterior(exterior), new TARDISInterior(interior),
                 new TARDISDoor(TARDISUtil.getInteriorPos(interior)
                         .offset(interior.getDoorPosition())),
@@ -46,10 +45,9 @@ public class TARDIS {
         this.interior.link(this);
     }
 
-    private TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door, boolean init) {
+    private TARDIS(UUID uuid, AbsoluteBlockPos position, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door, boolean init) {
         this.uuid = uuid;
         this.position = position;
-        this.dimension = dimension;
 
         this.exterior = exterior;
         this.interior = interior;
@@ -67,20 +65,12 @@ public class TARDIS {
         return this.uuid;
     }
 
-    public BlockPos getPosition() {
+    public AbsoluteBlockPos getPosition() {
         return this.position;
     }
 
-    public void setPosition(BlockPos position) {
+    public void setPosition(AbsoluteBlockPos position) {
         this.position = position;
-    }
-
-    public RegistryKey<World> getDimension() {
-        return this.dimension;
-    }
-
-    public void setDimension(RegistryKey<World> dimension) {
-        this.dimension = dimension;
     }
 
     public TARDISExterior getExterior() {
@@ -106,17 +96,15 @@ public class TARDIS {
 
     public static class Serializer implements NBTSerializeable<TARDIS>, NBTUnserializeable<TARDIS> {
 
-        private static final NBTSerializers.Dimension DIMENSION_SERIALIZER = new NBTSerializers.Dimension();
+        private static final NBTSerializers.AbsolutePosition ABSOLUTE_POSITION_SERIALIZER = new NBTSerializers.AbsolutePosition();
         private static final TARDISExterior.Serializer EXTERIOR_SERIALIZER = new TARDISExterior.Serializer();
         private static final TARDISInterior.Serializer INTERIOR_SERIALIZER = new TARDISInterior.Serializer();
         private static final TARDISDoor.Serializer DOOR_SERIALIZER = new TARDISDoor.Serializer();
 
         @Override
-        public void serialize(TARDIS tardis, CompoundNBT nbt) {
+        public void serialize(CompoundNBT nbt, TARDIS tardis) {
             nbt.putUUID("uuid", tardis.getUUID());
-            nbt.putLong("position", tardis.position.asLong());
-
-            nbt.put("dimension", DIMENSION_SERIALIZER.serialize(tardis.dimension));
+            ABSOLUTE_POSITION_SERIALIZER.serialize(nbt, tardis.position);
 
             nbt.put("exterior", EXTERIOR_SERIALIZER.serialize(tardis.exterior));
             nbt.put("interior", INTERIOR_SERIALIZER.serialize(tardis.interior));
@@ -127,8 +115,7 @@ public class TARDIS {
         public TARDIS unserialize(CompoundNBT nbt) {
             return new TARDIS(
                     nbt.getUUID("uuid"),
-                    BlockPos.of(nbt.getLong("position")),
-                    DIMENSION_SERIALIZER.unserialize(nbt.getCompound("dimension")),
+                    ABSOLUTE_POSITION_SERIALIZER.unserialize(nbt),
                     EXTERIOR_SERIALIZER.unserialize(nbt.getCompound("exterior")),
                     INTERIOR_SERIALIZER.unserialize(nbt.getCompound("interior")),
                     DOOR_SERIALIZER.unserialize(nbt.getCompound("door")), true
