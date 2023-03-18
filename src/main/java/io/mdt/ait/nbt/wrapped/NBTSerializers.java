@@ -3,6 +3,7 @@ package io.mdt.ait.nbt.wrapped;
 import io.mdt.ait.nbt.NBTSerializeableStatic;
 import io.mdt.ait.nbt.NBTUnserializeable;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -51,7 +52,7 @@ public class NBTSerializers {
          * @param pos position that will be serialized.
          */
         private void serialize(CompoundNBT nbt, String id, BlockPos pos) {
-            nbt.putLong(id, pos.asLong());
+            nbt.put(id, NBTUtil.writeBlockPos(pos));
         }
 
         @Override
@@ -66,7 +67,7 @@ public class NBTSerializers {
          * @param id id that will be used to get the position.
          */
         private BlockPos unserialize(CompoundNBT nbt, String id) {
-            return BlockPos.of(nbt.getLong(id));
+            return NBTUtil.readBlockPos(nbt.getCompound(id));
         }
     }
 
@@ -79,7 +80,7 @@ public class NBTSerializers {
         @Override
         public void serialize(CompoundNBT nbt, AbsoluteBlockPos pos) {
             CompoundNBT absolutePos = new CompoundNBT();
-            POSITION_SERIALIZER.serialize(absolutePos, "at", pos.get());
+            POSITION_SERIALIZER.serialize(absolutePos, "at", pos);
             DIMENSION_SERIALIZER.serialize(absolutePos, pos.getDimension());
 
             nbt.put("Pos", absolutePos);

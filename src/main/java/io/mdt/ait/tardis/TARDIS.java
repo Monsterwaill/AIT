@@ -9,6 +9,7 @@ import io.mdt.ait.tardis.exterior.TARDISExterior;
 import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
 import io.mdt.ait.tardis.interior.TARDISInterior;
 import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
+import io.mdt.ait.tardis.state.TARDISStateManager;
 import io.mdt.ait.util.TARDISUtil;
 import java.util.UUID;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,9 @@ public class TARDIS {
     private final TARDISInterior interior;
     private final TARDISDoor door;
 
+    private final TARDISStateManager stateManager = new TARDISStateManager();
+    private final TARDISTravel travelManager = new TARDISTravel();
+
     private AbsoluteBlockPos position;
 
     public TARDIS(
@@ -34,6 +38,7 @@ public class TARDIS {
             TARDISExteriorSchema<?> exterior,
             TARDISInteriorSchema interior) {
         this(
+                new CompoundNBT(),
                 uuid,
                 new AbsoluteBlockPos(dimension, position),
                 new TARDISExterior(exterior),
@@ -51,6 +56,7 @@ public class TARDIS {
     }
 
     private TARDIS(
+            CompoundNBT raw,
             UUID uuid,
             AbsoluteBlockPos position,
             TARDISExterior exterior,
@@ -70,6 +76,8 @@ public class TARDIS {
             this.exterior.link(this);
             this.interior.link(this);
         }
+
+        new TARDISStateManager.Serializer().unserialize(raw, this.stateManager);
     }
 
     public UUID getUUID() {
@@ -96,6 +104,14 @@ public class TARDIS {
         return this.door;
     }
 
+    public TARDISStateManager getStateManager() {
+        return this.stateManager;
+    }
+
+    public TARDISTravel getTravelManager() {
+        return this.travelManager;
+    }
+
     public boolean ownsKey(ItemStack key) {
         CompoundNBT nbt = key.getOrCreateTag();
         if (nbt.hasUUID("uuid")) {
@@ -113,6 +129,8 @@ public class TARDIS {
         private static final TARDISInterior.Serializer INTERIOR_SERIALIZER = new TARDISInterior.Serializer();
         private static final TARDISDoor.Serializer DOOR_SERIALIZER = new TARDISDoor.Serializer();
 
+        private static final TARDISStateManager.Serializer STATE_SERIALIZER = new TARDISStateManager.Serializer();
+
         @Override
         public void serialize(CompoundNBT nbt, TARDIS tardis) {
             nbt.putUUID("uuid", tardis.getUUID());
@@ -121,11 +139,14 @@ public class TARDIS {
             nbt.put("exterior", EXTERIOR_SERIALIZER.serialize(tardis.exterior));
             nbt.put("interior", INTERIOR_SERIALIZER.serialize(tardis.interior));
             nbt.put("door", DOOR_SERIALIZER.serialize(tardis.door));
+            nbt.put("state", STATE_SERIALIZER.serialize(tardis.stateManager));
         }
 
         @Override
         public TARDIS unserialize(CompoundNBT nbt) {
+            // State de-serialization happens in the constructor.
             return new TARDIS(
+                    nbt,
                     nbt.getUUID("uuid"),
                     ABSOLUTE_POSITION_SERIALIZER.unserialize(nbt),
                     EXTERIOR_SERIALIZER.unserialize(nbt.getCompound("exterior")),

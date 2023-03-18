@@ -3,10 +3,10 @@ package com.mdt.ait.common.blocks;
 import com.mdt.ait.core.init.interfaces.ITARDISBlock;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.TARDISManager;
-import io.mdt.ait.tardis.link.impl.TARDISLinkableFallingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -25,7 +25,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 // ITARDISBlock has some of the same functionality as interface ICantBreak
-public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBlock {
+public class TARDISBlock extends FallingBlock implements ITARDISBlock {
 
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());

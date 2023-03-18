@@ -197,6 +197,10 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
         return this.getBlockState().getValue(BasicInteriorDoorBlock.FACING);
     }
 
+    public void setFacing(Direction direction) {
+        this.getBlockState().setValue(BasicInteriorDoorBlock.FACING, direction);
+    }
+
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {

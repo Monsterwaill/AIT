@@ -24,6 +24,7 @@ public abstract class TARDISLinkableTileEntity extends TileEntity implements TAR
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
         if (nbt.contains("tardis")) {
+            // Using #getLink() here to make sure not to trigger overriden link method!
             this.getLink().link(TARDISManager.getInstance().findTARDIS(nbt.getUUID("tardis")));
         }
 
@@ -45,11 +46,13 @@ public abstract class TARDISLinkableTileEntity extends TileEntity implements TAR
                     this.worldPosition,
                     this.level.getBlockState(this.worldPosition),
                     this.level.getBlockState(this.worldPosition));
+
             this.level.sendBlockUpdated(
                     this.worldPosition,
                     this.level.getBlockState(this.worldPosition),
                     this.level.getBlockState(this.worldPosition),
                     3);
+
             this.setChanged();
         }
     }

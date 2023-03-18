@@ -1,8 +1,8 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.ExteriorFacingControlTile;
-import com.mdt.ait.core.init.AITDimensions;
-import java.util.UUID;
+import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.tardis.TARDISManager;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -23,13 +23,10 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 public class ExteriorFacingControlBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
-    public UUID tardisID;
 
     private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16), Block.box(1, 2, 1, 15, 4, 15))
             .optimize();
@@ -39,28 +36,24 @@ public class ExteriorFacingControlBlock extends Block {
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState pState) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 
     @Override
     public ActionResultType use(
-            BlockState pState,
-            World pWorldIn,
-            BlockPos pPos,
-            PlayerEntity pPlayer,
-            Hand pHandIn,
-            BlockRayTraceResult pHit) {
-        TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-        if (tileEntity instanceof ExteriorFacingControlTile) {
-            ((ExteriorFacingControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
+            BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        TileEntity tileEntity = world.getBlockEntity(pos);
+        if (tileEntity instanceof ExteriorFacingControlTile && hand == Hand.MAIN_HAND) {
+            ((ExteriorFacingControlTile) tileEntity).used();
         }
-        return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
+
+        return super.use(state, world, pos, player, hand, hit);
     }
 
     @Override
@@ -80,26 +73,18 @@ public class ExteriorFacingControlBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
-        super.onPlace(blockState1, world, blockPos, blockState2, bool);
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            ServerWorld serverWorld = ((ServerWorld) world);
-            ExteriorFacingControlTile exteriorFacingControlTile =
-                    (ExteriorFacingControlTile) serverWorld.getBlockEntity(blockPos);
-            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            assert exteriorFacingControlTile != null;
-            exteriorFacingControlTile.tardisID = tardisID;
-            serverWorld.setBlockEntity(blockPos, exteriorFacingControlTile);
-            TileEntity tileEntity = world.getBlockEntity(blockPos);
-            if (tileEntity instanceof ExteriorFacingControlTile) {
-                ((ExteriorFacingControlTile) tileEntity).onPlace();
+    public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean bool) {
+        if (!level.isClientSide) {
+            TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
+
+            if (tile != null) {
+                tile.link(TARDISManager.getInstance().findTARDIS(pos));
             }
         }
     }
 
     @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        ExteriorFacingControlTile exteriorFacingControlTile = new ExteriorFacingControlTile();
-        return exteriorFacingControlTile;
+        return new ExteriorFacingControlTile();
     }
 }

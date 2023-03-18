@@ -1,9 +1,11 @@
 package io.mdt.ait.tardis.link;
 
 import io.mdt.ait.tardis.TARDIS;
+import io.mdt.ait.tardis.TARDISTravel;
 import io.mdt.ait.tardis.door.TARDISDoor;
 import io.mdt.ait.tardis.exterior.TARDISExterior;
 import io.mdt.ait.tardis.interior.TARDISInterior;
+import io.mdt.ait.tardis.state.TARDISStateManager;
 import java.util.UUID;
 
 /** Used for identifying objects that need to be linked to a TARDIS */
@@ -36,5 +38,13 @@ public interface TARDISLinkable {
 
     default TARDISInterior getInterior() {
         return this.getLink().getTARDIS().getInterior();
+    }
+
+    default TARDISStateManager getStateManager() {
+        return this.getLink().getTARDIS().getStateManager();
+    }
+
+    default TARDISTravel getTravelManager() {
+        return this.getLink().getTARDIS().getTravelManager();
     }
 }

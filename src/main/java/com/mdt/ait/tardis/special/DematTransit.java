@@ -62,7 +62,7 @@ public class DematTransit {
     }
 
     public int getFlightTicks() {
-        return runTransitFormula(); // @TODO: LOQOR MAKE A FORMULA FOR THIS
+        return runTransitFormula(); // TODO: LOQOR MAKE A FORMULA FOR THIS
     }
 
     public void finishedDematAnimation() {
