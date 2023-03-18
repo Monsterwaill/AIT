@@ -46,7 +46,7 @@ public class TARDISExterior extends TARDISLinkableBasic {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISExterior exterior) {
-            SCHEMA_SERIALIZER.serialize(exterior.schema, nbt);
+            SCHEMA_SERIALIZER.serialize(nbt, exterior.schema);
         }
 
         @Override

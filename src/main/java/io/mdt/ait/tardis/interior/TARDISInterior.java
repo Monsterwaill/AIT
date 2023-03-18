@@ -33,7 +33,7 @@ public class TARDISInterior extends TARDISLinkableBasic {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISInterior interior) {
-            SCHEMA_SERIALIZER.serialize(interior.schema, nbt);
+            SCHEMA_SERIALIZER.serialize(nbt, interior.schema);
         }
 
         @Override

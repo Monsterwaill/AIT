@@ -12,13 +12,13 @@ credits="Loqor - spending several literal hundred sleepless nights to code this 
 authors="MDTeam"
 description='''Tick tock, Mr. Karma... Tick. Tock.'''
 
-[[dependencies.examplemod]]
+[[dependencies.ait]]
     modId="examplemod"
     mandatory=true
     versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.examplemod]]
+[[dependencies.ait]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,1.17)"
