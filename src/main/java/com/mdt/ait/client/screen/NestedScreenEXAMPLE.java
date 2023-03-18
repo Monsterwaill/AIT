@@ -6,18 +6,17 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.Slider;
 
 public class NestedScreenEXAMPLE extends Screen {
-    private static final ResourceLocation MONITOR_GUI = new ResourceLocation(AIT.MOD_ID, "textures/screens/base_monitor_gui.png");
+    private static final ResourceLocation MONITOR_GUI =
+            new ResourceLocation(AIT.MOD_ID, "textures/screens/base_monitor_gui.png");
     private final Screen oldScreen;
     private int imageHeight;
-    private int imageWidth;
+    private final int imageWidth;
     private Slider slider;
     private FontRenderer fontRenderer;
 
@@ -29,15 +28,30 @@ public class NestedScreenEXAMPLE extends Screen {
         this.oldScreen = oldScreen;
     }
 
-    @Override protected void init() {
+    @Override
+    protected void init() {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         this.addButton(
-                slider = MonitorScreen.createSlider(this,i+5,j+60,128,20,new StringTextComponent("Slider 1: "),StringTextComponent.EMPTY,0d,128d,0d,false,true,(button) -> System.out.println())
-        );
+                slider = MonitorScreen.createSlider(
+                        this,
+                        i + 5,
+                        j + 60,
+                        128,
+                        20,
+                        new StringTextComponent("Slider 1: "),
+                        StringTextComponent.EMPTY,
+                        0d,
+                        128d,
+                        0d,
+                        false,
+                        true,
+                        (button) -> System.out.println()));
         slider.updateSlider();
     }
-    @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+
+    @Override
+    public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         this.renderBackground(matrixStack);
@@ -50,7 +64,6 @@ public class NestedScreenEXAMPLE extends Screen {
             Minecraft.getInstance().setScreen(screen);
         }
     }
-
 
     @Override
     public void renderBackground(MatrixStack pMatrixStack) {

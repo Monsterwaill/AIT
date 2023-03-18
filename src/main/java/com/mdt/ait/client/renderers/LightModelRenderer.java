@@ -14,11 +14,20 @@ public class LightModelRenderer extends ModelRenderer {
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float i, float i1, float i2, float i3) {
+    public void render(
+            MatrixStack matrixStackIn,
+            IVertexBuilder bufferIn,
+            int packedLightIn,
+            int packedOverlayIn,
+            float i,
+            float i1,
+            float i2,
+            float i3) {
         float lightDifference = MAX_LIGHT - packedLightIn;
         packedLightIn += lightDifference * this.bright;
         super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, i, i1, i2, i3);
     }
+
     public void setBright(float b) {
         this.bright = b;
     }

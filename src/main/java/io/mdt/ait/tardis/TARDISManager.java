@@ -7,12 +7,11 @@ import io.mdt.ait.tardis.exterior.TARDISExteriors;
 import io.mdt.ait.tardis.interior.TARDISInteriors;
 import io.mdt.ait.util.TARDISUtil;
 import io.mdt.ait.world.TARDISWorldData;
+import java.util.UUID;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class TARDISManager {
 
@@ -20,7 +19,6 @@ public class TARDISManager {
 
     private final TARDISMap tardises = new TARDISMap();
     private final TARDISWorldData savedData = new TARDISWorldData();
-
 
     /**
      * Creates a TARDIS instance.
@@ -71,12 +69,13 @@ public class TARDISManager {
     }
 
     /**
-     *
      * @return int
      * @implNote DO NOT USE THIS METHOD UNDER ANY CIRCUMSTANCES. IT IS MADE FOR {@link TARDIS} CLASS.
      */
     public int getLastIndex() {
-        return tardises.size() + 1; // Need to add 1, because when the TARDIS is created, it is not being put into the map right away.
+        return tardises.size()
+                + 1; // Need to add 1, because when the TARDIS is created, it is not being put into the map
+        // right away.
     }
 
     public static class Serializer implements NBTSerializeable<TARDISManager>, NBTUnserializeable<TARDISManager> {

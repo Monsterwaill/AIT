@@ -1,7 +1,7 @@
-package com.mdt.ait.client.models.entities;// Made with Blockbench 3.9.2
+package com.mdt.ait.client.models.entities; // Made with Blockbench 3.9.2
+
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
-
 
 import com.mdt.ait.AIT;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -62,7 +62,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         Body = new ModelRenderer(this);
         Body.setPos(0.0F, 24.0F, 0.0F);
 
-
         Base = new ModelRenderer(this);
         Base.setPos(0.0F, 0.0F, 0.0F);
         Body.addChild(Base);
@@ -76,11 +75,9 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         Faces.setPos(0.0F, 0.0F, 0.0F);
         Body.addChild(Faces);
 
-
         Blank = new ModelRenderer(this);
         Blank.setPos(0.0F, 0.0F, 0.0F);
         Faces.addChild(Blank);
-
 
         cube_r1 = new ModelRenderer(this);
         cube_r1.setPos(-6.5359F, -13.4641F, -6.3647F);
@@ -123,7 +120,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         K9 = new ModelRenderer(this);
         K9.setPos(0.0F, 0.0F, 0.0F);
         Faces.addChild(K9);
-
 
         cube_r7 = new ModelRenderer(this);
         cube_r7.setPos(6.5359F, -13.4641F, -6.3647F);
@@ -193,7 +189,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         Front.setPos(0.0F, 0.0F, 0.0F);
         Faces.addChild(Front);
 
-
         cube_r16 = new ModelRenderer(this);
         cube_r16.setPos(-0.3511F, -4.914F, 10.3232F);
         Front.addChild(cube_r16);
@@ -229,7 +224,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         Tail.setPos(0.0F, -12.0F, -7.25F);
         Body.addChild(Tail);
 
-
         cube_r20 = new ModelRenderer(this);
         cube_r20.setPos(0.0F, 7.0F, -3.0F);
         Tail.addChild(cube_r20);
@@ -240,7 +234,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         Head = new ModelRenderer(this);
         Head.setPos(0.0F, 13.4921F, 8.1207F);
 
-
         cube_r21 = new ModelRenderer(this);
         cube_r21.setPos(-0.5F, 5.5079F, 2.3793F);
         Head.addChild(cube_r21);
@@ -250,7 +243,6 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         HeadTwist = new ModelRenderer(this);
         HeadTwist.setPos(0.0F, -3.0F, 5.0F);
         Head.addChild(HeadTwist);
-
 
         cube_r22 = new ModelRenderer(this);
         cube_r22.setPos(0.2371F, -2.3062F, 8.8106F);
@@ -280,11 +272,16 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
     }
 
     @Override
-    public void setupAnim(WolfEntity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-        this.HeadTwist.xRot = p_225597_6_ * ((float)Math.PI / 300f);
-        this.HeadTwist.yRot = p_225597_5_ * ((float)Math.PI / 300f);
+    public void setupAnim(
+            WolfEntity p_225597_1_,
+            float p_225597_2_,
+            float p_225597_3_,
+            float p_225597_4_,
+            float p_225597_5_,
+            float p_225597_6_) {
+        this.HeadTwist.xRot = p_225597_6_ * ((float) Math.PI / 300f);
+        this.HeadTwist.yRot = p_225597_5_ * ((float) Math.PI / 300f);
     }
-
 
     public void prepareMobModel(WolfEntity p_212843_1_, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
         if (p_212843_1_.isAngry()) {
@@ -292,20 +289,27 @@ public class K9EntityModel extends EntityModel<WolfEntity> {
         } else {
             this.Tail.yRot = MathHelper.cos(p_212843_2_ * 0.6662F) * 1.4F * p_212843_3_;
         }
-        if (p_212843_1_.isInSittingPose()){
+        if (p_212843_1_.isInSittingPose()) {
             this.Body.setPos(0.0F, 25.0F, 0.0F);
-            this.Body.xRot = ((float)Math.PI * 180F);
+            this.Body.xRot = ((float) Math.PI * 180F);
             this.Head.setPos(0.0F, 15F, 7.0F);
-        }
-        else {
+        } else {
             this.Body.setPos(0.0F, 24F, 0.0F);
-            this.Body.xRot = ((float)Math.PI * 180F);
+            this.Body.xRot = ((float) Math.PI * 180F);
             this.Head.setPos(0.0F, 14F, 7.0F);
         }
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void renderToBuffer(
+            MatrixStack matrixStack,
+            IVertexBuilder buffer,
+            int packedLight,
+            int packedOverlay,
+            float red,
+            float green,
+            float blue,
+            float alpha) {
         matrixStack.pushPose();
         matrixStack.mulPose(new Quaternion(Vector3f.YP, 180, true));
         matrixStack.scale(0.8F, 0.8F, 0.8F);

@@ -5,7 +5,7 @@ import com.mdt.ait.client.models.cosmetics.ThreeDGlasses;
 import com.mdt.ait.common.items.ThreeDGlassesArmorItem;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
+import java.util.UUID;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -19,20 +19,28 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.UUID;
-
 public class ThreeDGlassesModelLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/3d_glasses.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/3d_glasses.png");
     private static final ThreeDGlasses glasses = new ThreeDGlasses();
-
 
     public ThreeDGlassesModelLayer(IEntityRenderer<T, M> renderer) {
         super(renderer);
     }
 
     @Override
-    public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(
+            MatrixStack pMatrixStack,
+            IRenderTypeBuffer pBuffer,
+            int pPackedLight,
+            T pLivingEntity,
+            float pLimbSwing,
+            float pLimbSwingAmount,
+            float pPartialTicks,
+            float pAgeInTicks,
+            float pNetHeadYaw,
+            float pHeadPitch) {
         pMatrixStack.pushPose();
         ItemStack glassesItem = pLivingEntity.getItemBySlot(EquipmentSlotType.HEAD);
         PlayerEntity playerEntity = (PlayerEntity) pLivingEntity.getEntity();
@@ -45,13 +53,13 @@ public class ThreeDGlassesModelLayer<T extends LivingEntity, M extends EntityMod
                 model.hat.visible = false;
                 model.head.visible = false;
             }
-            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.LOCATION));
-            if(playerEntity.getUUID().equals(UUID.fromString("ba21f64b-35e3-4b4f-b04c-9ceb814ad533"))) {
+            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(LOCATION));
+            if (playerEntity.getUUID().equals(UUID.fromString("ba21f64b-35e3-4b4f-b04c-9ceb814ad533"))) {
                 pMatrixStack.translate(0, -0.0375, 0);
             }
             pMatrixStack.translate(0, 0, -0.01);
             pMatrixStack.scale(0.75f, 0.75f, 0.75f);
-            this.glasses.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+            glasses.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();
     }

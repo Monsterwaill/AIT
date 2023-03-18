@@ -1,9 +1,10 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ArsEggTile;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.tardis.TARDISManager;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -24,9 +25,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class ArsEggBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -35,7 +33,11 @@ public class ArsEggBlock extends Block {
     public static VoxelShape YES_SHAPE = Block.box(5, 0.5, 5, 11, 16, 11);
 
     public ArsEggBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().lightLevel((p_235464_0_) -> 5).instabreak());
+        super(Properties.of(Material.STONE)
+                .strength(15.0f)
+                .noOcclusion()
+                .lightLevel((p_235464_0_) -> 5)
+                .instabreak());
     }
 
     @Override
@@ -73,17 +75,23 @@ public class ArsEggBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new ArsEggTile();
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pLevel,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHand,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pLevel.getBlockEntity(pPos);
         if (tileEntity instanceof ArsEggTile) {
             ((ArsEggTile) tileEntity).useOn(pLevel, pPlayer, pPos, pHand);

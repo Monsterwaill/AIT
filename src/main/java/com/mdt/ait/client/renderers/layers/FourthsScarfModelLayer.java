@@ -19,7 +19,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class FourthsScarfModelLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
 
-    public static final ResourceLocation FOUR_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/4ths_scarf.png");
+    public static final ResourceLocation FOUR_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/4ths_scarf.png");
 
     private static final FourthsScarf scarf = new FourthsScarf();
 
@@ -28,7 +29,17 @@ public class FourthsScarfModelLayer<T extends LivingEntity, M extends EntityMode
     }
 
     @Override
-    public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(
+            MatrixStack pMatrixStack,
+            IRenderTypeBuffer pBuffer,
+            int pPackedLight,
+            T pLivingEntity,
+            float pLimbSwing,
+            float pLimbSwingAmount,
+            float pPartialTicks,
+            float pAgeInTicks,
+            float pNetHeadYaw,
+            float pHeadPitch) {
         pMatrixStack.pushPose();
         Item item = pLivingEntity.getItemBySlot(EquipmentSlotType.CHEST).getItem();
         if (item == AITItems.FOURTHS_SCARF.get()) {
@@ -40,10 +51,10 @@ public class FourthsScarfModelLayer<T extends LivingEntity, M extends EntityMode
                 model.hat.visible = false;
                 model.head.visible = false;
             }
-            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.FOUR_LOCATION));
+            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(FOUR_LOCATION));
             pMatrixStack.scale(1.125f, 1.125f, 1.125f);
             pMatrixStack.translate(0, -0.03125f, 0);
-            this.scarf.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+            scarf.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();
     }

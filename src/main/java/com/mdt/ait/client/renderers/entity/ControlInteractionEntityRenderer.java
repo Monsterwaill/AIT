@@ -1,14 +1,11 @@
 package com.mdt.ait.client.renderers.entity;
 
 import com.mdt.ait.AIT;
-import com.mdt.ait.client.models.entities.ClassicDalek;
 import com.mdt.ait.client.models.entities.ControlInteractionIgnore;
-import com.mdt.ait.client.renderers.layers.ClassicDalekEmissionLayer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 
 public class ControlInteractionEntityRenderer extends MobRenderer {
 

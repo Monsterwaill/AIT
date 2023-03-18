@@ -9,11 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Contains utility NBT serializers/unserializers that do all the operations on root nbt (read the README file for more information).
+ * Contains utility NBT serializers/unserializers that do all the operations on root nbt (read the
+ * README file for more information).
  */
 public class NBTSerializers {
 
-    public static class Dimension implements NBTSerializeableStatic<RegistryKey<World>>, NBTUnserializeable<RegistryKey<World>> {
+    public static class Dimension
+            implements NBTSerializeableStatic<RegistryKey<World>>, NBTUnserializeable<RegistryKey<World>> {
 
         @Override
         public void serialize(CompoundNBT nbt, RegistryKey<World> registryKey) {
@@ -29,12 +31,8 @@ public class NBTSerializers {
             CompoundNBT dimension = nbt.getCompound("dimension");
 
             return RegistryKey.create(
-                    RegistryKey.createRegistryKey(
-                            new ResourceLocation(dimension.getString("name"))
-                    ),
-
-                    new ResourceLocation(dimension.getString("location"))
-            );
+                    RegistryKey.createRegistryKey(new ResourceLocation(dimension.getString("name"))),
+                    new ResourceLocation(dimension.getString("location")));
         }
     }
 
@@ -72,7 +70,8 @@ public class NBTSerializers {
         }
     }
 
-    public static class AbsolutePosition implements NBTSerializeableStatic<AbsoluteBlockPos>, NBTUnserializeable<AbsoluteBlockPos> {
+    public static class AbsolutePosition
+            implements NBTSerializeableStatic<AbsoluteBlockPos>, NBTUnserializeable<AbsoluteBlockPos> {
 
         private static final NBTSerializers.Dimension DIMENSION_SERIALIZER = new NBTSerializers.Dimension();
         private static final NBTSerializers.Position POSITION_SERIALIZER = new NBTSerializers.Position();
@@ -88,7 +87,8 @@ public class NBTSerializers {
 
         @Override
         public AbsoluteBlockPos unserialize(CompoundNBT nbt) {
-            return new AbsoluteBlockPos(DIMENSION_SERIALIZER.unserialize(nbt), POSITION_SERIALIZER.unserialize(nbt, "at"));
+            return new AbsoluteBlockPos(
+                    DIMENSION_SERIALIZER.unserialize(nbt), POSITION_SERIALIZER.unserialize(nbt, "at"));
         }
     }
 }

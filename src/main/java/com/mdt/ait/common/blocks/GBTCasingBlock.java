@@ -1,7 +1,7 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.GBTCasingTile;
-import com.mdt.ait.common.tileentities.TypewriterTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,8 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-
-import javax.annotation.Nullable;
 
 public class GBTCasingBlock extends Block {
 
@@ -39,7 +37,8 @@ public class GBTCasingBlock extends Block {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return YES_SHAPE;
     }
 
@@ -55,11 +54,11 @@ public class GBTCasingBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new GBTCasingTile();
     }

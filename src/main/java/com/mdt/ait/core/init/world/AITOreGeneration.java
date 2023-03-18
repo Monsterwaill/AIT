@@ -16,25 +16,31 @@ public class AITOreGeneration {
         for (OreType ore : OreType.values()) {
             OreFeatureConfig oreFeatureConfig = new OreFeatureConfig(
                     OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                    ore.getBlock().get().defaultBlockState(), ore.getMaxVeinSize());
+                    ore.getBlock().get().defaultBlockState(),
+                    ore.getMaxVeinSize());
 
-            //bottomOffset -> min height for ore to spawn
-            //maximum -> minHeight + maximum = top level for the ore to spawn
-            //topOffset -> subtracted from maximum to get actual top level
-            //ore effectively exists from bottomOffset to (bottomOffset + maximum - topOffset)
+            // bottomOffset -> min height for ore to spawn
+            // maximum -> minHeight + maximum = top level for the ore to spawn
+            // topOffset -> subtracted from maximum to get actual top level
+            // ore effectively exists from bottomOffset to (bottomOffset + maximum - topOffset)
             ConfiguredPlacement<TopSolidRangeConfig> configConfiguredPlacement = Placement.RANGE.configured(
                     new TopSolidRangeConfig(ore.getMinHeight(), ore.getMinHeight(), ore.getMaxHeight()));
 
             ConfiguredFeature<?, ?> oreFeature = registerOreFeature(ore, oreFeatureConfig, configConfiguredPlacement);
 
-
-
             event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, oreFeature);
         }
     }
 
-    private static ConfiguredFeature<?, ?> registerOreFeature(OreType ore, OreFeatureConfig oreFeatureConfig, ConfiguredPlacement configuredPlacement) {
-        return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, ore.getBlock().get().getRegistryName(), Feature.ORE.configured(oreFeatureConfig).decorated(configuredPlacement)
-        .squared().count(ore.getMaxVeinSize()));
+    private static ConfiguredFeature<?, ?> registerOreFeature(
+            OreType ore, OreFeatureConfig oreFeatureConfig, ConfiguredPlacement configuredPlacement) {
+        return Registry.register(
+                WorldGenRegistries.CONFIGURED_FEATURE,
+                ore.getBlock().get().getRegistryName(),
+                Feature.ORE
+                        .configured(oreFeatureConfig)
+                        .decorated(configuredPlacement)
+                        .squared()
+                        .count(ore.getMaxVeinSize()));
     }
 }

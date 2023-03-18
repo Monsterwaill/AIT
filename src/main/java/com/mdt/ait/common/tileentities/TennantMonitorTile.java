@@ -1,30 +1,16 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
-import com.mdt.ait.core.init.AITDimensions;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.core.init.enums.EnumDoorState;
-import com.mdt.ait.core.init.enums.EnumLeverState;
-import com.mdt.ait.core.init.enums.EnumRotorState;
 import com.mdt.ait.tardis.special.DematTransit;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class TennantMonitorTile extends TileEntity implements ITickableTileEntity {
 
@@ -57,7 +43,6 @@ public class TennantMonitorTile extends TileEntity implements ITickableTileEntit
             }
         }
     }
-
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
@@ -101,7 +86,8 @@ public class TennantMonitorTile extends TileEntity implements ITickableTileEntit
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

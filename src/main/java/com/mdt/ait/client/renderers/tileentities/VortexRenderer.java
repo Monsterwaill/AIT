@@ -12,10 +12,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class VortexRenderer extends TileEntityRenderer<VortexTileTemp> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/temp_vortex.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/temp_vortex.png");
     public VortexModelTemp model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -26,14 +26,30 @@ public class VortexRenderer extends TileEntityRenderer<VortexTileTemp> {
     }
 
     @Override
-    public void render(VortexTileTemp tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            VortexTileTemp tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         MatrixStackIn.pushPose();
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(VortexBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(VortexBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
         model.vortex.zRot = (tile.spinning % 60) / 2;
         MatrixStackIn.scale(2, 2, 2);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 }

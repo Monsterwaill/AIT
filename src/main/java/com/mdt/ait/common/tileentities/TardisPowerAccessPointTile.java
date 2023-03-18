@@ -1,7 +1,6 @@
 package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.core.init.AITTiles;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.energy.IEnergyStorage;

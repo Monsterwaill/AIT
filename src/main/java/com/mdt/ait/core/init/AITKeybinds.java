@@ -1,11 +1,10 @@
 package com.mdt.ait.core.init;
 
 import com.mdt.ait.AIT;
+import java.awt.event.KeyEvent;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-
-import java.awt.event.KeyEvent;
 
 public class AITKeybinds {
     public static KeyBinding snapToOpenDoor;

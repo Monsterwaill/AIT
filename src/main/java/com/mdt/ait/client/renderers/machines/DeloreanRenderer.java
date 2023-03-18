@@ -10,7 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class DeloreanRenderer extends MobRenderer<DeloreanEntity, Delorean> {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(AIT.MOD_ID, "textures/machines/delorean_machine.png");
+    public static final ResourceLocation TEXTURE =
+            new ResourceLocation(AIT.MOD_ID, "textures/machines/delorean_machine.png");
 
     public DeloreanRenderer(EntityRendererManager rendererManagerIn) {
         super(rendererManagerIn, new Delorean(), 1f);

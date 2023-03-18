@@ -1,9 +1,8 @@
 package com.mdt.ait.network.depreciated.packets;
 
+import java.util.function.Supplier;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 public class MonitorExteriorChangePacket {
 
@@ -18,12 +17,10 @@ public class MonitorExteriorChangePacket {
     }
 
     public static <MSG> void handle(MSG msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> {
-
-        });
+        contextSupplier.get().enqueueWork(() -> {});
     }
 
-    //public static <MSG> MSG decode(PacketBuffer packetBuffer) {
+    // public static <MSG> MSG decode(PacketBuffer packetBuffer) {
     //    packetBuffer;
-    //}
+    // }
 }

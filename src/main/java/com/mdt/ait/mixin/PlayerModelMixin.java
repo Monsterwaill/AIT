@@ -14,12 +14,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerModelMixin {
 
     @Inject(at = @At("TAIL"), method = "setupAnim(Lnet/minecraft/entity/LivingEntity;FFFFF)V", cancellable = true)
-    private void setupAnim(LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo callbackInfo) {
+    private void setupAnim(
+            LivingEntity livingEntity,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch,
+            CallbackInfo callbackInfo) {
         BipedModel bipedModel = (BipedModel) (Object) this;
 
-        if(livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == AITItems.COW_SKULL.get()){
-            ClientThings.thing(bipedModel, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, callbackInfo);
+        if (livingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == AITItems.COW_SKULL.get()) {
+            ClientThings.thing(
+                    bipedModel,
+                    livingEntity,
+                    limbSwing,
+                    limbSwingAmount,
+                    ageInTicks,
+                    netHeadYaw,
+                    headPitch,
+                    callbackInfo);
         }
     }
-
 }

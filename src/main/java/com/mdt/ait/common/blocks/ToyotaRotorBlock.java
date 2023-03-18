@@ -1,8 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ToyotaRotorTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -19,9 +20,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class ToyotaRotorBlock extends Block {
 
@@ -58,7 +56,8 @@ public class ToyotaRotorBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -67,16 +66,16 @@ public class ToyotaRotorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ToyotaRotorTile toyotaRotorTile = (ToyotaRotorTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisAlphabeticalID =
+            // AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert toyotaRotorTile != null;
             toyotaRotorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, toyotaRotorTile);
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         ToyotaRotorTile toyotaRotorTile = new ToyotaRotorTile();
         return toyotaRotorTile;

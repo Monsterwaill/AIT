@@ -36,8 +36,10 @@ public class TARDISBuilderComplete implements ITARDISBuilder {
     @Override
     public TARDIS build() {
         return new TARDIS(
-                this.builder.uuid, this.builder.position, this.builder.dimension,
-                this.builder.exterior, this.builder.interior
-        );
+                this.builder.uuid,
+                this.builder.position,
+                this.builder.dimension,
+                this.builder.exterior,
+                this.builder.interior);
     }
 }

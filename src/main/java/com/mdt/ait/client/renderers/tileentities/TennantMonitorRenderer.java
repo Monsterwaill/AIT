@@ -15,11 +15,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.StringTextComponent;
 
-
 public class TennantMonitorRenderer extends TileEntityRenderer<TennantMonitorTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tennant_monitor.png");
-    public static final ResourceLocation LIGHT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tennant_monitor_emission.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tennant_monitor.png");
+    public static final ResourceLocation LIGHT_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tennant_monitor_emission.png");
     public TennantMonitor model;
     private final TileEntityRendererDispatcher rendererDispatcher;
     public final int MaxLight = 15728880;
@@ -31,31 +32,59 @@ public class TennantMonitorRenderer extends TileEntityRenderer<TennantMonitorTil
     }
 
     @Override
-    public void render(TennantMonitorTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            TennantMonitorTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         this.flightRemaining(tile, MatrixStackIn, Buffer, CombinedLight);
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TypewriterBlock.FACING).toYRot()));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHT_LOCATION, false)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(TypewriterBlock.FACING).toYRot()));
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHT_LOCATION, false)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 
-    public void flightRemaining(TennantMonitorTile tile, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
+    public void flightRemaining(
+            TennantMonitorTile tile, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight) {
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0f, 3f, 0f);
         MatrixStackIn.scale(0.00625f, 0.00625f, 0.00625f);
         MatrixStackIn.mulPose(Vector3f.XP.rotationDegrees(180.0f));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
-        IReorderingProcessor irp = new StringTextComponent("Flight ticks:" + tile.flightTimeRemaining).getVisualOrderText();
+        IReorderingProcessor irp =
+                new StringTextComponent("Flight ticks:" + tile.flightTimeRemaining).getVisualOrderText();
         float tileWidth = 16;
         float objectWidth = fontRenderer.width(irp);
         MatrixStackIn.translate(-(objectWidth / 2f - tileWidth / 2f), -0.35, 0);
         MatrixStackIn.translate(20, 430, -80);
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        fontRenderer.drawInBatch(
+                irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
     }
 }

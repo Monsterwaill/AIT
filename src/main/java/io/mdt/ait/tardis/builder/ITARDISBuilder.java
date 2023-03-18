@@ -11,6 +11,8 @@ public interface ITARDISBuilder {
     ITARDISBuilder at(BlockPos position, RegistryKey<World> dimension);
 
     ITARDISBuilder exterior(TARDISExteriorSchema exterior);
+
     ITARDISBuilder interior(TARDISInteriorSchema interior);
+
     TARDIS build();
 }

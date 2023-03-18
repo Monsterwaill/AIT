@@ -1,8 +1,11 @@
 package com.mdt.ait.common.entities;
 
 import com.mdt.ait.core.init.AITEntities;
-import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.util.Objects;
+import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -11,17 +14,13 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.TurtleEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShootableItem;
@@ -36,25 +35,16 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-import java.util.Objects;
-
 public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMob {
     private final RangedBowAttackGoal<ClassicDalekEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
     private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.2D, false) {
-        /**
-         * Reset the task's internal state. Called when this task is interrupted by another one
-         */
+        /** Reset the task's internal state. Called when this task is interrupted by another one */
         public void stop() {
             super.stop();
             ClassicDalekEntity.this.setAggressive(false);
         }
 
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
+        /** Execute a one shot task or start executing a continuous task */
         public void start() {
             super.start();
             ClassicDalekEntity.this.setAggressive(true);
@@ -81,7 +71,10 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.23F).add(Attributes.MAX_HEALTH, 30.0D).add(Attributes.ATTACK_DAMAGE, 5.0D);
+        return MobEntity.createMobAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.23F)
+                .add(Attributes.MAX_HEALTH, 30.0D)
+                .add(Attributes.ATTACK_DAMAGE, 5.0D);
     }
 
     protected SoundEvent getStepSound() {
@@ -90,7 +83,7 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if(this.isAggressive()) {
+        if (this.isAggressive()) {
             return AITSounds.DALEK_EXTERMINATE.get();
         } else {
             return null;
@@ -110,7 +103,7 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
     @Override
     protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
-        //this.spawnAtLocation(AITItems.ANGEL_WINGS.get());
+        // this.spawnAtLocation(AITItems.ANGEL_WINGS.get());
     }
 
     @Override
@@ -140,8 +133,12 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
         super.aiStep();
     }
 
-    @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld pLevel, DifficultyInstance pDifficulty, SpawnReason pReason, @Nullable ILivingEntityData pSpawnData, @Nullable CompoundNBT pDataTag) {
+    @Nullable public ILivingEntityData finalizeSpawn(
+            IServerWorld pLevel,
+            DifficultyInstance pDifficulty,
+            SpawnReason pReason,
+            @Nullable ILivingEntityData pSpawnData,
+            @Nullable CompoundNBT pDataTag) {
         pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
         this.populateDefaultEquipmentSlots(pDifficulty);
         this.populateDefaultEquipmentEnchantments(pDifficulty);
@@ -152,7 +149,9 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
             int i = localdate.get(ChronoField.DAY_OF_MONTH);
             int j = localdate.get(ChronoField.MONTH_OF_YEAR);
             if (j == 10 && i == 31 && this.random.nextFloat() < 0.25F) {
-                this.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+                this.setItemSlot(
+                        EquipmentSlotType.HEAD,
+                        new ItemStack(this.random.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
                 this.armorDropChances[EquipmentSlotType.HEAD.getIndex()] = 0.0F;
             }
         }
@@ -164,7 +163,8 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
         if (this.level != null && !this.level.isClientSide) {
             this.goalSelector.removeGoal(this.meleeGoal);
             this.goalSelector.removeGoal(this.bowGoal);
-            ItemStack itemstack = this.getItemInHand(ProjectileHelper.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.item.BowItem));
+            ItemStack itemstack = this.getItemInHand(
+                    ProjectileHelper.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.item.BowItem));
             if (itemstack.getItem() == Items.BOW) {
                 int i = 20;
                 if (this.level.getDifficulty() != Difficulty.HARD) {
@@ -176,12 +176,12 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
             } else {
                 this.goalSelector.addGoal(4, this.meleeGoal);
             }
-
         }
     }
 
     protected AbstractArrowEntity getLaser(ItemStack pArrowStack, float pDistanceFactor) {
-        return new LaserShotEntity(AITEntities.LASER_SHOT_ENTITY.get(),
+        return new LaserShotEntity(
+                AITEntities.LASER_SHOT_ENTITY.get(),
                 Objects.requireNonNull(this.getServer()).getLevel(this.level.dimension()));
     }
 
@@ -190,16 +190,20 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
     }
 
     public void performRangedAttack(LivingEntity pTarget, float pVelocity) {
-        ItemStack itemstack = this.getProjectile(this.getItemInHand(ProjectileHelper.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.item.BowItem)));
+        ItemStack itemstack = this.getProjectile(this.getItemInHand(
+                ProjectileHelper.getWeaponHoldingHand(this, item -> item instanceof net.minecraft.item.BowItem)));
         AbstractArrowEntity abstractarrowentity = this.getArrow(itemstack, pVelocity);
         if (this.getMainHandItem().getItem() instanceof net.minecraft.item.BowItem)
-            abstractarrowentity = ((net.minecraft.item.BowItem)this.getMainHandItem().getItem()).customArrow(abstractarrowentity);
+            abstractarrowentity =
+                    ((net.minecraft.item.BowItem) this.getMainHandItem().getItem()).customArrow(abstractarrowentity);
         double d0 = pTarget.getX() - this.getX();
         double d1 = pTarget.getY(0.3333333333333333D) - abstractarrowentity.getY();
         double d2 = pTarget.getZ() - this.getZ();
-        double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
-        abstractarrowentity.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
-        this.playSound(AITSounds.DALEK_GUNFIRE.get(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
+        abstractarrowentity.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float)
+                (14 - this.level.getDifficulty().getId() * 4));
+        this.playSound(
+                AITSounds.DALEK_GUNFIRE.get(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level.addFreshEntity(abstractarrowentity);
     }
 
@@ -223,7 +227,6 @@ public class ClassicDalekEntity extends MonsterEntity implements IRangedAttackMo
         if (!this.level.isClientSide) {
             this.reassessWeaponGoal();
         }
-
     }
 
     protected float getStandingEyeHeight(Pose pPose, EntitySize pSize) {

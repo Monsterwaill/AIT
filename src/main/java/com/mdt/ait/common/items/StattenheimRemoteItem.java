@@ -16,7 +16,6 @@ public class StattenheimRemoteItem extends TARDISLinkableItem {
     public ActionResultType useOn(ItemUseContext context) {
         World world = context.getLevel();
 
-
         return ActionResultType.sidedSuccess(world.isClientSide());
     }
 }

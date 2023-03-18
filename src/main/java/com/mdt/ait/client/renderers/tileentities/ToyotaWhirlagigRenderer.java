@@ -12,11 +12,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class ToyotaWhirlagigRenderer extends TileEntityRenderer<ToyotaWhirlagigTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/toyota_whirlagig.png");
-    public static final ResourceLocation LIGHTING = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/toyota_whirlagig_emission.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/toyota_whirlagig.png");
+    public static final ResourceLocation LIGHTING =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/toyota_whirlagig_emission.png");
     public ToyotaWhirlagig model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -27,37 +28,110 @@ public class ToyotaWhirlagigRenderer extends TileEntityRenderer<ToyotaWhirlagigT
     }
 
     @Override
-    public void render(ToyotaWhirlagigTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            ToyotaWhirlagigTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         ++tile.spinny;
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 1.5, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(ToyotaWhirlagigBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(ToyotaWhirlagigBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         model.top.yRot = (float) Math.toRadians(tile.spinny / 8);
         model.bottom.yRot = (float) Math.toRadians(tile.spinny / 8);
-        model.top.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        model.bottom.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.top.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
+        model.bottom.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-        model.bottom.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-        model.top.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.bottom.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
+        model.top.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        model.middle.yRot = - (float) Math.toRadians(tile.spinny / 8);
-        model.middle.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.middle.yRot = -(float) Math.toRadians(tile.spinny / 8);
+        model.middle.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-        model.middle.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.middle.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
         MatrixStackIn.popPose();
         MatrixStackIn.pushPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.pushPose();
         MatrixStackIn.scale(1.001f, 1.001f, 1.001f);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LIGHTING, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
         MatrixStackIn.popPose();
         MatrixStackIn.popPose();

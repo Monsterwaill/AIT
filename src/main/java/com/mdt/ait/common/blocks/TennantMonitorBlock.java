@@ -4,6 +4,9 @@ import com.mdt.ait.client.screen.MonitorScreen;
 import com.mdt.ait.common.tileentities.TennantMonitorTile;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.tardis.TARDISManager;
+import java.util.Random;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -25,10 +28,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-import java.util.UUID;
 
 public class TennantMonitorBlock extends Block {
 
@@ -53,7 +52,8 @@ public class TennantMonitorBlock extends Block {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return YES_SHAPE;
     }
 
@@ -69,7 +69,8 @@ public class TennantMonitorBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -93,30 +94,31 @@ public class TennantMonitorBlock extends Block {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TennantMonitorTile();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
-                                Hand handIn, BlockRayTraceResult hit) {
-        //if (!worldIn.isClientSide()) {
-            if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
-                        TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
-                        if (!worldIn.isClientSide) {
-                            this.tardisID = TARDISManager.getInstance().findUUID(pos);
-                }
-                assert tennantMonitorTile != null;
-                tennantMonitorTile.tardisID = tardisID;
-                Block block = worldIn.getBlockState(pos).getBlock();
-                if (block instanceof TennantMonitorBlock) {
-                    Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID, worldIn));
-                }
+    public ActionResultType use(
+            BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        // if (!worldIn.isClientSide()) {
+        if (worldIn.dimension() == AITDimensions.TARDIS_DIMENSION) {
+            TennantMonitorTile tennantMonitorTile = (TennantMonitorTile) worldIn.getBlockEntity(pos);
+            if (!worldIn.isClientSide) {
+                this.tardisID = TARDISManager.getInstance().findUUID(pos);
             }
-        //}
+            assert tennantMonitorTile != null;
+            tennantMonitorTile.tardisID = tardisID;
+            Block block = worldIn.getBlockState(pos).getBlock();
+            if (block instanceof TennantMonitorBlock) {
+                Minecraft.getInstance()
+                        .setScreen(
+                                new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), tardisID, worldIn));
+            }
+        }
+        // }
         return super.use(state, worldIn, pos, player, handIn, hit);
     }
 }

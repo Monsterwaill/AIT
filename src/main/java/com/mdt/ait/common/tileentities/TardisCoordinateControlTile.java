@@ -1,6 +1,5 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TardisCoordinateControlBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
@@ -8,6 +7,8 @@ import com.mdt.ait.core.init.enums.EnumCoordinateDirectionState;
 import com.mdt.ait.core.init.enums.EnumCoordinatePosNegState;
 import com.mdt.ait.core.init.enums.EnumCoordinateState;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,10 +24,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class TardisCoordinateControlTile extends TileEntity implements ITickableTileEntity {
 
@@ -72,22 +69,24 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public void onPlace() {
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    currentCoordinateDirectionState = coordinateBlockDirectionState();
-                    this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
-                    setListedPosition(tardis.targetPosition);
-                    AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exteriorPosition);
-                    sync();*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                     * currentCoordinateDirectionState = coordinateBlockDirectionState();
+                     * this.currentPosNegState = EnumCoordinatePosNegState.IS_POSITIVE;
+                     * setListedPosition(tardis.targetPosition);
+                     * AIT.tardisManager.setTardisTargetBlockPos(tardisID, tardis.exteriorPosition);
+                     * sync();
+                     */
                 }
             }
         }
     }
 
     public EnumCoordinatePosNegState getNextPosNegState() {
-        switch(currentPosNegState) {
+        switch (currentPosNegState) {
             case IS_POSITIVE:
                 return EnumCoordinatePosNegState.IS_NEGATIVE;
             case IS_NEGATIVE:
@@ -97,7 +96,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     }
 
     public int getNextIncrement() {
-        switch(incrementValue) {
+        switch (incrementValue) {
             case 1:
                 return 10;
             case 10:
@@ -124,16 +123,17 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         return EnumCoordinateDirectionState.NORTH;
     }
 
-    public ActionResultType useOn(World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
+    public ActionResultType useOn(
+            World world, PlayerEntity playerEntity, BlockPos blockpos, Hand hand, BlockRayTraceResult pHit) {
         canChangePos = true;
-        //ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
+        // ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         if (block instanceof TardisCoordinateControlBlock && hand == Hand.MAIN_HAND) {
             playerEntity.playSound(AITSounds.BUTTON_PRESS.get(), 5, 1);
             double mouseX = pHit.getLocation().x - blockpos.getX();
             double mouseZ = pHit.getLocation().z - blockpos.getZ();
-            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
+            if (currentCoordinateDirectionState == EnumCoordinateDirectionState.NORTH) {
                 this.Xx = 0.6875;
                 this.Xz = 0.0625;
                 this.Yx = 0.375;
@@ -147,7 +147,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                 this.incrementWidth = 0.125;
                 this.incrementHeight = 0.125;
             }
-            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
+            if (currentCoordinateDirectionState == EnumCoordinateDirectionState.EAST) {
                 this.Xx = 0.0625;
                 this.Xz = 0.0625;
                 this.Yx = 0.0625;
@@ -161,7 +161,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                 this.incrementWidth = 0.125;
                 this.incrementHeight = 0.125;
             }
-            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
+            if (currentCoordinateDirectionState == EnumCoordinateDirectionState.SOUTH) {
                 this.Xx = 0.0625;
                 this.Xz = 1.0625;
                 this.Yx = 0.0625;
@@ -175,7 +175,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                 this.incrementWidth = 0.125;
                 this.incrementHeight = 0.125;
             }
-            if(currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
+            if (currentCoordinateDirectionState == EnumCoordinateDirectionState.WEST) {
                 this.Xx = 0.0625;
                 this.Xz = 0.0625;
                 this.Yx = 0.0625;
@@ -192,8 +192,11 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
             boolean isHoveredOverX = mouseX >= Xx && mouseZ >= Xz && mouseX <= (Xx + width) && mouseZ <= (Xz + height);
             boolean isHoveredOverY = mouseX >= Yx && mouseZ >= Yz && mouseX <= (Yx + width) && mouseZ <= (Yz + height);
             boolean isHoveredOverZ = mouseX >= Zx && mouseZ >= Zz && mouseX <= (Zx + width) && mouseZ <= (Zz + height);
-            boolean isHoveredOverIncrement = mouseX >= IncrementX && mouseZ >= IncrementZ && mouseX <= (IncrementX + incrementWidth) && mouseZ <= (IncrementZ + incrementHeight);
-            if(currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
+            boolean isHoveredOverIncrement = mouseX >= IncrementX
+                    && mouseZ >= IncrementZ
+                    && mouseX <= (IncrementX + incrementWidth)
+                    && mouseZ <= (IncrementZ + incrementHeight);
+            if (currentPosNegState == EnumCoordinatePosNegState.IS_POSITIVE) {
                 if (isHoveredOverX) {
                     xPos += incrementValue;
                     this.shiftingPositionEx = 0.025;
@@ -216,7 +219,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                     this.incrementValue = getNextIncrement();
                 }
             }
-            if(currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
+            if (currentPosNegState == EnumCoordinatePosNegState.IS_NEGATIVE) {
                 if (isHoveredOverX) {
                     xPos -= incrementValue;
                     this.shiftingPositionEx = 0.025;
@@ -239,14 +242,15 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
                     this.incrementValue = getNextIncrement();
                 }
             }
-//                System.out.println(mouseX + " || " + mouseZ);
-//                System.out.println("Xstuff: " + Xx + ", " + Xz + " || Ystuff: " + Yx + ", " + Yz + " || Zstuff: " + Zx + ", " + Zz);
-//                System.out.println(isHoveredOverX + ", " + isHoveredOverY + ", " + isHoveredOverZ);
-//                System.out.println(currentPosNegState);
-            if(!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
-                if(playerEntity.isCrouching()) {
+            // System.out.println(mouseX + " || " + mouseZ);
+            // System.out.println("Xstuff: " + Xx + ", " + Xz + " || Ystuff: " + Yx + ", " + Yz + "
+            // || Zstuff: " + Zx + ", " + Zz);
+            // System.out.println(isHoveredOverX + ", " + isHoveredOverY + ", " + isHoveredOverZ);
+            // System.out.println(currentPosNegState);
+            if (!(isHoveredOverX && isHoveredOverY && isHoveredOverZ)) {
+                if (playerEntity.isCrouching()) {
                     this.currentPosNegState = getNextPosNegState();
-                    //System.out.println(this.currentPosNegState);
+                    // System.out.println(this.currentPosNegState);
                 }
             }
             changePositionFromControl();
@@ -255,32 +259,29 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         return ActionResultType.SUCCESS;
     }
 
-
     public void changePositionFromControl() {
         newSetPosition = new BlockPos(xPos, yPos, zPos);
         if (this.tardisID != null) {
-            if(!level.isClientSide) {
-                //AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
+            if (!level.isClientSide) {
+                // AIT.tardisManager.setTardisTargetBlockPos(tardisID, newSetPosition);
             }
         }
     }
 
     @Override
     public void tick() {
-        if(this.tardisID != null) {
-            if(this.getLevel() != null) {
+        if (this.tardisID != null) {
+            if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    ServerWorld ExteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
-                    if (!canChangePos) {
-                        setListedPosition(tardis.targetPosition);
-                        if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) != null) {
-                            setListedPosition(tardis.exteriorPosition);
-                        }
-                    }
-                    if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) == null) {
-                        canChangePos = false;
-                    }*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(this.tardisID); ServerWorld
+                     * ExteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension); if
+                     * (!canChangePos) { setListedPosition(tardis.targetPosition);
+                     * if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) != null) {
+                     * setListedPosition(tardis.exteriorPosition); } }
+                     * if(ExteriorWorld.getBlockEntity(tardis.exteriorPosition) == null) {
+                     * canChangePos = false; }
+                     */
                 }
             }
         }
@@ -300,11 +301,12 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         this.yPos = nbt.getInt("yPosition");
         this.zPos = nbt.getInt("zPosition");
         this.incrementValue = nbt.getInt("incrementValue");
-        this.currentCoordinateDirectionState = EnumCoordinateDirectionState.values()[nbt.getInt("currentcoordinatedirectionstate")];
+        this.currentCoordinateDirectionState =
+                EnumCoordinateDirectionState.values()[nbt.getInt("currentcoordinatedirectionstate")];
         this.currentCoordinateState = EnumCoordinateState.values()[nbt.getInt("currentcoordinatestate")];
         this.currentPosNegState = EnumCoordinatePosNegState.values()[nbt.getInt("currentposnegstate")];
         this.currentdimensionstate = EnumDimensionControlState.values()[nbt.getInt("currentdimensionstate")];
-        //this.canChangePos = nbt.getBoolean("canChangePos");
+        // this.canChangePos = nbt.getBoolean("canChangePos");
         super.load(pState, nbt);
     }
 
@@ -318,7 +320,7 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
         nbt.putInt("currentcoordinatestate", this.currentCoordinateState.ordinal());
         nbt.putInt("currentposnegstate", this.currentPosNegState.ordinal());
         nbt.putInt("currentdimensionstate", this.currentdimensionstate.ordinal());
-        //nbt.putBoolean("canChangePos", this.canChangePos);
+        // nbt.putBoolean("canChangePos", this.canChangePos);
         if (this.tardisID != null) {
             nbt.putUUID("tardisID", this.tardisID);
         }
@@ -345,7 +347,8 @@ public class TardisCoordinateControlTile extends TileEntity implements ITickable
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

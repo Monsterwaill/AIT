@@ -1,10 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
-import com.mdt.ait.common.tileentities.TardisCoordinateControlTile;
-import com.mdt.ait.common.tileentities.TardisLeverTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -22,13 +21,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.Dimension;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class DimensionSwitchControlBlock extends Block {
 
@@ -53,7 +48,13 @@ public class DimensionSwitchControlBlock extends Block {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pWorldIn,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHandIn,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
         if (tileEntity instanceof DimensionSwitchControlTile) {
             ((DimensionSwitchControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
@@ -73,7 +74,8 @@ public class DimensionSwitchControlBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -81,8 +83,9 @@ public class DimensionSwitchControlBlock extends Block {
         super.onPlace(blockState1, world, blockPos, blockState2, bool);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
-            DimensionSwitchControlTile dimensionSwitchControlTile = (DimensionSwitchControlTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            DimensionSwitchControlTile dimensionSwitchControlTile =
+                    (DimensionSwitchControlTile) serverWorld.getBlockEntity(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert dimensionSwitchControlTile != null;
             dimensionSwitchControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, dimensionSwitchControlTile);
@@ -93,8 +96,7 @@ public class DimensionSwitchControlBlock extends Block {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         DimensionSwitchControlTile dimensionSwitchControlTile = new DimensionSwitchControlTile();
         return dimensionSwitchControlTile;

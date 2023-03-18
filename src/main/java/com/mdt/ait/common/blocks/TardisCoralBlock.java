@@ -1,8 +1,8 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.common.tileentities.RampTile;
 import com.mdt.ait.common.tileentities.TardisCoralTile;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -17,8 +17,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
-import javax.annotation.Nullable;
-
 public class TardisCoralBlock extends Block implements ICantBreak {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -26,7 +24,11 @@ public class TardisCoralBlock extends Block implements ICantBreak {
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 32, 16);
 
     public TardisCoralBlock() {
-        super(Properties.of(Material.BAMBOO).strength(15.0f).noOcclusion().instabreak().noCollission());
+        super(Properties.of(Material.BAMBOO)
+                .strength(15.0f)
+                .noOcclusion()
+                .instabreak()
+                .noCollission());
     }
 
     @Override
@@ -51,13 +53,12 @@ public class TardisCoralBlock extends Block implements ICantBreak {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TardisCoralTile();
     }
-
 }

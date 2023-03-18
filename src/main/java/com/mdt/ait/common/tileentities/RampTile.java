@@ -12,8 +12,7 @@ public class RampTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void tick() {
-    }
+    public void tick() {}
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {

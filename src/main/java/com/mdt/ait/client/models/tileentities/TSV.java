@@ -200,12 +200,26 @@ public class TSV extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
-        //previously the render function, render code was moved to a method below
+    public void setupAnim(
+            Entity entity,
+            float limbSwing,
+            float limbSwingAmount,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch) {
+        // previously the render function, render code was moved to a method below
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void renderToBuffer(
+            MatrixStack matrixStack,
+            IVertexBuilder buffer,
+            int packedLight,
+            int packedOverlay,
+            float red,
+            float green,
+            float blue,
+            float alpha) {
         bone.render(matrixStack, buffer, packedLight, packedOverlay);
         bone2.render(matrixStack, buffer, packedLight, packedOverlay);
     }
@@ -216,11 +230,21 @@ public class TSV extends EntityModel<Entity> {
         modelRenderer.zRot = z;
     }
 
-    public void render(TSVTile tsvtile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay) {
-        this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1,1,1,1);
+    public void render(
+            TSVTile tsvtile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay) {
+        this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1);
     }
 
-    public void render(TSVTile tile, MatrixStack matrixStackIn, IVertexBuilder buffer, int combinedLight, int combinedOverlay, int i, int i1, int i2, int i3) {
+    public void render(
+            TSVTile tile,
+            MatrixStack matrixStackIn,
+            IVertexBuilder buffer,
+            int combinedLight,
+            int combinedOverlay,
+            int i,
+            int i1,
+            int i2,
+            int i3) {
         this.renderToBuffer(matrixStackIn, buffer, combinedLight, combinedOverlay, 1, 1, 1, 1);
     }
 }

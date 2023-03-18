@@ -2,14 +2,13 @@ package com.mdt.ait.tardis.special;
 
 import com.mdt.ait.common.entities.ControlInteractionEntity;
 import io.mdt.ait.tardis.TARDIS;
+import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class DematTransit {
 
@@ -142,10 +141,17 @@ public class DematTransit {
         // pass or something idk
     }
 
-
-    // Function that lands the tardis somewhere, makes it do a funky fade and sends it back where it came from
+    // Function that lands the tardis somewhere, makes it do a funky fade and sends it back where it
+    // came from
     // @TODO fix fading not working suddenly
-    public static void failLandTardis(TARDIS tardis, BlockPos blockpos, World world, PlayerEntity playerentity, BlockPos oldPos, RegistryKey oldDimension, Direction oldDirection) {
+    public static void failLandTardis(
+            TARDIS tardis,
+            BlockPos blockpos,
+            World world,
+            PlayerEntity playerentity,
+            BlockPos oldPos,
+            RegistryKey oldDimension,
+            Direction oldDirection) {
         /*tardis.setInteriorDoorState(EnumDoorState.CLOSED);
         tardis.setExteriorDoorState(EnumDoorState.CLOSED);
         ServerWorld exteriorWorld = AIT.server.getExteriorLevel(tardis.exterior_dimension);
@@ -258,6 +264,6 @@ public class DematTransit {
         if(this.waitTillLandingSoundIsOver) {
             this.finished = true;
         }*/
-        //System.out.println(this.waitTillLandingSoundIsOver + " + " + this.landingSoundTick);
+        // System.out.println(this.waitTillLandingSoundIsOver + " + " + this.landingSoundTick);
     }
 }

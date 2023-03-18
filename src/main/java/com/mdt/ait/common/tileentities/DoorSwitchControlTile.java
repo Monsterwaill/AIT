@@ -1,10 +1,10 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.*;
-import com.mdt.ait.core.init.enums.EnumDoorState;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,9 +19,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class DoorSwitchControlTile extends TileEntity implements ITickableTileEntity {
 
@@ -48,7 +45,7 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
                 secondLeverPosition = 0f;
             }
         }
-        if(leverState == DoorSwitchStates.SECOND) {
+        if (leverState == DoorSwitchStates.SECOND) {
             if (firstLeverPosition < 30f) {
                 firstLeverPosition += 5.0f;
             } else {
@@ -92,31 +89,27 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
 
     public void setNextDoorState() {
         if (this.tardisID != null) {
-            if(this.getLevel() != null) {
+            if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if(tardis.interiorDoorPosition != null) {
-                        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) level.getBlockEntity(tardis.interiorDoorPosition);
-                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
-                        if (tardisTileEntity != null) {
-                            assert basicInteriorDoorTile != null;
-                            tardisTileEntity.setDoorState(basicInteriorDoorTile.currentstate);
-                            tardisTileEntity.sync();
-                            sync();
-                            if (basicInteriorDoorTile != null) {
-                                if (leverState == DoorSwitchStates.FIRST) {
-                                    level.playSound(null, worldPosition, AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.MASTER, 7, 1);
-                                    basicInteriorDoorTile.setDoorState(EnumDoorState.CLOSED);
-                                } else {
-                                    level.playSound(null, worldPosition, AITSounds.POLICE_BOX_OPEN.get(), SoundCategory.MASTER, 7, 1);
-                                    basicInteriorDoorTile.setDoorState(EnumDoorState.BOTH);
-                                }
-                                basicInteriorDoorTile.sync();
-                                sync();
-                            }
-                        }
-                    }
-                    sync();*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                     * if(tardis.interiorDoorPosition != null) { BasicInteriorDoorTile
+                     * basicInteriorDoorTile = (BasicInteriorDoorTile)
+                     * level.getBlockEntity(tardis.interiorDoorPosition); TardisTileEntity
+                     * tardisTileEntity = (TardisTileEntity)
+                     * AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.
+                     * exteriorPosition); if (tardisTileEntity != null) { assert
+                     * basicInteriorDoorTile != null;
+                     * tardisTileEntity.setDoorState(basicInteriorDoorTile.currentstate);
+                     * tardisTileEntity.sync(); sync(); if (basicInteriorDoorTile != null) { if
+                     * (leverState == DoorSwitchStates.FIRST) { level.playSound(null, worldPosition,
+                     * AITSounds.POLICE_BOX_CLOSE.get(), SoundCategory.MASTER, 7, 1);
+                     * basicInteriorDoorTile.setDoorState(EnumDoorState.CLOSED); } else {
+                     * level.playSound(null, worldPosition, AITSounds.POLICE_BOX_OPEN.get(),
+                     * SoundCategory.MASTER, 7, 1);
+                     * basicInteriorDoorTile.setDoorState(EnumDoorState.BOTH); }
+                     * basicInteriorDoorTile.sync(); sync(); } } } sync();
+                     */
                 }
             }
         }
@@ -124,37 +117,34 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
 
     public void toggleDoorsLocked() {
         if (this.tardisID != null) {
-            if(this.getLevel() != null) {
+            if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    if(tardis.interiorDoorPosition != null) {
-                        BasicInteriorDoorTile basicInteriorDoorTile = (BasicInteriorDoorTile) level.getBlockEntity(tardis.interiorDoorPosition);
-                        TardisTileEntity tardisTileEntity = (TardisTileEntity) AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.exteriorPosition);
-                        if(basicInteriorDoorTile != null) {
-                            if (basicInteriorDoorTile.lockedState) {
-                                leverState = DoorSwitchStates.FIRST;
-                                basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED);
-                            } else {
-                                leverState = DoorSwitchStates.FIRST;
-                                basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED);
-                            }
-                            if (tardisTileEntity != null) {
-                                if (tardisTileEntity.lockedState) {
-                                    tardisTileEntity.setLockedState(false, basicInteriorDoorTile.currentstate);
-                                } else {
-                                    tardisTileEntity.setLockedState(true, basicInteriorDoorTile.currentstate);
-                                }
-                            }
-                        }
-                    }*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                     * if(tardis.interiorDoorPosition != null) { BasicInteriorDoorTile
+                     * basicInteriorDoorTile = (BasicInteriorDoorTile)
+                     * level.getBlockEntity(tardis.interiorDoorPosition); TardisTileEntity
+                     * tardisTileEntity = (TardisTileEntity)
+                     * AIT.server.getExteriorLevel(tardis.exterior_dimension).getBlockEntity(tardis.
+                     * exteriorPosition); if(basicInteriorDoorTile != null) { if
+                     * (basicInteriorDoorTile.lockedState) { leverState = DoorSwitchStates.FIRST;
+                     * basicInteriorDoorTile.setLockedState(false, EnumDoorState.CLOSED); } else {
+                     * leverState = DoorSwitchStates.FIRST;
+                     * basicInteriorDoorTile.setLockedState(true, EnumDoorState.CLOSED); } if
+                     * (tardisTileEntity != null) { if (tardisTileEntity.lockedState) {
+                     * tardisTileEntity.setLockedState(false, basicInteriorDoorTile.currentstate); }
+                     * else { tardisTileEntity.setLockedState(true,
+                     * basicInteriorDoorTile.currentstate); } } } }
+                     */
                 }
             }
         }
     }
 
-    public ActionResultType useOn(World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType useOn(
+            World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {
         BlockState blockstate = world.getBlockState(pPos);
-        if(pHandIn == Hand.MAIN_HAND) {
+        if (pHandIn == Hand.MAIN_HAND) {
             if (pPlayer.isCrouching()) {
                 toggleDoorsLocked();
                 leverState = getNextLeverState();
@@ -167,15 +157,15 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
             }
         }
         syncToClient();
-        //System.out.println(getLeverState());
+        // System.out.println(getLeverState());
         return ActionResultType.SUCCESS;
     }
 
     public void onPlace() {
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+                    // Tardis tardis = AIT.tardisManager.getTardis(tardisID);
                     syncToClient();
                 }
             }
@@ -225,7 +215,8 @@ public class DoorSwitchControlTile extends TileEntity implements ITickableTileEn
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

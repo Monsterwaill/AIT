@@ -8,7 +8,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
@@ -20,7 +19,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class MessengerBagModelLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
 
-    public static final ResourceLocation MB_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/messenger_bag.png");
+    public static final ResourceLocation MB_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/messenger_bag.png");
 
     private static final MessengerBag messengerBag = new MessengerBag();
 
@@ -29,7 +29,17 @@ public class MessengerBagModelLayer<T extends LivingEntity, M extends EntityMode
     }
 
     @Override
-    public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(
+            MatrixStack pMatrixStack,
+            IRenderTypeBuffer pBuffer,
+            int pPackedLight,
+            T pLivingEntity,
+            float pLimbSwing,
+            float pLimbSwingAmount,
+            float pPartialTicks,
+            float pAgeInTicks,
+            float pNetHeadYaw,
+            float pHeadPitch) {
         pMatrixStack.pushPose();
         Item item = pLivingEntity.getItemBySlot(EquipmentSlotType.CHEST).getItem();
         if (item == AITItems.MESSENGER_BAG.get()) {
@@ -41,8 +51,9 @@ public class MessengerBagModelLayer<T extends LivingEntity, M extends EntityMode
                 model.hat.visible = false;
                 model.head.visible = false;
             }
-            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.MB_LOCATION));
-            this.messengerBag.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+            IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(MB_LOCATION));
+            messengerBag.renderToBuffer(
+                    pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();
     }

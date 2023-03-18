@@ -1,4 +1,3 @@
 package com.mdt.ait.core.init.interfaces;
 
-public interface ITARDISBlock {
-}
+public interface ITARDISBlock {}

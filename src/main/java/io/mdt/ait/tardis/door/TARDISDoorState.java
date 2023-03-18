@@ -5,9 +5,8 @@ import io.mdt.ait.nbt.NBTUnserializeable;
 import net.minecraft.nbt.CompoundNBT;
 
 public class TARDISDoorState {
-    private final TARDISDoorStates[] states = new TARDISDoorStates[] {
-            TARDISDoorStates.CLOSED, TARDISDoorStates.FIRST, TARDISDoorStates.BOTH
-    };
+    private final TARDISDoorStates[] states =
+            new TARDISDoorStates[] {TARDISDoorStates.CLOSED, TARDISDoorStates.FIRST, TARDISDoorStates.BOTH};
 
     private int index = 0;
     private boolean isLocked;
@@ -45,7 +44,6 @@ public class TARDISDoorState {
     public void setLocked(boolean locked) {
         this.isLocked = locked;
     }
-
 
     public static class Serializer implements NBTSerializeable<TARDISDoorState>, NBTUnserializeable<TARDISDoorState> {
 

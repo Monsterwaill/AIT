@@ -19,6 +19,7 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
     }
 
     public abstract T render(RenderInfo info, TARDISTileEntity tile, T model);
+
     protected abstract T model();
 
     public abstract Portal3i portal();
@@ -35,7 +36,8 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
         return this.render(info, tile, this.model());
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISExteriorSchema<?>>, NBTUnserializeable<TARDISExteriorSchema<?>> {
+    public static class Serializer
+            implements NBTSerializeable<TARDISExteriorSchema<?>>, NBTUnserializeable<TARDISExteriorSchema<?>> {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISExteriorSchema<?> exterior) {

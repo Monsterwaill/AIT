@@ -5,10 +5,13 @@ buildscript {
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
+
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath 'org.parchmentmc:librarian:1.+'
+
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.17.0'
     }
 }
 
@@ -18,9 +21,10 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.diffplug.spotless'
 
 version = 'testingforfailing'
-group = 'com.mdt.ait' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'com.mdt' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ait'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
@@ -165,6 +169,25 @@ dependencies {
 
 mixin {
     add sourceSets.main, "ait.refmap.json"
+}
+
+spotless {
+    format 'misc', {
+        target '*.gradle', '*.md', '.gitignore'
+
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+
+    java {
+        removeUnusedImports()
+        palantirJavaFormat()
+
+        trimTrailingWhitespace()
+        formatAnnotations()
+        endWithNewline()
+    }
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

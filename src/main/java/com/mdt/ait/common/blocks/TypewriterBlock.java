@@ -1,6 +1,7 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.TypewriterTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -20,15 +21,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class TypewriterBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 9.5, 16);
 
-    //public UUID tardisID;
+    // public UUID tardisID;
 
     public TypewriterBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().instabreak());
@@ -45,7 +44,8 @@ public class TypewriterBlock extends Block {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return YES_SHAPE;
     }
 
@@ -61,38 +61,36 @@ public class TypewriterBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    /*@Override
-    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
-        super.onPlace(blockState1, world, blockPos, blockState2, bool);
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            ServerWorld serverWorld = ((ServerWorld) world);
-            TypewriterTile typewriterTile = (TypewriterTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            assert typewriterTile != null;
-            typewriterTile.tardisID = tardisID;
-            serverWorld.setBlockEntity(blockPos, typewriterTile);
-        }
-    }*/
+    /*
+     * @Override public void onPlace(BlockState blockState1, World world, BlockPos blockPos,
+     * BlockState blockState2, boolean bool) { super.onPlace(blockState1, world, blockPos,
+     * blockState2, bool); if (!world.isClientSide && world.dimension() ==
+     * AITDimensions.TARDIS_DIMENSION) { ServerWorld serverWorld = ((ServerWorld) world);
+     * TypewriterTile typewriterTile = (TypewriterTile) serverWorld.getBlockEntity(blockPos);
+     * this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos); assert typewriterTile !=
+     * null; typewriterTile.tardisID = tardisID; serverWorld.setBlockEntity(blockPos,
+     * typewriterTile); } }
+     */
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TypewriterTile();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
-                                Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType use(
+            BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isClientSide()) {
             Block block = worldIn.getBlockState(pos).getBlock();
             if (block instanceof TypewriterBlock) {
-                //NetworkHandler.CHANNEL.sendToServer();
-                //Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent(
-                //        "TARDIS Monitor")));
+                // NetworkHandler.CHANNEL.sendToServer();
+                // Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent(
+                // "TARDIS Monitor")));
             }
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

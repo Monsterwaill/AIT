@@ -1,8 +1,8 @@
 package io.mdt.ait.tardis.link.impl;
 
 import io.mdt.ait.tardis.TARDISManager;
-import io.mdt.ait.tardis.link.TARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
+import io.mdt.ait.tardis.link.TARDISLinkable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -41,8 +41,15 @@ public abstract class TARDISLinkableTileEntity extends TileEntity implements TAR
 
     public void sync() {
         if (this.level != null) {
-            this.level.setBlocksDirty(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition));
-            this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
+            this.level.setBlocksDirty(
+                    this.worldPosition,
+                    this.level.getBlockState(this.worldPosition),
+                    this.level.getBlockState(this.worldPosition));
+            this.level.sendBlockUpdated(
+                    this.worldPosition,
+                    this.level.getBlockState(this.worldPosition),
+                    this.level.getBlockState(this.worldPosition),
+                    3);
             this.setChanged();
         }
     }

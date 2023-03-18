@@ -13,13 +13,14 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class RoundelFaceRenderer extends TileEntityRenderer<RoundelFaceTile> {
 
     public ResourceLocation roundelLocation;
 
-    public static final ResourceLocation MINT_FULL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/mint_roundel_face.png");
-    public static final ResourceLocation MINT_HALF_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/mint_roundel_face1.png");
+    public static final ResourceLocation MINT_FULL_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/mint_roundel_face.png");
+    public static final ResourceLocation MINT_HALF_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/mint_roundel_face1.png");
     public RoundelFace model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -30,21 +31,37 @@ public class RoundelFaceRenderer extends TileEntityRenderer<RoundelFaceTile> {
     }
 
     @Override
-    public void render(RoundelFaceTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            RoundelFaceTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         MatrixStackIn.pushPose();
-        if(tile.roundelFaceState == EnumRoundelFaceState.FULL_MINT) {
+        if (tile.roundelFaceState == EnumRoundelFaceState.FULL_MINT) {
             roundelLocation = MINT_FULL_LOCATION;
         }
-        if(tile.roundelFaceState == EnumRoundelFaceState.HALF_MINT) {
+        if (tile.roundelFaceState == EnumRoundelFaceState.HALF_MINT) {
             roundelLocation = MINT_HALF_LOCATION;
         }
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(RoundelFaceBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(RoundelFaceBlock.FACING).toYRot()));
         MatrixStackIn.mulPose(Vector3f.YN.rotationDegrees(180.0f));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(roundelLocation)), 15728880, CombinedOverlay, 1, 1, 1, 1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(roundelLocation)),
+                15728880,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 }

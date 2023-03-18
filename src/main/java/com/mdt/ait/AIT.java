@@ -1,7 +1,7 @@
 package com.mdt.ait;
 
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
+// import com.google.gson.Gson;
+// import com.google.gson.GsonBuilder;
 
 import com.mdt.ait.common.entities.DeloreanEntity;
 import com.mdt.ait.core.init.*;
@@ -23,13 +23,13 @@ import org.apache.logging.log4j.Logger;
 @Mod(AIT.MOD_ID)
 public class AIT {
 
-    //ADD VEHICLES
+    // ADD VEHICLES
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "ait";
-//    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    //    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    //@OnlyIn(Dist.CLIENT)
-    //public static KeyBinding KEY_OPEN_BAG_GUI;
+    // @OnlyIn(Dist.CLIENT)
+    // public static KeyBinding KEY_OPEN_BAG_GUI;
 
     public static MinecraftServer server;
     public static DimensionSavedDataManager dimensionSavedDataManager;
@@ -41,8 +41,8 @@ public class AIT {
 
         MinecraftForge.EVENT_BUS.register(this);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        //bus.addListener(this::commonSetup);
-        //bus.addListener(this::registerEntityAttributes);
+        // bus.addListener(this::commonSetup);
+        // bus.addListener(this::registerEntityAttributes);
         MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
         MinecraftForge.EVENT_BUS.register(new TardisEventHandler()); // Tardis specific event handler
         bus.addListener(this::registerEntityAttributes);
@@ -62,8 +62,8 @@ public class AIT {
         Network.init();
         AITDimensions.init();
         NetworkHandler.init();
-        //KEY_OPEN_BAG_GUI = new KeyBinding("key.open_bag_gui", GLFW.GLFW_KEY_CAPS_LOCK, "key.categories.ait");
-        //ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
+        // KEY_OPEN_BAG_GUI = new KeyBinding("key.open_bag_gui", GLFW.GLFW_KEY_CAPS_LOCK,
+        // "key.categories.ait");
+        // ClientRegistry.registerKeyBinding(KEY_OPEN_BAG_GUI);
     }
-
 }

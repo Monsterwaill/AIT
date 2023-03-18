@@ -12,10 +12,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class TypewriterRenderer extends TileEntityRenderer<TypewriterTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/typewriter.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/typewriter.png");
     public Typewriter model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -26,14 +26,30 @@ public class TypewriterRenderer extends TileEntityRenderer<TypewriterTile> {
     }
 
     @Override
-    public void render(TypewriterTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            TypewriterTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TypewriterBlock.FACING).toYRot()));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(TypewriterBlock.FACING).toYRot()));
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 }

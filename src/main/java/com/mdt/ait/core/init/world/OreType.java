@@ -5,8 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraftforge.common.util.Lazy;
 
 public enum OreType {
-
-    SONIC_CRYSTAL(Lazy.of(AITBlocks.SONIC_CRYSTAL_ORE), 3, 1, 20);//,;
+    SONIC_CRYSTAL(Lazy.of(AITBlocks.SONIC_CRYSTAL_ORE), 3, 1, 20); // ,;
 
     private final Lazy<Block> block;
     private final int maxVeinSize;
@@ -38,7 +37,7 @@ public enum OreType {
 
     public static OreType get(Block block) {
         for (OreType ore : values()) {
-            if(block == ore.block) {
+            if (block == ore.block) {
                 return ore;
             }
         }

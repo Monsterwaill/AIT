@@ -8,27 +8,35 @@ import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import io.mdt.ait.tardis.door.TARDISDoorStates;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-
 public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInteriorDoorTile> {
-    public static final ResourceLocation BASIC = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/basic_interior_doors.png");
-    public static final ResourceLocation MINT = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/mint_interior_doors.png");
-    public static final ResourceLocation HUDOLIN = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/hudolin_interior_doors.png");
-    public static final ResourceLocation CLASSIC = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/classic_interior_doors.png");
-    public static final ResourceLocation FALLOUT_SHELTER = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/fallout_shelter_interior_door.png");
-    public static final ResourceLocation HELLBENT_CAPSULE = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/tt_capsule_interior_door.png");
-    public static final ResourceLocation TARDIM = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tardim_exterior.png");
+    public static final ResourceLocation BASIC =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/basic_interior_doors.png");
+    public static final ResourceLocation MINT =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/mint_interior_doors.png");
+    public static final ResourceLocation HUDOLIN =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/hudolin_interior_doors.png");
+    public static final ResourceLocation CLASSIC =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/classic_interior_doors.png");
+    public static final ResourceLocation FALLOUT_SHELTER =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/fallout_shelter_interior_door.png");
+    public static final ResourceLocation HELLBENT_CAPSULE =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/tt_capsule_interior_door.png");
+    public static final ResourceLocation TARDIM =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/tardim_exterior.png");
 
-    //Snowing/Holidays
-    public static final ResourceLocation SNOW_BASIC_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/basic_interior_doors_snow.png");
-    public static final ResourceLocation SNOW_MINT_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/mint_interior_doors_snow.png");
+    // Snowing/Holidays
+    public static final ResourceLocation SNOW_BASIC_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/basic_interior_doors_snow.png");
+    public static final ResourceLocation SNOW_MINT_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/interior_doors/biomes/mint_interior_doors_snow.png");
 
     public BasicInteriorDoor model;
     public ResourceLocation texture;
@@ -40,18 +48,26 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
     }
 
     @Override
-    public void render(TARDISInteriorDoorTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            TARDISInteriorDoorTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         MatrixStackIn.pushPose();
         MatrixStackIn.translate(0.5, 0, 0.5);
-        //MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
+        // MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));
 
-        EnumInteriorDoorType interiordoor = EnumInteriorDoorType.values()[tile.serializeNBT().getInt("currentinteriordoor")];
+        EnumInteriorDoorType interiordoor =
+                EnumInteriorDoorType.values()[tile.serializeNBT().getInt("currentinteriordoor")];
         int interiordoortype = tile.serializeNBT().getInt("currentinteriordoor");
         boolean isitsnowing = tile.serializeNBT().getBoolean("isItSnowing");
-        if(interiordoor.getSerializedName().equals("door_basic_exterior") && interiordoortype == 0) {
+        if (interiordoor.getSerializedName().equals("door_basic_exterior") && interiordoortype == 0) {
             this.model = new BasicInteriorDoor();
             LocalDate localdate = LocalDate.now();
             int i = localdate.get(ChronoField.DAY_OF_MONTH);
@@ -68,7 +84,7 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
         }
-        if(interiordoor.getSerializedName().equals("door_mint_exterior") && interiordoortype == 1) {
+        if (interiordoor.getSerializedName().equals("door_mint_exterior") && interiordoortype == 1) {
             this.model = new BasicInteriorDoor();
             LocalDate localdate = LocalDate.now();
             int i = localdate.get(ChronoField.DAY_OF_MONTH);
@@ -85,54 +101,59 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             MatrixStackIn.translate(0, -1.085f, 0);
             MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
         }
-        if(interiordoor.getSerializedName().equals("door_classic_exterior") && interiordoortype == 11) {
+        if (interiordoor.getSerializedName().equals("door_classic_exterior") && interiordoortype == 11) {
             this.model = new ClassicInteriorDoors();
             this.texture = CLASSIC;
             MatrixStackIn.translate(0, 1.085f, 0);
             MatrixStackIn.scale(0.9f, 0.85f, 0.9f);
-            ((ClassicInteriorDoors)this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
-            ((ClassicInteriorDoors)this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
+            ((ClassicInteriorDoors) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
+            ((ClassicInteriorDoors) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
-        if(interiordoor.getSerializedName().equals("door_hudolin_exterior") && interiordoortype == 13) {
+        if (interiordoor.getSerializedName().equals("door_hudolin_exterior") && interiordoortype == 13) {
             this.model = new HudolinInteriorDoors();
             this.texture = HUDOLIN;
             MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
             MatrixStackIn.translate(0, -1.5, 0.1);
-            ((HudolinInteriorDoors)this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
-            ((HudolinInteriorDoors)this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
+            ((HudolinInteriorDoors) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
+            ((HudolinInteriorDoors) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
-        if(interiordoor.getSerializedName().equals("door_tardim_exterior") && interiordoortype == 15) {
+        if (interiordoor.getSerializedName().equals("door_tardim_exterior") && interiordoortype == 15) {
             this.model = new TARDIMInteriorDoor();
             this.texture = TARDIM;
             MatrixStackIn.translate(0, -1.5, 0);
             MatrixStackIn.scale(1f, 1f, 1f);
-            if(tile.getState().get() != TARDISDoorStates.CLOSED) {
-                ((TARDIMInteriorDoor) this.model).door.visible = false;
-            } else {
-                ((TARDIMInteriorDoor) this.model).door.visible = true;
-            }
+            ((TARDIMInteriorDoor) this.model).door.visible = tile.getState().get() == TARDISDoorStates.CLOSED;
         }
-        if(interiordoor.getSerializedName().equals("door_hellbent_tt_capsule") && interiordoortype == 6) {
+        if (interiordoor.getSerializedName().equals("door_hellbent_tt_capsule") && interiordoortype == 6) {
             this.model = new TTCapsuleInteriorDoor();
             this.texture = HELLBENT_CAPSULE;
             MatrixStackIn.scale(1f, 1f, 1f);
             MatrixStackIn.translate(0, -1.5, 0);
-            ((TTCapsuleInteriorDoor)this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
-            ((TTCapsuleInteriorDoor)this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
+            ((TTCapsuleInteriorDoor) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
+            ((TTCapsuleInteriorDoor) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
-        if(interiordoor.getSerializedName().equals("door_fallout_shelter_exterior") && interiordoortype == 19) {
+        if (interiordoor.getSerializedName().equals("door_fallout_shelter_exterior") && interiordoortype == 19) {
             this.model = new FalloutShelterInteriorDoor();
             this.texture = FALLOUT_SHELTER;
             MatrixStackIn.scale(1f, 1f, 1f);
             MatrixStackIn.translate(0, -1.5, 0);
-            if(tile.getState().get() != TARDISDoorStates.CLOSED) {
+            if (tile.getState().get() != TARDISDoorStates.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;
             }
         }
-        //System.out.println(interiordoor.getSerializedName() + interiordoortype);
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        // System.out.println(interiordoor.getSerializedName() + interiordoortype);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 }

@@ -19,12 +19,13 @@ public class TARDISRenderer extends TileEntityRenderer<TARDISTileEntity> {
     public final int maxLight = 15728880;
     public float spinnn = 0;
 
-    //Textures
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_exterior.png");
+    // Textures
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_exterior.png");
 
-    //Lightmaps
-    public static final ResourceLocation BASIC_LM_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_exterior_emission.png");
-
+    // Lightmaps
+    public static final ResourceLocation BASIC_LM_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/exteriors/basic_exterior_emission.png");
 
     public TARDISExteriorModelSchema model;
     private final TileEntityRendererDispatcher rendererDispatcher;
@@ -36,28 +37,46 @@ public class TARDISRenderer extends TileEntityRenderer<TARDISTileEntity> {
     }
 
     @Override
-    public void render(TARDISTileEntity tile, float ticks, MatrixStack stack, IRenderTypeBuffer buffer, int light, int overlay) {
+    public void render(
+            TARDISTileEntity tile, float ticks, MatrixStack stack, IRenderTypeBuffer buffer, int light, int overlay) {
         if (tile.isLinked()) {
             ++spinnn;
 
-        /*if(materialState != EnumMatState.SOLID) {
-            ++spinny;
-        } else if (materialState == EnumMatState.SOLID) {
-            spinny = 0;
-        }*/ //FIXME: dis
+            /*
+             * if(materialState != EnumMatState.SOLID) { ++spinny; } else if (materialState ==
+             * EnumMatState.SOLID) { spinny = 0; }
+             */
+            // FIXME: dis
 
             stack.pushPose();
             // FIXME: it crashes here, TARDIS.getExterior() is null.
-            TARDISExteriorModelSchema model = tile.getTARDIS().getExterior().getSchema().render(new RenderInfo(this, stack, buffer, light, overlay, ticks), tile);
+            TARDISExteriorModelSchema model = tile.getTARDIS()
+                    .getExterior()
+                    .getSchema()
+                    .render(new RenderInfo(this, stack, buffer, light, overlay, ticks), tile);
 
             stack.translate(0, 1.5f, 0);
             stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot()));
-            model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay, 1, 1, 1, 1);
+            stack.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState()
+                    .getValue(BlockStateProperties.HORIZONTAL_FACING)
+                    .toYRot()));
+            model.render(
+                    tile,
+                    stack,
+                    buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)),
+                    light,
+                    overlay,
+                    1,
+                    1,
+                    1,
+                    1);
             stack.popPose();
 
-            //model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), maxLight, overlay);
-            //model.render(tile, stack, buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay);
+            // model.render(tile, stack,
+            // buffer.getBuffer(AITRenderTypes.tardisLightmap(BASIC_LM_LOCATION, false)), maxLight,
+            // overlay);
+            // model.render(tile, stack,
+            // buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), light, overlay);
         }
     }
 

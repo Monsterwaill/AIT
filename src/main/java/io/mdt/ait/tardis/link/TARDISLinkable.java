@@ -4,12 +4,9 @@ import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.door.TARDISDoor;
 import io.mdt.ait.tardis.exterior.TARDISExterior;
 import io.mdt.ait.tardis.interior.TARDISInterior;
-
 import java.util.UUID;
 
-/**
- * Used for identifying objects that need to be linked to a TARDIS
- */
+/** Used for identifying objects that need to be linked to a TARDIS */
 public interface TARDISLinkable {
     TARDISLink getLink();
 

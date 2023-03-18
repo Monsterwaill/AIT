@@ -1,6 +1,7 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.RoundelDoorsTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,8 +22,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class RoundelDoorsBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -30,7 +29,12 @@ public class RoundelDoorsBlock extends Block {
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 48, 16);
 
     public RoundelDoorsBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().lightLevel((p_235464_0_) -> 5).instabreak().noCollission());
+        super(Properties.of(Material.STONE)
+                .strength(15.0f)
+                .noOcclusion()
+                .lightLevel((p_235464_0_) -> 5)
+                .instabreak()
+                .noCollission());
     }
 
     @Override
@@ -49,7 +53,8 @@ public class RoundelDoorsBlock extends Block {
     }
 
     @Override
-    public boolean collisionExtendsVertically(BlockState state, IBlockReader world, BlockPos pos, Entity collidingEntity) {
+    public boolean collisionExtendsVertically(
+            BlockState state, IBlockReader world, BlockPos pos, Entity collidingEntity) {
         return true;
     }
 
@@ -60,11 +65,18 @@ public class RoundelDoorsBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pWorldIn,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHandIn,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
         if (tileEntity instanceof RoundelDoorsTile) {
             ((RoundelDoorsTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn);
@@ -72,8 +84,7 @@ public class RoundelDoorsBlock extends Block {
         return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new RoundelDoorsTile();
     }

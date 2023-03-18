@@ -1,8 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.HartnellRotorTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -20,17 +21,15 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class HartnellRotorBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(1, 2, 1, 15, 21, 15)).optimize();
+    private static final VoxelShape SHAPE = VoxelShapes.or(
+                    Block.box(0, 0, 0, 16, 2, 16), Block.box(1, 2, 1, 15, 21, 15))
+            .optimize();
 
     public HartnellRotorBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
@@ -58,7 +57,8 @@ public class HartnellRotorBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -67,15 +67,14 @@ public class HartnellRotorBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             HartnellRotorTile hartnellRotorTile = (HartnellRotorTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert hartnellRotorTile != null;
             hartnellRotorTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, hartnellRotorTile);
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         HartnellRotorTile hartnellRotorTile = new HartnellRotorTile();
         return hartnellRotorTile;

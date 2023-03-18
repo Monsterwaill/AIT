@@ -24,9 +24,8 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
-public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBlock { // ITARDISBlock has some of the same functionality as interface ICantBreak
+// ITARDISBlock has some of the same functionality as interface ICantBreak
+public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBlock {
 
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
@@ -37,7 +36,7 @@ public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBl
         if (!level.isClientSide) {
             TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
 
-            if(tile != null) {
+            if (tile != null) {
                 tile.link(TARDISManager.getInstance().create(pos, level.dimension()));
             }
         }
@@ -49,12 +48,17 @@ public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBl
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(
+            BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-            case NORTH: return VoxelShapes.create(new AxisAlignedBB(0, 0, 0.00625, 1, 2, 1));
-            case EAST:  return VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 0.99375, 2, 1));
-            case SOUTH: return VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 0.99375));
-            case WEST:  return VoxelShapes.create(new AxisAlignedBB(0.00625, 0, 0, 1, 2, 1));
+            case NORTH:
+                return VoxelShapes.create(new AxisAlignedBB(0, 0, 0.00625, 1, 2, 1));
+            case EAST:
+                return VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 0.99375, 2, 1));
+            case SOUTH:
+                return VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 2, 0.99375));
+            case WEST:
+                return VoxelShapes.create(new AxisAlignedBB(0.00625, 0, 0, 1, 2, 1));
         }
 
         return null; // How the hell did you get there?
@@ -67,11 +71,15 @@ public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBl
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(
+                        BlockStateProperties.HORIZONTAL_FACING,
+                        context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType use(
+            BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TARDISTileEntity) {
             ((TARDISTileEntity) tile).use(world, player, pos, hand);
@@ -87,7 +95,6 @@ public class TARDISBlock extends TARDISLinkableFallingBlock implements ITARDISBl
         return true;
     }
 
-    @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TARDISTileEntity();

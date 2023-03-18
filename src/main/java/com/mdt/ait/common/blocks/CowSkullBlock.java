@@ -28,11 +28,11 @@ import net.minecraft.world.World;
 public class CowSkullBlock extends HorizontalBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    //public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 8, 8, 8);
+    // public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 8, 8, 8);
     public static final VoxelShape YES_SHAPE = VoxelShapes.create(new AxisAlignedBB(0, 0, 0, 1, 0.55, 1));
 
     public CowSkullBlock(Properties properties) {
-            super(properties.of(Material.STONE).strength(3.0F, 6.0F).noOcclusion());
+        super(Properties.of(Material.STONE).strength(3.0F, 6.0F).noOcclusion());
     }
 
     @Override
@@ -40,10 +40,10 @@ public class CowSkullBlock extends HorizontalBlock {
         return BlockRenderType.MODEL;
     }
 
-
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -66,15 +66,25 @@ public class CowSkullBlock extends HorizontalBlock {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pLevel,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHand,
+            BlockRayTraceResult pHit) {
         Block block = pState.getBlock();
         BlockPos pos = new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ());
-        if (block instanceof CowSkullBlock && pHand == Hand.MAIN_HAND && !pLevel.isClientSide && pPlayer.getItemBySlot(EquipmentSlotType.HEAD) == ItemStack.EMPTY) {
+        if (block instanceof CowSkullBlock
+                && pHand == Hand.MAIN_HAND
+                && !pLevel.isClientSide
+                && pPlayer.getItemBySlot(EquipmentSlotType.HEAD) == ItemStack.EMPTY) {
             pPlayer.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(AITItems.COW_SKULL.get()));
-            pLevel.removeBlock(pos,false);
-        } else if(pPlayer.getItemBySlot(EquipmentSlotType.HEAD) != ItemStack.EMPTY && pPlayer.getItemBySlot(EquipmentSlotType.MAINHAND) == ItemStack.EMPTY) {
+            pLevel.removeBlock(pos, false);
+        } else if (pPlayer.getItemBySlot(EquipmentSlotType.HEAD) != ItemStack.EMPTY
+                && pPlayer.getItemBySlot(EquipmentSlotType.MAINHAND) == ItemStack.EMPTY) {
             pPlayer.setItemInHand(Hand.MAIN_HAND, new ItemStack(AITItems.COW_SKULL.get()));
-            pLevel.removeBlock(pos,false);
+            pLevel.removeBlock(pos, false);
         }
         return ActionResultType.SUCCESS;
     }

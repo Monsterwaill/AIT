@@ -1,10 +1,11 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumRotorState;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -13,15 +14,12 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
 public class HudolinRotorTile extends TileEntity implements ITickableTileEntity {
 
     public UUID tardisID;
     public float rotorTick;
     public float setRotorTick = 0;
-    private int __dontUse = 0;
+    private final int __dontUse = 0;
     public boolean isLoaded = false;
     public boolean isInFlight;
     public EnumRotorState currentstate = EnumRotorState.STATIC;
@@ -36,15 +34,13 @@ public class HudolinRotorTile extends TileEntity implements ITickableTileEntity 
 
     @Override
     public void tick() {
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
                     TARDIS tardis = TARDISManager.getInstance().findTARDIS(tardisID);
-                    /*if(!tardis.landed) {
-                        isInFlight = true;
-                    } else {
-                        isInFlight = false;
-                    }*/
+                    /*
+                     * if(!tardis.landed) { isInFlight = true; } else { isInFlight = false; }
+                     */
                 }
             }
         }
@@ -90,7 +86,8 @@ public class HudolinRotorTile extends TileEntity implements ITickableTileEntity 
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

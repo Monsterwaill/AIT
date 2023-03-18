@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis.link.impl;
 
-import io.mdt.ait.tardis.link.TARDISLinkable;
 import io.mdt.ait.tardis.link.TARDISLink;
+import io.mdt.ait.tardis.link.TARDISLinkable;
 import net.minecraft.block.FallingBlock;
 
 public abstract class TARDISLinkableFallingBlock extends FallingBlock implements TARDISLinkable {

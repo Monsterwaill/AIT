@@ -21,7 +21,7 @@ public class DirectionalBlock extends HorizontalBlock {
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
     public DirectionalBlock(Properties properties) {
-            super(properties.of(Material.STONE).strength(3.0F, 6.0F).noOcclusion());
+        super(Properties.of(Material.STONE).strength(3.0F, 6.0F).noOcclusion());
     }
 
     @Override
@@ -29,10 +29,10 @@ public class DirectionalBlock extends HorizontalBlock {
         return BlockRenderType.MODEL;
     }
 
-
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -53,5 +53,4 @@ public class DirectionalBlock extends HorizontalBlock {
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return YES_SHAPE;
     }
-
 }

@@ -21,7 +21,8 @@ public class TARDISExterior extends TARDISLinkableBasic {
     public void link(TARDIS tardis) {
         super.link(tardis);
 
-        this.tile = (TARDISTileEntity) TARDISUtil.getWorld(tardis.getPosition().getDimension()).getBlockEntity(tardis.getPosition().get());
+        this.tile = (TARDISTileEntity) TARDISUtil.getWorld(tardis.getPosition().getDimension())
+                .getBlockEntity(tardis.getPosition().get());
         if (this.tile != null) {
             this.tile.link(tardis);
         }
@@ -50,9 +51,7 @@ public class TARDISExterior extends TARDISLinkableBasic {
 
         @Override
         public TARDISExterior unserialize(CompoundNBT nbt) {
-            return new TARDISExterior(
-                    SCHEMA_SERIALIZER.unserialize(nbt)
-            );
+            return new TARDISExterior(SCHEMA_SERIALIZER.unserialize(nbt));
         }
     }
 }

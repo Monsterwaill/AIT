@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.exterior.TARDISExteriorModelSchema;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class BasicBoxModel extends TARDISExteriorModelSchema {
 
@@ -215,7 +214,16 @@ public class BasicBoxModel extends TARDISExteriorModelSchema {
     }
 
     @Override
-    public void render(TARDISTileEntity tile, MatrixStack stack, IVertexBuilder builder, int light, int overlay, float r, float g, float b, float a) {
+    public void render(
+            TARDISTileEntity tile,
+            MatrixStack stack,
+            IVertexBuilder builder,
+            int light,
+            int overlay,
+            float r,
+            float g,
+            float b,
+            float a) {
         box.render(stack, builder, light, overlay, r, g, b, a);
         christmas_stuff.render(stack, builder, light, overlay, r, g, b, a);
     }

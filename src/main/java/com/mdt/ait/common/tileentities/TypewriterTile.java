@@ -4,6 +4,7 @@ import com.mdt.ait.common.blocks.TARDISBlock;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.network.depreciated.Network;
 import com.mdt.ait.network.depreciated.packets.MonitorExteriorChangePacket;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,8 +12,6 @@ import net.minecraft.tileentity.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class TypewriterTile extends TileEntity {
 
@@ -29,31 +28,35 @@ public class TypewriterTile extends TileEntity {
 
     public void setLastExterior() {
         World world = this.getLevel();
-        BlockPos bpos = new BlockPos(this.getBlockPos().getX() + 1,
-                this.getBlockPos().getY(), this.getBlockPos().getZ());
+        BlockPos bpos = new BlockPos(
+                this.getBlockPos().getX() + 1,
+                this.getBlockPos().getY(),
+                this.getBlockPos().getZ());
         Block tardisBlock = world.getBlockState(bpos).getBlock();
-        if(tardisBlock instanceof TARDISBlock) {
+        if (tardisBlock instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
-            //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
+            // ((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }
         Network.sendToServer(new MonitorExteriorChangePacket(11));
     }
 
     public void setNextExterior() {
         World world = this.getLevel();
-        BlockPos bpos = new BlockPos(this.getBlockPos().getX() + 1,
-                this.getBlockPos().getY(), this.getBlockPos().getZ());
+        BlockPos bpos = new BlockPos(
+                this.getBlockPos().getX() + 1,
+                this.getBlockPos().getY(),
+                this.getBlockPos().getZ());
         Block tardisBlock = world.getBlockState(bpos).getBlock();
-        if(tardisBlock instanceof TARDISBlock) {
+        if (tardisBlock instanceof TARDISBlock) {
             TileEntity tileEntity = world.getBlockEntity(bpos).getTileEntity();
-            //((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
+            // ((TARDISTileEntity) tileEntity).lastExteriorFromMonitor();
         }
         Network.sendToServer(new MonitorExteriorChangePacket(11));
     }
 
     @Override
     public CompoundNBT save(CompoundNBT compound) {
-        if(tardisID != null) {
+        if (tardisID != null) {
             compound.putUUID("tardisID", this.tardisID);
         }
         return super.save(compound);
@@ -61,11 +64,9 @@ public class TypewriterTile extends TileEntity {
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
-        if(tardisID != null) {
+        if (tardisID != null) {
             this.tardisID = nbt.getUUID("tardisID");
         }
         super.load(state, nbt);
     }
-
-
 }

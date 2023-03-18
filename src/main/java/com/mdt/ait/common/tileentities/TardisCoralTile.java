@@ -1,16 +1,12 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.GBTCasingBlock;
 import com.mdt.ait.common.blocks.TardisCoralBlock;
 import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumCoralState;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
-import com.mdt.ait.core.init.enums.EnumMatState;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.TARDIS;
-import io.mdt.ait.tardis.TARDISManager;
+import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.EntityType;
@@ -25,9 +21,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
 
@@ -69,56 +62,67 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         BlockPos casingPos3 = new BlockPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ() + 1);
         BlockPos casingPos4 = new BlockPos(worldPosition.getX() - 1, worldPosition.getY(), worldPosition.getZ());
         BlockPos casingPos = casingPos1;
-        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.SOUTH) {
+        if (getBlockState().getValue(TardisCoralBlock.FACING) == Direction.SOUTH) {
             casingPos = casingPos1;
         }
-        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.WEST) {
+        if (getBlockState().getValue(TardisCoralBlock.FACING) == Direction.WEST) {
             casingPos = casingPos2;
         }
-        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.NORTH) {
+        if (getBlockState().getValue(TardisCoralBlock.FACING) == Direction.NORTH) {
             casingPos = casingPos3;
         }
-        if(getBlockState().getValue(TardisCoralBlock.FACING) == Direction.EAST) {
+        if (getBlockState().getValue(TardisCoralBlock.FACING) == Direction.EAST) {
             casingPos = casingPos4;
         }
         if (level.canSeeSky(worldPosition) && (level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
             ++ticks;
-            if (ticks == 37/*750*/) {
+            if (ticks == 37 /* 750 */) {
                 this.coralState = EnumCoralState.SECOND;
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                level.playSound(
+                        null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks == 75/*1500*/) {
+            if (ticks == 75 /* 1500 */) {
                 this.coralState = EnumCoralState.THIRD;
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                level.playSound(
+                        null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks == 112/*2250*/) {
+            if (ticks == 112 /* 2250 */) {
                 this.coralState = EnumCoralState.FOURTH;
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                level.playSound(
+                        null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks == 150/*3000*/) {
+            if (ticks == 150 /* 3000 */) {
                 this.coralState = EnumCoralState.FIFTH;
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                level.playSound(
+                        null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks == 187/*3750*/) {
+            if (ticks == 187 /* 3750 */) {
                 this.coralState = EnumCoralState.FINAL;
-                level.playSound(null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                level.playSound(
+                        null, worldPosition, SoundType.BAMBOO.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks >= 300/*6000*/) {  //6000 is 5 minutes
+            if (ticks >= 300 /* 6000 */) { // 6000 is 5 minutes
                 if (!level.isClientSide) {
                     switchDirectionForTARDIS();
                     if (run_once == 0) {
-                        LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
+                        LightningBoltEntity bolt =
+                                new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
-                        //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
+                        // level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY()
+                        // + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
-                            //TARDIS tardis = TARDISManager.getInstance().create(worldPosition, entity.getLevel().dimension());
+                            // TARDIS tardis = TARDISManager.getInstance().create(worldPosition,
+                            // entity.getLevel().dimension());
                             TARDISTileEntity tardisTileEntity = (TARDISTileEntity) level.getBlockEntity(worldPosition);
-                            /*tardisTileEntity.linkedTardis = tardis; FIXME: this
-                            tardisTileEntity.linkedTardisId = tardis.tardisId;
-                            tardisTileEntity.matState = EnumMatState.REMAT;
-                            tardis.exteriorFacing = facingDirection;
-                            tardisTileEntity.currentexterior = EnumExteriorType.HELLBENT_TT_CAPSULE;*///pickRandomExterior();
+                            /*
+                             * tardisTileEntity.linkedTardis = tardis; FIXME: this
+                             * tardisTileEntity.linkedTardisId = tardis.tardisId;
+                             * tardisTileEntity.matState = EnumMatState.REMAT; tardis.exteriorFacing
+                             * = facingDirection; tardisTileEntity.currentexterior =
+                             * EnumExteriorType.HELLBENT_TT_CAPSULE;
+                             */
+                            // pickRandomExterior();
                             syncToClient();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -127,7 +131,8 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                     }
                 }
             }
-        } else if (level.canSeeSky(worldPosition) && !(level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
+        } else if (level.canSeeSky(worldPosition)
+                && !(level.getBlockState(casingPos).getBlock() instanceof GBTCasingBlock)) {
             ++ticks;
             if (ticks == 750) {
                 this.coralState = EnumCoralState.SECOND;
@@ -149,24 +154,29 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
                 this.coralState = EnumCoralState.FINAL;
                 level.playSound(null, worldPosition, SoundType.METAL.getPlaceSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if (ticks >= 6000) {  //6000 is 5 minutes
+            if (ticks >= 6000) { // 6000 is 5 minutes
                 if (!level.isClientSide) {
                     switchDirectionForTARDIS();
                     if (run_once == 0) {
-                        LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
+                        LightningBoltEntity bolt =
+                                new LightningBoltEntity(EntityType.LIGHTNING_BOLT, entity.getLevel());
                         bolt.setPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
                         level.addFreshEntity(bolt);
-                        //level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY() + 3, worldPosition.getZ(), 10, 10, 10);
+                        // level.addParticle(ParticleTypes.CLOUD,worldPosition.getX(),worldPosition.getY()
+                        // + 3, worldPosition.getZ(), 10, 10, 10);
                         try {
-                            /*Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(), worldPosition, entity.getExteriorLevel().dimension());
-                            TardisTileEntity tardisTileEntity = (TardisTileEntity) level.getBlockEntity(worldPosition);
-                            assert tardisTileEntity != null;
-                            tardisTileEntity.linkedTardis = tardis;
-                            tardisTileEntity.linkedTardisId = tardis.tardisId;
-                            tardisTileEntity.matState = EnumMatState.REMAT;
-                            tardis.exteriorFacing = facingDirection;
-                            tardisTileEntity.currentexterior = EnumExteriorType.HELLBENT_TT_CAPSULE;//pickRandomExterior();
-                            sync();*/ // FIXME: this
+                            /*
+                             * Tardis tardis = tardisManager.createNewTardis(UUID.randomUUID(),
+                             * worldPosition, entity.getExteriorLevel().dimension());
+                             * TardisTileEntity tardisTileEntity = (TardisTileEntity)
+                             * level.getBlockEntity(worldPosition); assert tardisTileEntity != null;
+                             * tardisTileEntity.linkedTardis = tardis;
+                             * tardisTileEntity.linkedTardisId = tardis.tardisId;
+                             * tardisTileEntity.matState = EnumMatState.REMAT; tardis.exteriorFacing
+                             * = facingDirection; tardisTileEntity.currentexterior =
+                             * EnumExteriorType.HELLBENT_TT_CAPSULE;//pickRandomExterior(); sync();
+                             */
+                            // FIXME: this
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -215,43 +225,69 @@ public class TardisCoralTile extends TileEntity implements ITickableTileEntity {
         TileEntity entity = level.getBlockEntity(worldPosition);
         switch (blockState.getValue(TardisCoralBlock.FACING)) {
             case NORTH:
-                return level.setBlock(worldPosition, AITBlocks.TARDIS_BLOCK.get().defaultBlockState().rotate(entity.getLevel(), worldPosition, Rotation.NONE), 512);
+                return level.setBlock(
+                        worldPosition,
+                        AITBlocks.TARDIS_BLOCK
+                                .get()
+                                .defaultBlockState()
+                                .rotate(entity.getLevel(), worldPosition, Rotation.NONE),
+                        512);
             case EAST:
-                return level.setBlock(worldPosition, AITBlocks.TARDIS_BLOCK.get().defaultBlockState().rotate(entity.getLevel(), worldPosition, Rotation.CLOCKWISE_90), 512);
+                return level.setBlock(
+                        worldPosition,
+                        AITBlocks.TARDIS_BLOCK
+                                .get()
+                                .defaultBlockState()
+                                .rotate(entity.getLevel(), worldPosition, Rotation.CLOCKWISE_90),
+                        512);
             case SOUTH:
-                return level.setBlock(worldPosition, AITBlocks.TARDIS_BLOCK.get().defaultBlockState().rotate(entity.getLevel(), worldPosition, Rotation.CLOCKWISE_180), 512);
+                return level.setBlock(
+                        worldPosition,
+                        AITBlocks.TARDIS_BLOCK
+                                .get()
+                                .defaultBlockState()
+                                .rotate(entity.getLevel(), worldPosition, Rotation.CLOCKWISE_180),
+                        512);
             case WEST:
-                return level.setBlock(worldPosition, AITBlocks.TARDIS_BLOCK.get().defaultBlockState().rotate(entity.getLevel(), worldPosition, Rotation.COUNTERCLOCKWISE_90), 512);
+                return level.setBlock(
+                        worldPosition,
+                        AITBlocks.TARDIS_BLOCK
+                                .get()
+                                .defaultBlockState()
+                                .rotate(entity.getLevel(), worldPosition, Rotation.COUNTERCLOCKWISE_90),
+                        512);
             default:
-                throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
-                        "//HOW THE HECK DID YOU GET HERE??");
+                throw new RuntimeException(
+                        "Invalid facing direction in getCollisionShape() " + "//HOW THE HECK DID YOU GET HERE??");
         }
     }
 
     public Direction exteriorFacingCoralBlock() {
-        if(TardisCoralBlock.FACING.equals(Direction.NORTH)) {
+        if (TardisCoralBlock.FACING.equals(Direction.NORTH)) {
             return facingDirection = Direction.NORTH;
         }
-        if(TardisCoralBlock.FACING.equals(Direction.EAST)) {
+        if (TardisCoralBlock.FACING.equals(Direction.EAST)) {
             return facingDirection = Direction.EAST;
         }
-        if(TardisCoralBlock.FACING.equals(Direction.SOUTH)) {
+        if (TardisCoralBlock.FACING.equals(Direction.SOUTH)) {
             return facingDirection = Direction.SOUTH;
         }
-        if(TardisCoralBlock.FACING.equals(Direction.WEST)) {
+        if (TardisCoralBlock.FACING.equals(Direction.WEST)) {
             return facingDirection = Direction.WEST;
         }
         return facingDirection;
     }
 
-    /*public EnumExteriorType pickRandomExterior() {
-        return EnumExteriorType.values()[new Random().nextInt(EnumExteriorType.values().length)];
-    }*/
+    /*
+     * public EnumExteriorType pickRandomExterior() { return EnumExteriorType.values()[new
+     * Random().nextInt(EnumExteriorType.values().length)]; }
+     */
 
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

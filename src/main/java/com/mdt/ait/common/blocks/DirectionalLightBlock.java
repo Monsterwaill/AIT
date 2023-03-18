@@ -18,7 +18,10 @@ public class DirectionalLightBlock extends HorizontalBlock {
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
     public DirectionalLightBlock(Properties properties) {
-        super(properties.of(Material.GLASS).noOcclusion().lightLevel((p_235464_0_) -> 10).sound(SoundType.GLASS));
+        super(Properties.of(Material.GLASS)
+                .noOcclusion()
+                .lightLevel((p_235464_0_) -> 10)
+                .sound(SoundType.GLASS));
     }
 
     @Override
@@ -26,10 +29,10 @@ public class DirectionalLightBlock extends HorizontalBlock {
         return BlockRenderType.MODEL;
     }
 
-
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -50,5 +53,4 @@ public class DirectionalLightBlock extends HorizontalBlock {
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return YES_SHAPE;
     }
-
 }

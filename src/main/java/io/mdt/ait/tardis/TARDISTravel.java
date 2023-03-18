@@ -5,7 +5,5 @@ import net.minecraft.util.math.BlockPos;
 
 public class TARDISTravel extends TARDISLinkableBasic {
 
-    public void to(BlockPos pos) {
-
-    }
+    public void to(BlockPos pos) {}
 }

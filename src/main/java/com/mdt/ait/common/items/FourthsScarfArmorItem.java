@@ -1,14 +1,13 @@
 package com.mdt.ait.common.items;
 
 import com.mdt.ait.common.AITArmorMaterials;
+import javax.annotation.Nullable;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nullable;
 
 public class FourthsScarfArmorItem extends ArmorItem {
 
@@ -21,17 +20,14 @@ public class FourthsScarfArmorItem extends ArmorItem {
         return EquipmentSlotType.CHEST;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
         return null;
     }
 
-    @Nullable
-    @Override
-    public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
+    @Nullable @Override
+    public <A extends BipedModel<?>> A getArmorModel(
+            LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
         return null;
     }
-
-
 }

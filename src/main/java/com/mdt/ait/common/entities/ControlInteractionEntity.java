@@ -6,7 +6,8 @@ import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
 import com.mdt.ait.core.init.enums.EnumExteriorFacingState;
-import com.mdt.ait.tardis.special.DematTransit;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.*;
@@ -29,11 +30,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class ControlInteractionEntity extends AmbientEntity {
-    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(ControlInteractionEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_ID_FLAGS =
+            EntityDataManager.defineId(ControlInteractionEntity.class, DataSerializers.BYTE);
 
     public static final String Throttle = "throttle";
     public static final String coordinateX = "x";
@@ -60,11 +59,11 @@ public class ControlInteractionEntity extends AmbientEntity {
     }
 
     public void setHasBeenHit() {
-        this.hasBeenHit = true;
+        hasBeenHit = true;
     }
 
     public void setHasBeenHitOppo() {
-        this.hasBeenHit = false;
+        hasBeenHit = false;
     }
 
     public void setControlTag(String newControlTag, UUID tardisID) {
@@ -86,30 +85,24 @@ public class ControlInteractionEntity extends AmbientEntity {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_ID_FLAGS, (byte)0);
+        this.entityData.define(DATA_ID_FLAGS, (byte) 0);
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
+    /** Returns the volume for the sounds this mob makes. */
     protected float getSoundVolume() {
         return 0F;
     }
 
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
+    /** Gets the pitch of living sounds in living entities. */
     protected float getVoicePitch() {
         return 0;
     }
 
-    @Nullable
-    public SoundEvent getAmbientSound() {
+    @Nullable public SoundEvent getAmbientSound() {
         return null;
     }
 
-    @Nullable
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    @Nullable protected SoundEvent getHurtSound(DamageSource pDamageSource) {
         return null;
     }
 
@@ -117,18 +110,14 @@ public class ControlInteractionEntity extends AmbientEntity {
         return SoundEvents.BAT_DEATH;
     }
 
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
+    /** Returns true if this entity should push and be pushed by other entities when colliding. */
     public boolean isPushable() {
         return false;
     }
 
-    protected void doPush(Entity pEntity) {
-    }
+    protected void doPush(Entity pEntity) {}
 
-    protected void pushEntities() {
-    }
+    protected void pushEntities() {}
 
     @Override
     public AttributeModifierManager getAttributes() {
@@ -141,29 +130,28 @@ public class ControlInteractionEntity extends AmbientEntity {
 
     public void changeDimensionFromControl() {
         RegistryKey<World> newDimension;
-        if(currentdimensionstate == EnumDimensionControlState.EARTH) {
+        if (currentdimensionstate == EnumDimensionControlState.EARTH) {
             newDimension = World.OVERWORLD;
         }
-        if(currentdimensionstate == EnumDimensionControlState.NETHER) {
+        if (currentdimensionstate == EnumDimensionControlState.NETHER) {
             newDimension = World.NETHER;
         }
-        if(currentdimensionstate == EnumDimensionControlState.END) {
+        if (currentdimensionstate == EnumDimensionControlState.END) {
             newDimension = World.END;
         }
-        if(currentdimensionstate == EnumDimensionControlState.GALLIFREY) {
+        if (currentdimensionstate == EnumDimensionControlState.GALLIFREY) {
             newDimension = AITDimensions.GALLIFREY;
         }
-        if(currentdimensionstate == EnumDimensionControlState.MONDAS) {
+        if (currentdimensionstate == EnumDimensionControlState.MONDAS) {
             newDimension = AITDimensions.MONDAS;
         }
         if (tardisID != null) {
-            //AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
+            // AIT.tardisManager.setTargetDimensionForTardis(tardisID, newDimension);
         }
-
     }
 
     public EnumExteriorFacingState getNextExteriorFacingSetting() {
-        switch(currentExteriorFacingSetting) {
+        switch (currentExteriorFacingSetting) {
             case NORTH:
                 return EnumExteriorFacingState.EAST;
             case EAST:
@@ -177,71 +165,61 @@ public class ControlInteractionEntity extends AmbientEntity {
     }
 
     public void changeDirectionFromControl() {
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.NORTH) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.NORTH) {
             this.newFacingDirection = Direction.NORTH;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.EAST) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.EAST) {
             this.newFacingDirection = Direction.EAST;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.SOUTH) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.SOUTH) {
             this.newFacingDirection = Direction.SOUTH;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.WEST) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.WEST) {
             this.newFacingDirection = Direction.WEST;
         }
         if (this.tardisID != null) {
-            //AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+            // AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
         }
-
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
+    /** Called to update the entity's position/logic. */
     public void tick() {
-        if(this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
-            /*if (this.tardisID != null) {
-                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                if (tardis.landed != false) {
-                    newDimension = tardis.exterior_dimension;
-                    if (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
-                        currentdimensionstate = EnumDimensionControlState.EARTH;
-                    }
-                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension()) {
-                        currentdimensionstate = EnumDimensionControlState.NETHER;
-                    }
-                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
-                        currentdimensionstate = EnumDimensionControlState.END;
-                    }
-                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
-                        currentdimensionstate = EnumDimensionControlState.GALLIFREY;
-                    }
-                    if (tardis.exterior_dimension == AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
-                        currentdimensionstate = EnumDimensionControlState.MONDAS;
-                    }
-                }
-            }*/
+        if (this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
+            /*
+             * if (this.tardisID != null) { Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+             * if (tardis.landed != false) { newDimension = tardis.exterior_dimension; if
+             * (tardis.exterior_dimension == AIT.server.overworld().dimension()) {
+             * currentdimensionstate = EnumDimensionControlState.EARTH; } if
+             * (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.NETHER).dimension())
+             * { currentdimensionstate = EnumDimensionControlState.NETHER; } if
+             * (tardis.exterior_dimension == AIT.server.getExteriorLevel(World.END).dimension()) {
+             * currentdimensionstate = EnumDimensionControlState.END; } if
+             * (tardis.exterior_dimension ==
+             * AIT.server.getExteriorLevel(AITDimensions.GALLIFREY).dimension()) {
+             * currentdimensionstate = EnumDimensionControlState.GALLIFREY; } if
+             * (tardis.exterior_dimension ==
+             * AIT.server.getExteriorLevel(AITDimensions.MONDAS).dimension()) {
+             * currentdimensionstate = EnumDimensionControlState.MONDAS; } } }
+             */
         }
-        if(this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
-            /*if (this.tardisID != null) {
-                Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                if (tardis.landed != false) {
-                    newFacingDirection = tardis.exteriorFacing;
-                    //currentExteriorFacingSetting = exteriorFacingSetting();
-                }
-            }*/
+        if (this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
+            /*
+             * if (this.tardisID != null) { Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+             * if (tardis.landed != false) { newFacingDirection = tardis.exteriorFacing;
+             * //currentExteriorFacingSetting = exteriorFacingSetting(); } }
+             */
         }
         super.tick();
         this.setDeltaMovement(Vector3d.ZERO);
         this.setPosRaw(this.getX(), this.getY(), this.getZ());
         this.setNoAi(true);
-        System.out.println(this.hasBeenHit);
+        System.out.println(hasBeenHit);
     }
 
     @Override
     protected ActionResultType mobInteract(PlayerEntity pPlayer, Hand pHand) {
         ItemStack item = pPlayer.getMainHandItem();
-        if(pHand == Hand.MAIN_HAND && item.getItem() == AITItems.TENNANT_SONIC.get()) {
+        if (pHand == Hand.MAIN_HAND && item.getItem() == AITItems.TENNANT_SONIC.get()) {
             this.remove();
         }
         doInteractionStuff(pPlayer);
@@ -263,12 +241,9 @@ public class ControlInteractionEntity extends AmbientEntity {
         return false;
     }
 
-    protected void checkFallDamage(double pY, boolean pOnGround, BlockState pState, BlockPos pPos) {
-    }
+    protected void checkFallDamage(double pY, boolean pOnGround, BlockState pState, BlockPos pPos) {}
 
-    /**
-     * Return whether this entity should NOT trigger a pressure plate or a tripwire.
-     */
+    /** Return whether this entity should NOT trigger a pressure plate or a tripwire. */
     public boolean isIgnoringBlockTriggers() {
         return true;
     }
@@ -278,7 +253,7 @@ public class ControlInteractionEntity extends AmbientEntity {
     }
 
     public EnumDimensionControlState getNextDimensionState() {
-        switch(currentdimensionstate) {
+        switch (currentdimensionstate) {
             case EARTH:
                 return EnumDimensionControlState.NETHER;
             case NETHER:
@@ -293,68 +268,75 @@ public class ControlInteractionEntity extends AmbientEntity {
         return EnumDimensionControlState.EARTH;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
+    /** Called when the entity is attacked. */
     public void doInteractionStuff(PlayerEntity pSource) {
         boolean randomBool = false;
-        if(!this.hasBeenHit && !randomBool) {
+        if (!hasBeenHit && !randomBool) {
             this.setHasBeenHit();
             randomBool = true;
         }
-        if(randomBool) {
+        if (randomBool) {
             this.setHasBeenHitOppo();
             randomBool = false;
         }
         BlockPos blockPos = new BlockPos(this.getX(), this.getY(), this.getZ());
-        //Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-        //ServerWorld world = AIT.server.getExteriorLevel(tardis.exterior_dimension);
-        //ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
-        //assert world != null;
-        //assert tardisWorld != null;
-        /*if(this.getName() == ITextComponent.nullToEmpty("Throttle") && this.tardisID != null) {
-            if (AIT.tardisManager.doesTardisHaveATargetLocation(this.tardisID)) {
-                tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(), SoundCategory.MASTER, 7, 1);
-                this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(tardisID);
-                if(this.dematTransit.leverControl != this) {
-                    this.dematTransit.leverControl = this;
-                }
-            }
-        }*/
-        //System.out.println(this.tardisID + " || " + this.getCustomName().getContents());
+        // Tardis tardis = AIT.tardisManager.getTardis(tardisID);
+        // ServerWorld world = AIT.server.getExteriorLevel(tardis.exterior_dimension);
+        // ServerWorld tardisWorld = AIT.server.getExteriorLevel(AITDimensions.TARDIS_DIMENSION);
+        // assert world != null;
+        // assert tardisWorld != null;
+        /*
+         * if(this.getName() == ITextComponent.nullToEmpty("Throttle") && this.tardisID != null) {
+         * if (AIT.tardisManager.doesTardisHaveATargetLocation(this.tardisID)) {
+         * tardisWorld.playSound(null, tardis.center_position, AITSounds.TARDIS_TAKEOFF.get(),
+         * SoundCategory.MASTER, 7, 1); this.dematTransit =
+         * AIT.tardisManager.moveTardisToTargetLocation(tardisID); if(this.dematTransit.leverControl
+         * != this) { this.dematTransit.leverControl = this; } } }
+         */
+        // System.out.println(this.tardisID + " || " + this.getCustomName().getContents());
         Entity entity = pSource.getEntity();
-        if(this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
             this.currentdimensionstate = getNextDimensionState();
             this.playSound(AITSounds.BUTTON_PRESS.get(), 5, 1);
-            if(entity instanceof PlayerEntity) {
-                ((PlayerEntity) entity).displayClientMessage(new TranslationTextComponent(
-                        currentdimensionstate.name()).setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withBold(true)), true);;
+            if (entity instanceof PlayerEntity) {
+                ((PlayerEntity) entity)
+                        .displayClientMessage(
+                                new TranslationTextComponent(currentdimensionstate.name())
+                                        .setStyle(Style.EMPTY
+                                                .withColor(TextFormatting.WHITE)
+                                                .withBold(true)),
+                                true);
             }
             changeDimensionFromControl();
         }
-        if(this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
             this.currentExteriorFacingSetting = getNextExteriorFacingSetting();
             this.playSound(AITSounds.BUTTON_PRESS.get(), 5, 1);
-            if(entity instanceof PlayerEntity) {
-                ((PlayerEntity) entity).displayClientMessage(new TranslationTextComponent(
-                        currentExteriorFacingSetting.name()).setStyle(Style.EMPTY.withColor(TextFormatting.WHITE).withBold(true)), true);;
+            if (entity instanceof PlayerEntity) {
+                ((PlayerEntity) entity)
+                        .displayClientMessage(
+                                new TranslationTextComponent(currentExteriorFacingSetting.name())
+                                        .setStyle(Style.EMPTY
+                                                .withColor(TextFormatting.WHITE)
+                                                .withBold(true)),
+                                true);
             }
             changeDirectionFromControl();
         }
-        if(this.getCustomName().getContents().equals("Monitor") && this.tardisID != null) {
-            Minecraft.getInstance().setScreen(new MonitorScreen(new TranslationTextComponent("TARDIS Monitor"), this.tardisID, pSource.getCommandSenderWorld()));
+        if (this.getCustomName().getContents().equals("Monitor") && this.tardisID != null) {
+            Minecraft.getInstance()
+                    .setScreen(new MonitorScreen(
+                            new TranslationTextComponent("TARDIS Monitor"),
+                            this.tardisID,
+                            pSource.getCommandSenderWorld()));
         }
-        if(!this.hurtMarked) {
-            this.hurtMarked = true;
-        } else {
-            this.hurtMarked = false;
-        }
+        this.hurtMarked = !this.hurtMarked;
     }
 
     public boolean hurt(DamageSource pSource, float pAmount) {
         Entity entity = pSource.getEntity();
         PlayerEntity playerEntity = (PlayerEntity) entity;
-        if(playerEntity != null) {
+        if (playerEntity != null) {
             if (this.isInvulnerableTo(pSource)) {
                 return false;
             } else {
@@ -364,20 +346,18 @@ public class ControlInteractionEntity extends AmbientEntity {
         return super.hurt(pSource, 0);
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
+    /** (abstract) Protected helper method to read subclass entity data from NBT. */
     public void readAdditionalSaveData(CompoundNBT pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.entityData.set(DATA_ID_FLAGS, pCompound.getByte("ControlFlags"));
-        this.hasBeenHit = pCompound.getBoolean("hasbeenhit");
+        hasBeenHit = pCompound.getBoolean("hasbeenhit");
         if (this.tardisID != null) {
             this.tardisID = pCompound.getUUID("tardisID");
         }
-        if(this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
             this.currentdimensionstate = EnumDimensionControlState.values()[pCompound.getInt("currentdimensionstate")];
         }
-        if(this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
             this.currentExteriorFacingSetting = EnumExteriorFacingState.values()[pCompound.getInt("exteriorfacing")];
         }
     }
@@ -385,14 +365,14 @@ public class ControlInteractionEntity extends AmbientEntity {
     public void addAdditionalSaveData(CompoundNBT pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putByte("ControlFlags", this.entityData.get(DATA_ID_FLAGS));
-        pCompound.putBoolean("hasbeenhit", this.hasBeenHit);
+        pCompound.putBoolean("hasbeenhit", hasBeenHit);
         if (this.tardisID != null) {
             pCompound.putUUID("tardisID", this.tardisID);
         }
-        if(this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Dimension Switch") && this.tardisID != null) {
             pCompound.putInt("currentdimensionstate", this.currentdimensionstate.ordinal());
         }
-        if(this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
+        if (this.getCustomName().getContents().equals("Exterior Facing") && this.tardisID != null) {
             pCompound.putInt("exteriorfacing", this.currentExteriorFacingSetting.ordinal());
         }
     }
@@ -400,6 +380,4 @@ public class ControlInteractionEntity extends AmbientEntity {
     protected float getStandingEyeHeight(Pose pPose, EntitySize pSize) {
         return pSize.height / 2.0F;
     }
-
-
 }

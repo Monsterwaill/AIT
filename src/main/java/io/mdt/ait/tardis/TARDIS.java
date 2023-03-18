@@ -1,22 +1,21 @@
 package io.mdt.ait.tardis;
 
 import io.mdt.ait.nbt.NBTSerializeable;
+import io.mdt.ait.nbt.NBTUnserializeable;
 import io.mdt.ait.nbt.wrapped.AbsoluteBlockPos;
 import io.mdt.ait.nbt.wrapped.NBTSerializers;
-import io.mdt.ait.nbt.NBTUnserializeable;
 import io.mdt.ait.tardis.door.TARDISDoor;
 import io.mdt.ait.tardis.exterior.TARDISExterior;
 import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
 import io.mdt.ait.tardis.interior.TARDISInterior;
 import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
 import io.mdt.ait.util.TARDISUtil;
+import java.util.UUID;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class TARDIS {
 
@@ -28,24 +27,36 @@ public class TARDIS {
 
     private AbsoluteBlockPos position;
 
-    public TARDIS(UUID uuid, BlockPos position, RegistryKey<World> dimension, TARDISExteriorSchema<?> exterior, TARDISInteriorSchema interior) {
+    public TARDIS(
+            UUID uuid,
+            BlockPos position,
+            RegistryKey<World> dimension,
+            TARDISExteriorSchema<?> exterior,
+            TARDISInteriorSchema interior) {
         this(
-                uuid, new AbsoluteBlockPos(dimension, position),
-                new TARDISExterior(exterior), new TARDISInterior(interior),
-                new TARDISDoor(TARDISUtil.getInteriorPos(interior)
-                        .offset(interior.getDoorPosition())),
-                false
-        );
+                uuid,
+                new AbsoluteBlockPos(dimension, position),
+                new TARDISExterior(exterior),
+                new TARDISInterior(interior),
+                new TARDISDoor(TARDISUtil.getInteriorPos(interior).offset(interior.getDoorPosition())),
+                false);
 
         this.interior.getSchema().place(TARDISUtil.getTARDISWorld());
 
-        // Duplicates linking process, because the interior needs to be placed before linking the door and other stuff
+        // Duplicates linking process, because the interior needs to be placed before linking the door
+        // and other stuff
         this.door.link(this);
         this.exterior.link(this);
         this.interior.link(this);
     }
 
-    private TARDIS(UUID uuid, AbsoluteBlockPos position, TARDISExterior exterior, TARDISInterior interior, TARDISDoor door, boolean init) {
+    private TARDIS(
+            UUID uuid,
+            AbsoluteBlockPos position,
+            TARDISExterior exterior,
+            TARDISInterior interior,
+            TARDISDoor door,
+            boolean init) {
         this.uuid = uuid;
         this.position = position;
 
@@ -96,7 +107,8 @@ public class TARDIS {
 
     public static class Serializer implements NBTSerializeable<TARDIS>, NBTUnserializeable<TARDIS> {
 
-        private static final NBTSerializers.AbsolutePosition ABSOLUTE_POSITION_SERIALIZER = new NBTSerializers.AbsolutePosition();
+        private static final NBTSerializers.AbsolutePosition ABSOLUTE_POSITION_SERIALIZER =
+                new NBTSerializers.AbsolutePosition();
         private static final TARDISExterior.Serializer EXTERIOR_SERIALIZER = new TARDISExterior.Serializer();
         private static final TARDISInterior.Serializer INTERIOR_SERIALIZER = new TARDISInterior.Serializer();
         private static final TARDISDoor.Serializer DOOR_SERIALIZER = new TARDISDoor.Serializer();
@@ -118,8 +130,8 @@ public class TARDIS {
                     ABSOLUTE_POSITION_SERIALIZER.unserialize(nbt),
                     EXTERIOR_SERIALIZER.unserialize(nbt.getCompound("exterior")),
                     INTERIOR_SERIALIZER.unserialize(nbt.getCompound("interior")),
-                    DOOR_SERIALIZER.unserialize(nbt.getCompound("door")), true
-            );
+                    DOOR_SERIALIZER.unserialize(nbt.getCompound("door")),
+                    true);
         }
     }
 }

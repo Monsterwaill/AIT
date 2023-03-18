@@ -1,6 +1,7 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.TSVTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,8 +16,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
-import javax.annotation.Nullable;
-
 public class TSVBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -24,7 +23,11 @@ public class TSVBlock extends Block {
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
     public TSVBlock() {
-        super(Properties.of(Material.STONE).strength(15.0f).noOcclusion().lightLevel((p_235464_0_) -> 5).instabreak());
+        super(Properties.of(Material.STONE)
+                .strength(15.0f)
+                .noOcclusion()
+                .lightLevel((p_235464_0_) -> 5)
+                .instabreak());
     }
 
     @Override
@@ -49,11 +52,11 @@ public class TSVBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TSVTile();
     }

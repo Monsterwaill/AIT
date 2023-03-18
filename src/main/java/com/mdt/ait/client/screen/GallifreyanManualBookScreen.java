@@ -10,10 +10,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class GallifreyanManualBookScreen extends ReadBookScreen {
-    private static final ResourceLocation MONITOR_GUI = new ResourceLocation(AIT.MOD_ID, "textures/screens/monitor_screen.png");
+    private static final ResourceLocation MONITOR_GUI =
+            new ResourceLocation(AIT.MOD_ID, "textures/screens/monitor_screen.png");
 
     private int imageHeight;
-    private int imageWidth;
+    private final int imageWidth;
 
     public GallifreyanManualBookScreen(ReadBookScreen.IBookInfo p_i51098_1_) {
         super(p_i51098_1_);
@@ -22,7 +23,8 @@ public class GallifreyanManualBookScreen extends ReadBookScreen {
         this.imageHeight = 150;
     }
 
-    @Override public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+    @Override
+    public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
     }
@@ -36,24 +38,18 @@ public class GallifreyanManualBookScreen extends ReadBookScreen {
         this.blit(pMatrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
     }
 
-    /*@Override protected void init() {
-        int i = (this.width - this.imageWidth) / 2;
-        int j = (this.height - this.imageHeight) / 2;
-        this.addButton(
-                new Button (i + 207, j + 60, 20, 20,
-                        new StringTextComponent(">"),
-                        (button) -> onPressRightButton()));
-        this.addButton(
-                new Button (i + 5, j + 60, 20, 20,
-                        new StringTextComponent("<"),
-                        (button) -> onPressLeftButton()));
-    }
-
-    private void onPressRightButton() {
-
-    }
-
-    private void onPressLeftButton() {
-
-    }*/
+    /*
+     * @Override protected void init() { int i = (this.width - this.imageWidth) / 2; int j =
+     * (this.height - this.imageHeight) / 2; this.addButton( new Button (i + 207, j + 60, 20, 20,
+     * new StringTextComponent(">"), (button) -> onPressRightButton())); this.addButton( new Button
+     * (i + 5, j + 60, 20, 20, new StringTextComponent("<"), (button) -> onPressLeftButton())); }
+     *
+     * private void onPressRightButton() {
+     *
+     * }
+     *
+     * private void onPressLeftButton() {
+     *
+     * }
+     */
 }

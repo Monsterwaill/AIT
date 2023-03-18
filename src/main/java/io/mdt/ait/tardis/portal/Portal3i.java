@@ -28,6 +28,7 @@ public class Portal3i {
     public Vector2d size() {
         return this.size;
     }
+
     public Vector3d pos() {
         return this.pos;
     }
@@ -35,6 +36,7 @@ public class Portal3i {
     public double width() {
         return this.size.x;
     }
+
     public double height() {
         return this.size.y;
     }
@@ -42,9 +44,11 @@ public class Portal3i {
     public double x() {
         return this.pos.x;
     }
+
     public double y() {
         return this.pos.y;
     }
+
     public double z() {
         return this.pos.z;
     }

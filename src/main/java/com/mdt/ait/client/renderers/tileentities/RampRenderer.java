@@ -13,10 +13,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class RampRenderer extends TileEntityRenderer<RampTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/grated_ramp.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/grated_ramp.png");
     public GratedRamp model;
     private final TileEntityRendererDispatcher rendererDispatcher;
     public float xposface = 0;
@@ -32,25 +32,25 @@ public class RampRenderer extends TileEntityRenderer<RampTile> {
 
     public void mathy(RampTile tile) {
         Direction facing = tile.getBlockState().getValue(RampBlock.FACING);
-        if(facing == Direction.NORTH) {
+        if (facing == Direction.NORTH) {
             zposface = -1.0f;
             xposface = 0.0f;
             xpushout = 1.08f;
             zpushout = 1f;
         }
-        if(facing == Direction.EAST) {
+        if (facing == Direction.EAST) {
             zposface = 0.0f;
             xposface = 1.0f;
             xpushout = 1f;
             zpushout = 1.08f;
         }
-        if(facing == Direction.SOUTH) {
+        if (facing == Direction.SOUTH) {
             zposface = 1.0f;
             xposface = 0.0f;
             xpushout = 1.08f;
             zpushout = 1f;
         }
-        if(facing == Direction.WEST) {
+        if (facing == Direction.WEST) {
             zposface = 0.0f;
             xposface = -1.0f;
             xpushout = 1f;
@@ -59,15 +59,31 @@ public class RampRenderer extends TileEntityRenderer<RampTile> {
     }
 
     @Override
-    public void render(RampTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            RampTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         MatrixStackIn.pushPose();
         mathy(tile);
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(zpushout, 1f, xpushout);
         MatrixStackIn.translate(xposface, 1.5111f, zposface);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(RampBlock.FACING).toYRot()));
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(RampBlock.FACING).toYRot()));
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 }

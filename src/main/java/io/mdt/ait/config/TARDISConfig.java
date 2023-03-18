@@ -19,19 +19,18 @@ public class TARDISConfig {
     public static final int TARDIS_BASE_RECHARGE_RATE = 1000; // Per second
 
     public static final Block[] CANT_LAND_ON = new Block[] {
-            Blocks.AIR,
-            Blocks.CAVE_AIR,
-            Blocks.WATER,
-            Blocks.LAVA,
-            AITBlocks.TARDIS_BLOCK.get(),
-            AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get(),
-            AITBlocks.TARDIS_LEVER_BLOCK.get(),
-            AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get()
+        Blocks.AIR,
+        Blocks.CAVE_AIR,
+        Blocks.WATER,
+        Blocks.LAVA,
+        AITBlocks.TARDIS_BLOCK.get(),
+        AITBlocks.TARDIS_POWER_ACCESS_POINT_BLOCK.get(),
+        AITBlocks.TARDIS_LEVER_BLOCK.get(),
+        AITBlocks.DIMENSION_SWITCH_CONTROL_BLOCK.get()
     };
 
     public static final String[] TARDIS_NAMES = new String[] {
-            "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota",
-            "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau",
-            "Upsilon", "Phi", "Chi", "Psi", "Omega"
+        "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu",
+        "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega"
     };
 }

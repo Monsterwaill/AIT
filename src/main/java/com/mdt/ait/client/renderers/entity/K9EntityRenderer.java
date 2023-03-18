@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-
 public class K9EntityRenderer extends MobRenderer {
 
     public static final ResourceLocation TEXTURE = new ResourceLocation(AIT.MOD_ID, "textures/entity/k9.png");

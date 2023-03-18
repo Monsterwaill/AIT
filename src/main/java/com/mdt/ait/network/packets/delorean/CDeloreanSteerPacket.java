@@ -1,11 +1,10 @@
 package com.mdt.ait.network.packets.delorean;
 
 import com.mdt.ait.network.packets.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
-
 import java.io.IOException;
 import java.util.function.Supplier;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 public class CDeloreanSteerPacket implements IPacket {
     private boolean forward;

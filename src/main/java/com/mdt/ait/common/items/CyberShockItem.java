@@ -1,10 +1,8 @@
 package com.mdt.ait.common.items;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.SoundCategory;
@@ -13,8 +11,8 @@ import net.minecraft.world.World;
 
 public class CyberShockItem extends SwordItem {
 
-
-    public CyberShockItem(IItemTier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
+    public CyberShockItem(
+            IItemTier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
         super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 

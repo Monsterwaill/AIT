@@ -5,15 +5,12 @@ import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
 import io.mdt.ait.tardis.exterior.TARDISExteriors;
 import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
 import io.mdt.ait.tardis.interior.TARDISInteriors;
+import java.util.UUID;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.UUID;
-
-/**
- * Used to create a TARDIS with builder pattern
- */
+/** Used to create a TARDIS with builder pattern */
 public class TARDISBuilder implements ITARDISBuilder {
 
     protected final UUID uuid;
@@ -33,7 +30,9 @@ public class TARDISBuilder implements ITARDISBuilder {
         this.position = position;
         this.dimension = dimension;
 
-        return new TARDISBuilderComplete(this); // after the position and UUID are set, TARDIS can be created with default exterior and interior schemas
+        return new TARDISBuilderComplete(
+                this); // after the position and UUID are set, TARDIS can be created with default exterior
+        // and interior schemas
     }
 
     @Override

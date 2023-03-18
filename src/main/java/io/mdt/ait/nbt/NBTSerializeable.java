@@ -13,8 +13,10 @@ public interface NBTSerializeable<T> {
 
     /**
      * Serializes the class to {@link CompoundNBT}
-     * 
-     * @implNote This method creates new {@link CompoundNBT}, and if you want to serialize the class into existing {@link CompoundNBT}, use {@link NBTSerializeable#serialize(CompoundNBT, Object)}
+     *
+     * @implNote This method creates new {@link CompoundNBT}, and if you want to serialize the class
+     *     into existing {@link CompoundNBT}, use {@link NBTSerializeable#serialize(CompoundNBT,
+     *     Object)}
      * @param t instance of the class that needs to be serialized.
      */
     default CompoundNBT serialize(T t) {

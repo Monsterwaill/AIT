@@ -4,6 +4,7 @@ import com.mdt.ait.core.init.AITBlocks;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.enums.EnumExteriorType;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
+import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -18,12 +19,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.UUID;
-
 public class FallingTardisEntity extends Entity {
 
     public EnumExteriorType currentexterior = EnumExteriorType.BASIC_BOX;
-    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(FallingTardisEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_ID_FLAGS =
+            EntityDataManager.defineId(FallingTardisEntity.class, DataSerializers.BYTE);
     public BlockState blockState = AITBlocks.TARDIS_BLOCK.get().defaultBlockState();
     public UUID tardisID;
     public TARDISTileEntity tardisTileEntity;
@@ -34,7 +34,7 @@ public class FallingTardisEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(DATA_ID_FLAGS, (byte)0);
+        this.entityData.define(DATA_ID_FLAGS, (byte) 0);
     }
 
     public EnumExteriorType getNextExterior() {
@@ -139,7 +139,7 @@ public class FallingTardisEntity extends Entity {
 
     @Override
     public ActionResultType interact(PlayerEntity pPlayer, Hand pHand) {
-        if(pPlayer.isCrouching() && pPlayer.getItemInHand(Hand.MAIN_HAND).getItem() == AITItems.TENNANT_SONIC.get()) {
+        if (pPlayer.isCrouching() && pPlayer.getItemInHand(Hand.MAIN_HAND).getItem() == AITItems.TENNANT_SONIC.get()) {
             currentexterior = getNextExterior();
         }
         return super.interact(pPlayer, pHand);
@@ -149,7 +149,7 @@ public class FallingTardisEntity extends Entity {
     public void tick() {
         super.tick();
         BlockPos blockPos = new BlockPos(this.getX(), this.getY() - 1, this.getZ());
-        if(!this.level.isEmptyBlock(blockPos)) {
+        if (!this.level.isEmptyBlock(blockPos)) {
             this.level.setBlockAndUpdate(blockPos, blockState);
             this.level.setBlockEntity(blockPos, this.tardisTileEntity);
         }
@@ -163,7 +163,7 @@ public class FallingTardisEntity extends Entity {
     @Override
     public void readAdditionalSaveData(CompoundNBT nbt) {
         this.entityData.set(DATA_ID_FLAGS, nbt.getByte("ControlFlags"));
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             this.tardisID = nbt.getUUID("tardisID");
         }
         this.currentexterior = EnumExteriorType.values()[nbt.getInt("currentexterior")];
@@ -172,7 +172,7 @@ public class FallingTardisEntity extends Entity {
     @Override
     public void addAdditionalSaveData(CompoundNBT nbt) {
         nbt.putByte("ControlFlags", this.entityData.get(DATA_ID_FLAGS));
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             nbt.putUUID("tardisID", this.tardisID);
         }
         nbt.putInt("currentexterior", this.currentexterior.ordinal());

@@ -6,6 +6,9 @@ import com.mdt.ait.core.init.AITEntities;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
+import java.util.HashMap;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,10 +23,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity {
 
@@ -65,12 +64,10 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
         entitiesMethod(world);
     }
 
-    /*@Override
-    public void onChunkUnloaded() {
-        World world = this.getExteriorLevel();
-        entitiesMethod(world);
-        super.onChunkUnloaded();
-    }*/
+    /*
+     * @Override public void onChunkUnloaded() { World world = this.getExteriorLevel();
+     * entitiesMethod(world); super.onChunkUnloaded(); }
+     */
 
     public void setConsole(EnumConsoleType console) {
         this.currentconsole = console;
@@ -82,15 +79,17 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
 
     @Override
     public void tick() {
-        //entitiesMethod(this.level);
-        //System.out.println(this.Throttle.hurtMarked);
+        // entitiesMethod(this.level);
+        // System.out.println(this.Throttle.hurtMarked);
     }
 
     public void useOnConsole(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
         PlayerEntity playerentity = context.getPlayer();
         Item item = playerentity.getMainHandItem().getItem();
 
-        if (block instanceof ConsoleBlock && (item == AITItems.TENNANT_SONIC.get() || item == AITItems.WHITTAKER_SONIC.get()) && playerentity.isCrouching()) {
+        if (block instanceof ConsoleBlock
+                && (item == AITItems.TENNANT_SONIC.get() || item == AITItems.WHITTAKER_SONIC.get())
+                && playerentity.isCrouching()) {
             currentconsole = getNextConsole();
             syncToClient();
         }
@@ -138,20 +137,24 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 
     public void entitiesMethod(World world) {
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             this.Throttle = new ControlInteractionEntity(AITEntities.THROTTLE_INTERACTION_ENTITY.get(), this.level);
             this.coordinateX = new ControlInteractionEntity(AITEntities.COORDX_INTERACTION_ENTITY.get(), this.level);
             this.coordinateY = new ControlInteractionEntity(AITEntities.COORDY_INTERACTION_ENTITY.get(), this.level);
             this.coordinateZ = new ControlInteractionEntity(AITEntities.COORDZ_INTERACTION_ENTITY.get(), this.level);
             this.Increment = new ControlInteractionEntity(AITEntities.INCREMENT_INTERACTION_ENTITY.get(), this.level);
-            this.DimControl = new ControlInteractionEntity(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), this.level);
-            this.posNeg = new ControlInteractionEntity(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), this.level);
-            this.exteriorFacing = new ControlInteractionEntity(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), this.level);
+            this.DimControl =
+                    new ControlInteractionEntity(AITEntities.DIMENSIONAL_CONTROL_INTERACTION_ENTITY.get(), this.level);
+            this.posNeg =
+                    new ControlInteractionEntity(AITEntities.POSITIVE_NEGATIVE_INTERACTION_ENTITY.get(), this.level);
+            this.exteriorFacing =
+                    new ControlInteractionEntity(AITEntities.EXTERIOR_FACING_INTERACTION_ENTITY.get(), this.level);
             this.Monitor = new ControlInteractionEntity(AITEntities.MONITOR_INTERACTION_ENTITY.get(), this.level);
             if (currentconsole == EnumConsoleType.BOREALIS_CONSOLE) {
                 double X = this.worldPosition.getX();
@@ -199,7 +202,7 @@ public class ConsoleTileEntity extends TileEntity implements ITickableTileEntity
     }
 
     public boolean throttleHit() {
-        return this.Throttle.hasBeenHit;
+        return ControlInteractionEntity.hasBeenHit;
     }
 
     public void onPlace(BlockState pState, World world, BlockPos blockPos, BlockState pOldState, boolean pIsMoving) {

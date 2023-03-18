@@ -3,10 +3,10 @@ package io.mdt.ait.tardis.door;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import io.mdt.ait.nbt.NBTSerializeable;
 import io.mdt.ait.nbt.NBTUnserializeable;
-import io.mdt.ait.tardis.portal.DoublePortal;
 import io.mdt.ait.tardis.TARDIS;
-import io.mdt.ait.util.TARDISUtil;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
+import io.mdt.ait.tardis.portal.DoublePortal;
+import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 
@@ -64,10 +64,7 @@ public class TARDISDoor extends TARDISLinkableBasic {
 
         @Override
         public TARDISDoor unserialize(CompoundNBT nbt) {
-            return new TARDISDoor(
-                    BlockPos.of(nbt.getLong("tile")),
-                    STATE_SERIALIZER.unserialize(nbt)
-            );
+            return new TARDISDoor(BlockPos.of(nbt.getLong("tile")), STATE_SERIALIZER.unserialize(nbt));
         }
     }
 }

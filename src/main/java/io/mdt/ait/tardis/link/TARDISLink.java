@@ -1,14 +1,7 @@
 package io.mdt.ait.tardis.link;
 
 import io.mdt.ait.tardis.TARDIS;
-import io.mdt.ait.tardis.door.TARDISDoor;
-import io.mdt.ait.tardis.exterior.TARDISExterior;
-import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
-import io.mdt.ait.tardis.interior.TARDISInterior;
-import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
-
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Class that contains TARDIS reference and other TARDIS linked data.

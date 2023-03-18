@@ -12,28 +12,34 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.command.impl.EffectCommand;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 
 public class CowSkullModelLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
 
-    public static final ResourceLocation COW_SKULL_LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/cow_skull.png");
+    public static final ResourceLocation COW_SKULL_LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/cosmetics/cow_skull.png");
 
     private static final CowSkull cowSkull = new CowSkull();
-
 
     public CowSkullModelLayer(IEntityRenderer<T, M> renderer) {
         super(renderer);
     }
 
-
     @Override
-    public void render(MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(
+            MatrixStack pMatrixStack,
+            IRenderTypeBuffer pBuffer,
+            int pPackedLight,
+            T pLivingEntity,
+            float pLimbSwing,
+            float pLimbSwingAmount,
+            float pPartialTicks,
+            float pAgeInTicks,
+            float pNetHeadYaw,
+            float pHeadPitch) {
         pMatrixStack.pushPose();
         Item item = pLivingEntity.getItemBySlot(EquipmentSlotType.HEAD).getItem();
         if (item == AITItems.COW_SKULL.get()) {
@@ -46,7 +52,7 @@ public class CowSkullModelLayer<T extends LivingEntity, M extends EntityModel<T>
                 model.head.visible = false;
             }
             IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(COW_SKULL_LOCATION));
-            this.cowSkull.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+            cowSkull.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();
     }

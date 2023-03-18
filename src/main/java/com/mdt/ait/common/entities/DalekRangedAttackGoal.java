@@ -7,7 +7,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.BowItem;
-import net.minecraft.item.Items;
 
 public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> extends Goal {
     private final T mob;
@@ -33,35 +32,29 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
     }
 
     /**
-     * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-     * method as well.
+     * Returns whether execution should begin. You can also read and cache any state necessary for
+     * execution in this method as well.
      */
     public boolean canUse() {
-        return this.mob.getTarget() == null ? false : this.isHoldingBow();
+        return this.mob.getTarget() != null && this.isHoldingBow();
     }
 
     protected boolean isHoldingBow() {
         return this.mob.isHolding(item -> item instanceof BowItem);
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
+    /** Returns whether an in-progress EntityAIBase should continue executing */
     public boolean canContinueToUse() {
         return (this.canUse() || !this.mob.getNavigation().isDone()) && this.isHoldingBow();
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
+    /** Execute a one shot task or start executing a continuous task */
     public void start() {
         super.start();
         this.mob.setAggressive(true);
     }
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
+    /** Reset the task's internal state. Called when this task is interrupted by another one */
     public void stop() {
         super.stop();
         this.mob.setAggressive(false);
@@ -70,9 +63,7 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
         this.mob.stopUsingItem();
     }
 
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
+    /** Keep ticking a continuous task that has already been started */
     public void tick() {
         LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null) {
@@ -89,7 +80,7 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
                 --this.seeTime;
             }
 
-            if (!(d0 > (double)this.attackRadiusSqr) && this.seeTime >= 20) {
+            if (!(d0 > (double) this.attackRadiusSqr) && this.seeTime >= 20) {
                 this.mob.getNavigation().stop();
                 ++this.strafingTime;
             } else {
@@ -98,11 +89,11 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
             }
 
             if (this.strafingTime >= 20) {
-                if ((double)this.mob.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.mob.getRandom().nextFloat() < 0.3D) {
                     this.strafingClockwise = !this.strafingClockwise;
                 }
 
-                if ((double)this.mob.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.mob.getRandom().nextFloat() < 0.3D) {
                     this.strafingBackwards = !this.strafingBackwards;
                 }
 
@@ -110,13 +101,15 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
             }
 
             if (this.strafingTime > -1) {
-                if (d0 > (double)(this.attackRadiusSqr * 0.75F)) {
+                if (d0 > (double) (this.attackRadiusSqr * 0.75F)) {
                     this.strafingBackwards = false;
-                } else if (d0 < (double)(this.attackRadiusSqr * 0.25F)) {
+                } else if (d0 < (double) (this.attackRadiusSqr * 0.25F)) {
                     this.strafingBackwards = true;
                 }
 
-                this.mob.getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+                this.mob
+                        .getMoveControl()
+                        .strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
                 this.mob.lookAt(livingentity, 30.0F, 30.0F);
             } else {
                 this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
@@ -134,9 +127,9 @@ public class DalekRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob> e
                     }
                 }
             } else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-                this.mob.startUsingItem(ProjectileHelper.getWeaponHoldingHand(this.mob, item -> item instanceof BowItem));
+                this.mob.startUsingItem(
+                        ProjectileHelper.getWeaponHoldingHand(this.mob, item -> item instanceof BowItem));
             }
-
         }
     }
 }

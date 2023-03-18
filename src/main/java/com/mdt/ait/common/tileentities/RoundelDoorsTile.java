@@ -1,5 +1,7 @@
 package com.mdt.ait.common.tileentities;
 
+import static com.mdt.ait.core.init.enums.EnumDoorState.*;
+
 import com.mdt.ait.common.blocks.RoundelDoorsBlock;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITSounds;
@@ -20,8 +22,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import static com.mdt.ait.core.init.enums.EnumDoorState.*;
 
 public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity {
 
@@ -66,8 +66,8 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
                 doorRotation -= 2.5f;
             }
         }
-        if(currentState() == CLOSED) {
-            if(doorRotation == -2.5f) {
+        if (currentState() == CLOSED) {
+            if (doorRotation == -2.5f) {
                 doorRotation = 0.0f;
             }
         }
@@ -77,7 +77,7 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
         BlockPos c = new BlockPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ() + 1);
         BlockPos d = new BlockPos(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ() - 1);
         assert level != null;
-        if(level.getBlockState(a).getBlock() instanceof RoundelDoorsBlock
+        if (level.getBlockState(a).getBlock() instanceof RoundelDoorsBlock
                 || level.getBlockState(b).getBlock() instanceof RoundelDoorsBlock
                 || level.getBlockState(c).getBlock() instanceof RoundelDoorsBlock
                 || level.getBlockState(d).getBlock() instanceof RoundelDoorsBlock) {
@@ -99,10 +99,10 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
         Block block = blockstate.getBlock();
         if (!world.isClientSide) {
             if (block instanceof RoundelDoorsBlock && pHandIn == Hand.MAIN_HAND && !world.isClientSide) {
-                if(pPlayer.getMainHandItem().isEmpty()) {
+                if (pPlayer.getMainHandItem().isEmpty()) {
                     this.setDoorState(this.getNextDoorState());
                     syncToClient();
-                    if(affectBothDoors) {
+                    if (affectBothDoors) {
                         BlockPos a = new BlockPos(pPos.getX() + 1, pPos.getY(), pPos.getZ());
                         BlockPos b = new BlockPos(pPos.getX() - 1, pPos.getY(), pPos.getZ());
                         BlockPos c = new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ() + 1);
@@ -111,10 +111,14 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
                         RoundelDoorsTile b1 = (RoundelDoorsTile) world.getBlockEntity(b);
                         RoundelDoorsTile c1 = (RoundelDoorsTile) world.getBlockEntity(c);
                         RoundelDoorsTile d1 = (RoundelDoorsTile) world.getBlockEntity(d);
-                        //RoundelDoorsBlock a2 = (RoundelDoorsBlock) world.getBlockState(a).getBlock();
-                        //RoundelDoorsBlock b2 = (RoundelDoorsBlock) world.getBlockState(b).getBlock();
-                        //RoundelDoorsBlock c2 = (RoundelDoorsBlock) world.getBlockState(c).getBlock();
-                        //RoundelDoorsBlock d2 = (RoundelDoorsBlock) world.getBlockState(d).getBlock();
+                        // RoundelDoorsBlock a2 = (RoundelDoorsBlock)
+                        // world.getBlockState(a).getBlock();
+                        // RoundelDoorsBlock b2 = (RoundelDoorsBlock)
+                        // world.getBlockState(b).getBlock();
+                        // RoundelDoorsBlock c2 = (RoundelDoorsBlock)
+                        // world.getBlockState(c).getBlock();
+                        // RoundelDoorsBlock d2 = (RoundelDoorsBlock)
+                        // world.getBlockState(d).getBlock();
                         if (a1 != null) {
                             a1.setDoorState(currentstate);
                             a1.syncToClient();
@@ -177,12 +181,14 @@ public class RoundelDoorsTile extends TileEntity implements ITickableTileEntity 
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 
     public void useOnRoundelDoors(ItemUseContext context, BlockPos blockpos, BlockState blockstate, Block block) {
-        if(context.getPlayer().isCrouching() && context.getPlayer().getItemInHand(Hand.MAIN_HAND).getItem().equals(AITItems.TENNANT_SONIC.get())) {
+        if (context.getPlayer().isCrouching()
+                && context.getPlayer().getItemInHand(Hand.MAIN_HAND).getItem().equals(AITItems.TENNANT_SONIC.get())) {
             flipDoors = true;
             System.out.println(flipDoors);
             syncToClient();

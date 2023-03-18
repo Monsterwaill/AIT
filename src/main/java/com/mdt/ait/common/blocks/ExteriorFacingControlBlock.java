@@ -1,8 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ExteriorFacingControlTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -24,17 +25,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class ExteriorFacingControlBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16),
-            Block.box(1, 2, 1, 15, 4, 15)).optimize();
+    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16), Block.box(1, 2, 1, 15, 4, 15))
+            .optimize();
 
     public ExteriorFacingControlBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
@@ -51,7 +49,13 @@ public class ExteriorFacingControlBlock extends Block {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pWorldIn,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHandIn,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
         if (tileEntity instanceof ExteriorFacingControlTile) {
             ((ExteriorFacingControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
@@ -71,7 +75,8 @@ public class ExteriorFacingControlBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -79,8 +84,9 @@ public class ExteriorFacingControlBlock extends Block {
         super.onPlace(blockState1, world, blockPos, blockState2, bool);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
-            ExteriorFacingControlTile exteriorFacingControlTile = (ExteriorFacingControlTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            ExteriorFacingControlTile exteriorFacingControlTile =
+                    (ExteriorFacingControlTile) serverWorld.getBlockEntity(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert exteriorFacingControlTile != null;
             exteriorFacingControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, exteriorFacingControlTile);
@@ -91,8 +97,7 @@ public class ExteriorFacingControlBlock extends Block {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         ExteriorFacingControlTile exteriorFacingControlTile = new ExteriorFacingControlTile();
         return exteriorFacingControlTile;

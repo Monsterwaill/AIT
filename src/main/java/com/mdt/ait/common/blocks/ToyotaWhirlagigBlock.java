@@ -1,8 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ToyotaWhirlagigTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -20,9 +21,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class ToyotaWhirlagigBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -30,8 +28,9 @@ public class ToyotaWhirlagigBlock extends Block {
     public UUID tardisID;
     public String tardisAlphabeticalID;
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 32, 16),
-            Block.box(1, 2, 1, 15, 16, 15)).optimize();
+    private static final VoxelShape SHAPE = VoxelShapes.or(
+                    Block.box(0, 0, 0, 16, 32, 16), Block.box(1, 2, 1, 15, 16, 15))
+            .optimize();
 
     public ToyotaWhirlagigBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
@@ -59,7 +58,8 @@ public class ToyotaWhirlagigBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -68,16 +68,16 @@ public class ToyotaWhirlagigBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ToyotaWhirlagigTile toyotaWhirlagigTile = (ToyotaWhirlagigTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
-            //this.tardisAlphabeticalID = AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisAlphabeticalID =
+            // AIT.tardisManager.getAlphabeticalIDFromPosition(blockPos);
             assert toyotaWhirlagigTile != null;
             toyotaWhirlagigTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, toyotaWhirlagigTile);
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         ToyotaWhirlagigTile toyotaWhirlagigTile = new ToyotaWhirlagigTile();
         return toyotaWhirlagigTile;

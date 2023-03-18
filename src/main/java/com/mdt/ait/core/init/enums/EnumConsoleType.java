@@ -1,12 +1,10 @@
 package com.mdt.ait.core.init.enums;
 
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
+import java.util.function.Supplier;
 import net.minecraft.util.IStringSerializable;
 
-import java.util.function.Supplier;
-
 public enum EnumConsoleType implements IStringSerializable {
-
     BOREALIS_CONSOLE("borealis_console", ConsoleTileEntity::new),
     HUDOLIN_CONSOLE("hudolin_console", ConsoleTileEntity::new),
     DEV_CONSOLE("dev_console", ConsoleTileEntity::new);

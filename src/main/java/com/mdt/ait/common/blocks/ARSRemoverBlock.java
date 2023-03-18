@@ -1,5 +1,7 @@
 package com.mdt.ait.common.blocks;
 
+import static com.mdt.ait.common.blocks.ARSProducerBlock.checkHeldItem;
+
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.items.SonicItem;
 import com.mdt.ait.common.tileentities.ARSRemoverTile;
@@ -7,6 +9,7 @@ import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.tardis.structures.BaseStructure;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,11 +23,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
-import static com.mdt.ait.common.blocks.ARSProducerBlock.checkHeldItem;
-
 public class ARSRemoverBlock extends Block {
     public String structure_name = "short_corridor";
 
@@ -32,8 +30,7 @@ public class ARSRemoverBlock extends Block {
         super(p_i48440_1_);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return AITTiles.ARS_REMOVER_TILE.get().create();
     }
@@ -44,8 +41,15 @@ public class ARSRemoverBlock extends Block {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
-        if (checkHeldItem(pPlayer, AITItems.TENNANT_SONIC.get()) || checkHeldItem(pPlayer, AITItems.WHITTAKER_SONIC.get())) {
+    public ActionResultType use(
+            BlockState pState,
+            World pLevel,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHand,
+            BlockRayTraceResult pHit) {
+        if (checkHeldItem(pPlayer, AITItems.TENNANT_SONIC.get())
+                || checkHeldItem(pPlayer, AITItems.WHITTAKER_SONIC.get())) {
             if (!pLevel.isClientSide) {
                 ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
                 BaseStructure baseStructure = new BaseStructure(tardisWorld, this.structure_name);
@@ -56,12 +60,19 @@ public class ARSRemoverBlock extends Block {
                 System.out.println("sadsad");
                 if (tileEntity instanceof ARSRemoverTile) {
                     System.out.println("is ars tile");
-                    ((ARSRemoverTile) tileEntity).cloisterCountdown(pLevel, block_direction,3, pPos, pPlayer, "second(s) until room deletion.",baseStructure);
+                    ((ARSRemoverTile) tileEntity)
+                            .cloisterCountdown(
+                                    pLevel,
+                                    block_direction,
+                                    3,
+                                    pPos,
+                                    pPlayer,
+                                    "second(s) until room deletion.",
+                                    baseStructure);
                 }
-                //baseStructure.placeStructure(tardisWorld, pPos, block_direction,pPlayer);
+                // baseStructure.placeStructure(tardisWorld, pPos, block_direction,pPlayer);
             }
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 }
-

@@ -1,8 +1,9 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.DoorSwitchControlTile;
 import com.mdt.ait.core.init.AITDimensions;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -24,19 +25,20 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class DoorSwitchControlBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public UUID tardisID;
 
-    private static final VoxelShape NORTH_SHAPE = VoxelShapes.or(Block.box(2, 0, 1, 14, 2, 15)).optimize();
-    private static final VoxelShape EAST_SHAPE = VoxelShapes.or(Block.box(1, 0, 2, 15, 2, 14)).optimize();
-    private static final VoxelShape SOUTH_SHAPE = VoxelShapes.or(Block.box(2, 0, 1, 14, 2, 15)).optimize();
-    private static final VoxelShape WEST_SHAPE = VoxelShapes.or(Block.box(1, 0, 2, 15, 2, 14)).optimize();
+    private static final VoxelShape NORTH_SHAPE =
+            VoxelShapes.or(Block.box(2, 0, 1, 14, 2, 15)).optimize();
+    private static final VoxelShape EAST_SHAPE =
+            VoxelShapes.or(Block.box(1, 0, 2, 15, 2, 14)).optimize();
+    private static final VoxelShape SOUTH_SHAPE =
+            VoxelShapes.or(Block.box(2, 0, 1, 14, 2, 15)).optimize();
+    private static final VoxelShape WEST_SHAPE =
+            VoxelShapes.or(Block.box(1, 0, 2, 15, 2, 14)).optimize();
 
     public DoorSwitchControlBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
@@ -59,13 +61,19 @@ public class DoorSwitchControlBlock extends Block {
             case WEST:
                 return WEST_SHAPE;
             default:
-                throw new RuntimeException("Invalid facing direction in getCollisionShape() " +
-                        "//HOW THE HECK DID YOU GET HERE??");
+                throw new RuntimeException(
+                        "Invalid facing direction in getCollisionShape() " + "//HOW THE HECK DID YOU GET HERE??");
         }
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pWorldIn,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHandIn,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
         if (tileEntity instanceof DoorSwitchControlTile) {
             ((DoorSwitchControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
@@ -85,7 +93,8 @@ public class DoorSwitchControlBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -94,7 +103,7 @@ public class DoorSwitchControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             DoorSwitchControlTile DoorSwitchControlTile = (DoorSwitchControlTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert DoorSwitchControlTile != null;
             DoorSwitchControlTile.tardisID = tardisID;
             serverWorld.setBlockEntity(blockPos, DoorSwitchControlTile);
@@ -105,8 +114,7 @@ public class DoorSwitchControlBlock extends Block {
         }
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new DoorSwitchControlTile();
     }

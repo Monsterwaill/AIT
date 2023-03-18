@@ -1,6 +1,5 @@
 package com.mdt.ait.common.items;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.TestBlock;
 import com.mdt.ait.core.init.enums.EnumDevToolModes;
 import net.minecraft.block.Block;
@@ -27,9 +26,7 @@ public class DevTool extends Item {
     }
 
     @Override
-    public void onUseTick(World pWorldIn, LivingEntity pLivingEntityIn, ItemStack pStack, int pCount) {
-
-    }
+    public void onUseTick(World pWorldIn, LivingEntity pLivingEntityIn, ItemStack pStack, int pCount) {}
 
     public ActionResultType useOn(ItemUseContext context) {
         PlayerEntity playerentity = context.getPlayer();
@@ -40,15 +37,21 @@ public class DevTool extends Item {
         Block block = blockstate.getBlock();
         Item item = playerentity.getMainHandItem().getItem();
         if (!world.isClientSide) {
-            playerentity.setItemInHand(context.getHand(), handleItemStackNBT(playerentity.getItemInHand(context.getHand())));
-            if (block instanceof TestBlock && playerentity.isCrouching() && this.current_mode.equals(EnumDevToolModes.PLACE_EXTERIOR)) { // Creates interior
-//                System.out.println("Creating exterior");
-//                ServerWorld serverWorld = (ServerWorld) world;
-//                BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
-//                BlockPos generateFromPos = new BlockPos(blockpos.getX() - interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(), blockpos.getZ()-interiorCenterPos.getZ());
-//                TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
+            playerentity.setItemInHand(
+                    context.getHand(), handleItemStackNBT(playerentity.getItemInHand(context.getHand())));
+            if (block instanceof TestBlock
+                    && playerentity.isCrouching()
+                    && this.current_mode.equals(EnumDevToolModes.PLACE_EXTERIOR)) { // Creates
+                // interior
+                // System.out.println("Creating exterior");
+                // ServerWorld serverWorld = (ServerWorld) world;
+                // BlockPos interiorCenterPos = TardisInteriors.devInterior.getCenterPosition();
+                // BlockPos generateFromPos = new BlockPos(blockpos.getX() -
+                // interiorCenterPos.getX(), blockpos.getY() - interiorCenterPos.getY(),
+                // blockpos.getZ()-interiorCenterPos.getZ());
+                // TardisInteriors.devInterior.placeInterior(serverWorld, generateFromPos);
 
-                //System.out.println(AIT.tardisManager.getTardisFromPosition(playerentity.blockPosition()).tardisId);
+                // System.out.println(AIT.tardisManager.getTardisFromPosition(playerentity.blockPosition()).tardisId);
 
             }
         }
@@ -69,12 +72,10 @@ public class DevTool extends Item {
         } else {
             this.current_mode = EnumDevToolModes.valueOf(tag.getString("mode"));
         }
-
     }
 
     public ItemStack handleItemStackNBT(ItemStack itemStack) {
         CompoundNBT tag = itemStack.getOrCreateTag();
-
 
         this.loadNBT(tag);
         boolean isDirty = false;
@@ -91,12 +92,10 @@ public class DevTool extends Item {
 
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-        if (playerEntity instanceof  ServerPlayerEntity) {
+        if (playerEntity instanceof ServerPlayerEntity) {
             ItemStack usedItem = playerEntity.getItemInHand(hand);
             playerEntity.setItemInHand(hand, handleItemStackNBT(usedItem));
         }
         return super.use(world, playerEntity, hand);
     }
-
-
 }

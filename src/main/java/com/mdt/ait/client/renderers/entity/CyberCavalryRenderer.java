@@ -2,14 +2,11 @@ package com.mdt.ait.client.renderers.entity;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.entities.CyberCavalry;
-import com.mdt.ait.client.models.entities.K9EntityModel;
 import com.mdt.ait.client.renderers.layers.CyberCavalryEmissionLayer;
-import com.mdt.ait.client.renderers.layers.K9EmissionLayer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 
 public class CyberCavalryRenderer extends MobRenderer {
 

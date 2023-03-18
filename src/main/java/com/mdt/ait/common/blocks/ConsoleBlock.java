@@ -1,13 +1,12 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
-import com.mdt.ait.common.tileentities.HartnellRotorTile;
 import com.mdt.ait.core.init.AITBlockStates;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.enums.EnumConsoleType;
-import com.mdt.ait.core.init.enums.EnumExteriorType;
 import com.mdt.ait.core.init.interfaces.IConsoleBlock;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -28,10 +27,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-import java.util.UUID;
 
 public class ConsoleBlock extends Block implements IConsoleBlock {
 
@@ -62,7 +57,7 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert consoleTileEntity != null;
             consoleTileEntity.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, consoleTileEntity);
@@ -71,12 +66,18 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World world, BlockPos blockPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World world,
+            BlockPos blockPos,
+            PlayerEntity pPlayer,
+            Hand pHand,
+            BlockRayTraceResult pHit) {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             ConsoleTileEntity consoleTileEntity = (ConsoleTileEntity) serverWorld.getBlockEntity(blockPos);
             assert consoleTileEntity != null;
-            //consoleTileEntity.onRemoval(pState, world, blockPos, pPlayer, pHand);
+            // consoleTileEntity.onRemoval(pState, world, blockPos, pPlayer, pHand);
         }
         return super.use(pState, world, blockPos, pPlayer, pHand, pHit);
     }
@@ -93,11 +94,11 @@ public class ConsoleBlock extends Block implements IConsoleBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return state.getValue(CONSOLE_TYPE).tileEntity.get();
     }

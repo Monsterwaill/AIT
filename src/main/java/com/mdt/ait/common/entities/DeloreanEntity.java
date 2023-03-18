@@ -1,11 +1,11 @@
 package com.mdt.ait.common.entities;
 
 import com.mdt.ait.core.init.AITItems;
+import javax.annotation.Nullable;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -17,15 +17,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class DeloreanEntity extends CreatureEntity implements IMob {
-    private static final DataParameter<Byte> DATA_ID_FLAGS = EntityDataManager.defineId(DeloreanEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_ID_FLAGS =
+            EntityDataManager.defineId(DeloreanEntity.class, DataSerializers.BYTE);
     public boolean isDriverDoorOpen;
     public boolean canEnterCar;
     public boolean continueAntiGrav;
     public float doorPosition;
-    public float newYPositions = -13.9722F;//23;
+    public float newYPositions = -13.9722F; // 23;
     public float doorNewYPositions = 7.0278f;
     public boolean isSetToFly;
     public boolean isActivelyDriving = false;
@@ -36,7 +35,7 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(DATA_ID_FLAGS, (byte)0);
+        entityData.define(DATA_ID_FLAGS, (byte) 0);
     }
 
     protected float getSoundVolume() {
@@ -47,13 +46,11 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
         return 0;
     }
 
-    @Nullable
-    public SoundEvent getAmbientSound() {
+    @Nullable public SoundEvent getAmbientSound() {
         return null;
     }
 
-    @Nullable
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    @Nullable protected SoundEvent getHurtSound(DamageSource pDamageSource) {
         return SoundEvents.IRON_GOLEM_HURT;
     }
 
@@ -81,8 +78,7 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
         push(this);
     }
 
-    protected void pushEntities() {
-    }
+    protected void pushEntities() {}
 
     public void push(Entity pEntity) {
         if (pEntity instanceof DeloreanEntity) {
@@ -92,7 +88,6 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
         } else if (pEntity.getBoundingBox().minY <= getBoundingBox().minY) {
             super.push(pEntity);
         }
-
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -111,7 +106,7 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
             if (isBeingRidden() && canBeControlledByRider()) {
                 if (getControllingPassenger() != null) {
                     LivingEntity livingentity = (LivingEntity) getControllingPassenger();
-                    float forward = MathHelper.sqrt(livingentity.getHorizontalDistanceSqr(getDeltaMovement()));
+                    float forward = MathHelper.sqrt(getHorizontalDistanceSqr(getDeltaMovement()));
                     setRot(yRot, xRot);
                     yRotO = yRot;
                     yHeadRot = yRotO;
@@ -123,33 +118,35 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
                         forward *= 2F;
                     }
                     if (canBeControlledByRider()) {
-                        if(!isNoGravity()) {
+                        if (!isNoGravity()) {
                             setSpeed(0.3f);
                         } else {
                             setSpeed(1f);
                             flyingSpeed = 0.35f;
                         }
-                    if (livingentity.isSprinting()) {
-                        isActivelyDriving = true;
-                        if(isNoGravity()) {
-                            super.travel(new Vector3d(0, vector3d.y, vector3d.x + (double) forward));
-                            maxUpStep = 1.0F;
-                        } else {
-                            super.travel(new Vector3d(0, vector3d.y, vector3d.z + (double) forward));
-                        }
-                        super.travel(new Vector3d(0, vector3d.y, 0));
-                        //continueAntiGrav = false;
+                        if (livingentity.isSprinting()) {
+                            isActivelyDriving = true;
+                            if (isNoGravity()) {
+                                super.travel(new Vector3d(0, vector3d.y, vector3d.x + (double) forward));
+                                maxUpStep = 1.0F;
+                            } else {
+                                super.travel(new Vector3d(0, vector3d.y, vector3d.z + (double) forward));
+                            }
+                            super.travel(new Vector3d(0, vector3d.y, 0));
+                            // continueAntiGrav = false;
                         }
                     } else {
                         isActivelyDriving = false;
                     }
-                    if(isSetToFly) {
+                    if (isSetToFly) {
                         setNoGravity(true);
                         yRot = livingentity.yRot;
                         moveTo(getX(), getY() + 0.5F, getZ());
                     } else {
-                        if(isNoGravity()) {
-                            if(!this.level.getBlockState(this.blockPosition().below(5)).isAir()) {
+                        if (isNoGravity()) {
+                            if (!this.level
+                                    .getBlockState(this.blockPosition().below(5))
+                                    .isAir()) {
                                 moveTo(getX(), getY() + 5, getZ());
                             }
                             continueAntiGrav = true;
@@ -171,34 +168,30 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
             entity.setPos(pos.x, pos.y, pos.z);
         }
         if (getPassengers().size() > 1 && getPassengers().get(1) == entity) {
-            Vector3d pos = (getLookAngle().yRot(90).scale(-0.55)).add(getX(), getY()  - 0.2125D, getZ());
+            Vector3d pos = (getLookAngle().yRot(90).scale(-0.55)).add(getX(), getY() - 0.2125D, getZ());
             entity.setPos(pos.x, pos.y, pos.z);
         }
     }
 
     public double getPassengersRidingOffset() {
         return 0.1D;
-        //GOOGOODOLLS
+        // GOOGOODOLLS
     }
 
     public void tick() {
-        if(!getPassengers().isEmpty())
-        if(this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) || isUnderWater()) {
-            isSetToFly = true;
-        } else {
-            isSetToFly = false;
-        }
-        if(isNoGravity()) {
-            //if(newYPositions < 24.5f && doorNewYPositions < 8.5278) {
-            //    newYPositions += 0.25f;
-            //    doorNewYPositions += 0.25f;
-            //} else if (newYPositions > 23f && doorNewYPositions > 7.0278){
-            //    newYPositions -= 0.25;
-            //    doorNewYPositions -= 0.25;
-            //}
-            if(newYPositions < -12.4722F) {
+        if (!getPassengers().isEmpty())
+            isSetToFly = this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) || isUnderWater();
+        if (isNoGravity()) {
+            // if(newYPositions < 24.5f && doorNewYPositions < 8.5278) {
+            // newYPositions += 0.25f;
+            // doorNewYPositions += 0.25f;
+            // } else if (newYPositions > 23f && doorNewYPositions > 7.0278){
+            // newYPositions -= 0.25;
+            // doorNewYPositions -= 0.25;
+            // }
+            if (newYPositions < -12.4722F) {
                 newYPositions += 0.25f;
-            } else if(newYPositions >= -13.9722F) {
+            } else if (newYPositions >= -13.9722F) {
                 newYPositions -= 0.25f;
             }
         }
@@ -208,54 +201,55 @@ public class DeloreanEntity extends CreatureEntity implements IMob {
             setDeltaMovement(0, 0, 0);
         }
         setAirSupply(getMaxAirSupply());
-        if(isDriverDoorOpen) {
-            if(doorPosition > -72.5f) {
+        if (isDriverDoorOpen) {
+            if (doorPosition > -72.5f) {
                 doorPosition -= 5.0f;
             } else {
                 doorPosition = -72.5f;
             }
-        } else if(doorPosition < 0) {
+        } else if (doorPosition < 0) {
             doorPosition += 5.0f;
         } else {
             doorPosition = 0f;
         }
-        if(doorPosition == -72.5f) {
-            canEnterCar = true;
-        } else {
-            canEnterCar = false;
-        }
+        canEnterCar = doorPosition == -72.5f;
         super.tick();
     }
 
-    private static int MAX_PASSENGERS = 2;
+    private static final int MAX_PASSENGERS = 2;
 
     @Override
     protected ActionResultType mobInteract(PlayerEntity player, Hand pHand) {
         System.out.println(isDriverDoorOpen);
-        if(!player.isCrouching() && !player.isPassenger() && !isDriverDoorOpen) {
+        if (!player.isCrouching() && !player.isPassenger() && !isDriverDoorOpen) {
             isDriverDoorOpen = true;
         }
-        if(canEnterCar && isDriverDoorOpen) {
-            if (!player.isCrouching() && getPassengers().size() < MAX_PASSENGERS && player.getItemInHand(Hand.MAIN_HAND).isEmpty()) {
+        if (canEnterCar && isDriverDoorOpen) {
+            if (!player.isCrouching()
+                    && getPassengers().size() < MAX_PASSENGERS
+                    && player.getItemInHand(Hand.MAIN_HAND).isEmpty()) {
                 player.startRiding(this);
             }
         }
-        if((player.isCrouching() && isDriverDoorOpen && !player.isPassenger()) || (player.isPassenger() && isDriverDoorOpen)) {
+        if ((player.isCrouching() && isDriverDoorOpen && !player.isPassenger())
+                || (player.isPassenger() && isDriverDoorOpen)) {
             isDriverDoorOpen = false;
         }
-        //if(isDriverDoorOpen) {
-        //    if (!player.isCrouching() && getPassengers().size() < MAX_PASSENGERS && player.getItemInHand(pHand).isEmpty()) {
-        //        player.startRiding(this);
-        //    }
-        //}
-        if(player.isCrouching() && (player.getItemInHand(pHand).getItem() == AITItems.TENNANT_SONIC.get() || player.getItemInHand(pHand).getItem() == AITItems.WHITTAKER_SONIC.get())) {
+        // if(isDriverDoorOpen) {
+        // if (!player.isCrouching() && getPassengers().size() < MAX_PASSENGERS &&
+        // player.getItemInHand(pHand).isEmpty()) {
+        // player.startRiding(this);
+        // }
+        // }
+        if (player.isCrouching()
+                && (player.getItemInHand(pHand).getItem() == AITItems.TENNANT_SONIC.get()
+                        || player.getItemInHand(pHand).getItem() == AITItems.WHITTAKER_SONIC.get())) {
             remove();
         }
         return super.mobInteract(player, pHand);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Entity getControllingPassenger() {
         if (!getPassengers().isEmpty()) {
             return getPassengers().get(0);

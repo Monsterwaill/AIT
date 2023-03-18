@@ -3,10 +3,11 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumEggTypes;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -20,9 +21,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
 public class ArsEggTile extends TileEntity implements ITickableTileEntity {
 
     public EnumEggTypes eggExisting = EnumEggTypes.ACTIVE;
@@ -33,11 +31,10 @@ public class ArsEggTile extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void tick() {
-    }
+    public void tick() {}
 
     public EnumEggTypes getNextEgg() {
-        switch(eggExisting) {
+        switch (eggExisting) {
             case ACTIVE:
                 return EnumEggTypes.DEACTIVE;
             case DEACTIVE:
@@ -53,13 +50,15 @@ public class ArsEggTile extends TileEntity implements ITickableTileEntity {
     }
 
     public ActionResultType useOn(World pLevel, PlayerEntity pPlayer, BlockPos pPos, Hand pHand) {
-        if(pPlayer.getMainHandItem().isEmpty() && this.eggExisting == EnumEggTypes.ACTIVE && pPlayer.isCrouching()) {
+        if (pPlayer.getMainHandItem().isEmpty() && this.eggExisting == EnumEggTypes.ACTIVE && pPlayer.isCrouching()) {
             pPlayer.setItemInHand(Hand.MAIN_HAND, new ItemStack(AITItems.ARS_EGG.get()));
             pLevel.playSound(null, worldPosition, SoundEvents.BEACON_DEACTIVATE, SoundCategory.MASTER, 7, 1);
             this.eggExisting = getNextEgg();
             return ActionResultType.SUCCESS;
         }
-        if (pPlayer.getMainHandItem().getItem() == AITItems.ARS_EGG.get() && this.eggExisting == EnumEggTypes.DEACTIVE && !pPlayer.isCrouching()) {
+        if (pPlayer.getMainHandItem().getItem() == AITItems.ARS_EGG.get()
+                && this.eggExisting == EnumEggTypes.DEACTIVE
+                && !pPlayer.isCrouching()) {
             pPlayer.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
             pLevel.playSound(null, worldPosition, SoundEvents.BEACON_ACTIVATE, SoundCategory.MASTER, 7, 1);
             this.eggExisting = getNextEgg();
@@ -107,7 +106,8 @@ public class ArsEggTile extends TileEntity implements ITickableTileEntity {
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

@@ -1,9 +1,11 @@
 package io.mdt.ait.tardis.interior;
 
+import io.mdt.ait.config.TARDISConfig;
 import io.mdt.ait.nbt.NBTSerializeable;
 import io.mdt.ait.nbt.NBTUnserializeable;
-import io.mdt.ait.config.TARDISConfig;
 import io.mdt.ait.util.TARDISUtil;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
@@ -13,9 +15,6 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
-
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class TARDISInteriorSchema {
 
@@ -32,7 +31,9 @@ public abstract class TARDISInteriorSchema {
 
         this.template = TARDISUtil.getTARDISWorld().getStructureManager().get(location);
         if (this.template == null) {
-            System.out.printf("Failed to load interior \"%s\", \"%s\" is not found!%n", this.name.getString(), location.getPath());
+            System.out.printf(
+                    "Failed to load interior \"%s\", \"%s\" is not found!%n",
+                    this.name.getString(), location.getPath());
             return;
         }
 
@@ -40,7 +41,8 @@ public abstract class TARDISInteriorSchema {
     }
 
     // TODO: seems very unoptimized :/
-    // possible optimization: count every door and center block, and when the job is done, stop iterating.
+    // possible optimization: count every door and center block, and when the job is done, stop
+    // iterating.
     private void calcPositions() {
         CompoundNBT tag = this.template.save(new CompoundNBT());
 
@@ -68,12 +70,12 @@ public abstract class TARDISInteriorSchema {
 
             if (state == centerBlockNumberState.get()) {
                 ListNBT posList = nbt.getList("pos", Constants.NBT.TAG_INT);
-                center = new BlockPos(posList.getInt(0),posList.getInt(1),posList.getInt(2));
+                center = new BlockPos(posList.getInt(0), posList.getInt(1), posList.getInt(2));
             }
 
             if (state == interiorDoorNumberState.get()) {
                 ListNBT posList = nbt.getList("pos", Constants.NBT.TAG_INT);
-                doorPosition = new BlockPos(posList.getInt(0),posList.getInt(1),posList.getInt(2));
+                doorPosition = new BlockPos(posList.getInt(0), posList.getInt(1), posList.getInt(2));
             }
         }));
     }
@@ -102,7 +104,8 @@ public abstract class TARDISInteriorSchema {
         return this.doorPosition;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISInteriorSchema>, NBTUnserializeable<TARDISInteriorSchema> {
+    public static class Serializer
+            implements NBTSerializeable<TARDISInteriorSchema>, NBTUnserializeable<TARDISInteriorSchema> {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISInteriorSchema interior) {

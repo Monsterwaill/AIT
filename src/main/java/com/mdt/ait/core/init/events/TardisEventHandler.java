@@ -51,10 +51,12 @@ public class TardisEventHandler {
                 ServerWorld serverWorld = (ServerWorld) event.getWorld();
                 if (serverWorld.dimension() == AITDimensions.TARDIS_DIMENSION) {
                     TARDIS tardis = TARDISManager.getInstance().findTARDIS(event.getPos());
-                    BlockState blockState = serverWorld.getBlockState(tardis.getDoor().getDoorPosition());
+                    BlockState blockState =
+                            serverWorld.getBlockState(tardis.getDoor().getDoorPosition());
                     Block block = blockState.getBlock();
                     if (block instanceof BasicInteriorDoorBlock) {
-                        // @TODO: On destroy will make it so we can place the interior back in the same spot, basically it won't let the player replace the door where it originally was.
+                        // @TODO: On destroy will make it so we can place the interior back in the same spot,
+                        // basically it won't let the player replace the door where it originally was.
                         // @TODO: Add a message for the player to remove the original interior door
                         // @TODO: Make sure to not remove the block from their inventory if it's cancelled
                         event.setCanceled(true); // Event cancelled
@@ -79,7 +81,9 @@ public class TardisEventHandler {
 
             if (world.dimension().equals(AITDimensions.TARDIS_DIMENSION)) {
                 if (this.loaded) {
-                    AIT.dimensionSavedDataManager.computeIfAbsent(() -> TARDISManager.getInstance().getSavedData(), "ait"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
+                    AIT.dimensionSavedDataManager.computeIfAbsent(
+                            () -> TARDISManager.getInstance().getSavedData(),
+                            "ait"); // DO NOT CHANGE ANYTHING IN THIS LINE OR EVERYTHING BREAKS
 
                     TARDISExteriors.init();
                     TARDISInteriors.init();
@@ -87,6 +91,4 @@ public class TardisEventHandler {
             }
         }
     }
-
-
 }

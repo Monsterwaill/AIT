@@ -38,9 +38,7 @@ public class TARDISInterior extends TARDISLinkableBasic {
 
         @Override
         public TARDISInterior unserialize(CompoundNBT nbt) {
-            return new TARDISInterior(
-                    SCHEMA_SERIALIZER.unserialize(nbt)
-            );
+            return new TARDISInterior(SCHEMA_SERIALIZER.unserialize(nbt));
         }
     }
 }

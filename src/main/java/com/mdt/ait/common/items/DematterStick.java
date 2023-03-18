@@ -28,7 +28,7 @@ public class DematterStick extends Item {
         if (block instanceof TARDISBlock && playerentity.isCrouching()) {
             TileEntity tileEntity = world.getBlockEntity(blockpos);
             if (tileEntity instanceof TARDISTileEntity) {
-                //((TARDISTileEntity) tileEntity).demat(context, blockpos, blockstate, block);
+                // ((TARDISTileEntity) tileEntity).demat(context, blockpos, blockstate, block);
             }
         }
         return ActionResultType.SUCCESS;

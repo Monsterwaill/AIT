@@ -3,18 +3,17 @@ package io.mdt.ait.util;
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.config.TARDISConfig;
+import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.tardis.interior.TARDISInteriorSchema;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-
-import java.util.Random;
 
 public class TARDISUtil {
 
@@ -24,8 +23,7 @@ public class TARDISUtil {
 
     public static int getIndexByPos(BlockPos pos) {
         return (int) Math.ceil(
-                (double) TARDISConfig.TARDIS_DIMENSION_START - pos.getX() / (double) TARDISConfig.TARDIS_AREA
-        );
+                (double) TARDISConfig.TARDIS_DIMENSION_START - pos.getX() / (double) TARDISConfig.TARDIS_AREA);
     }
 
     public static boolean canLand(Block landing) {
@@ -54,7 +52,10 @@ public class TARDISUtil {
     }
 
     public static BlockPos getTARDISCenter(int i) {
-        int xz = TARDISConfig.TARDIS_DIMENSION_START - (TARDISConfig.TARDIS_AREA * i) + ((TARDISConfig.TARDIS_AREA - 1) / 2) + 1;
+        int xz = TARDISConfig.TARDIS_DIMENSION_START
+                - (TARDISConfig.TARDIS_AREA * i)
+                + ((TARDISConfig.TARDIS_AREA - 1) / 2)
+                + 1;
         return new BlockPos(xz, TARDISConfig.TARDIS_CENTER_Y, xz);
     }
 
@@ -67,14 +68,15 @@ public class TARDISUtil {
     }
 
     public static BlockPos getInteriorPos(TARDISInteriorSchema interior) {
-        return TARDISUtil.getTARDISCenter(TARDISManager.getInstance().getLastIndex()).offset(
-                -interior.getCenter().getX(),
-                -interior.getCenter().getY(),
-                -interior.getCenter().getZ()
-        );
+        return TARDISUtil.getTARDISCenter(TARDISManager.getInstance().getLastIndex())
+                .offset(
+                        -interior.getCenter().getX(),
+                        -interior.getCenter().getY(),
+                        -interior.getCenter().getZ());
     }
 
     public static TARDISTileEntity getExteriorTile(TARDIS tardis) {
-        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition().get());
+        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis)
+                .getBlockEntity(tardis.getPosition().get());
     }
 }

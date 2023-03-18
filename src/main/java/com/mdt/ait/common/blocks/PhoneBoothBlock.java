@@ -1,9 +1,8 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.PhoneBoothTile;
-import com.mdt.ait.common.tileentities.TSVTile;
-import com.mdt.ait.common.tileentities.PhoneBoothTile;
 import com.mdt.ait.core.init.interfaces.ICantBreak;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -25,15 +24,14 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-
 public class PhoneBoothBlock extends Block implements ICantBreak {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 38.25, 16);
-    public static VoxelShape COLLIDE_SHAPE = VoxelShapes.or(Block.box(0, 0, 0, 16, 2, 16)/*, Block.box(0, 0, 0, 1, 38.25, 1)*/).optimize();
+    public static VoxelShape COLLIDE_SHAPE = VoxelShapes.or(
+                    Block.box(0, 0, 0, 16, 2, 16) /* , Block.box(0, 0, 0, 1, 38.25, 1) */)
+            .optimize();
 
     public PhoneBoothBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
@@ -50,7 +48,7 @@ public class PhoneBoothBlock extends Block implements ICantBreak {
         if (tileEntity instanceof PhoneBoothTile) {
             PhoneBoothTile phoneBoothTile = (PhoneBoothTile) tileEntity.getTileEntity();
             phoneBoothTile.entityInside(pState, pLevel, pPos, pEntity);
-            if(phoneBoothTile.atNewLocation) {
+            if (phoneBoothTile.atNewLocation) {
                 BlockPos oldPos = pPos;
                 pLevel.setBlock(new BlockPos(pPos.getX(), 128, pPos.getZ()), defaultBlockState(), 3);
                 pLevel.setBlockEntity(new BlockPos(pPos.getX(), 128, pPos.getZ()), phoneBoothTile);
@@ -66,12 +64,19 @@ public class PhoneBoothBlock extends Block implements ICantBreak {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+    public VoxelShape getCollisionShape(
+            BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
         return COLLIDE_SHAPE;
     }
 
     @Override
-    public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pLevel,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHand,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pLevel.getBlockEntity(pPos);
         if (tileEntity instanceof PhoneBoothTile) {
             ((PhoneBoothTile) tileEntity).useOn(pLevel, pPlayer, pPos, pHand);
@@ -91,11 +96,11 @@ public class PhoneBoothBlock extends Block implements ICantBreak {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new PhoneBoothTile();
     }

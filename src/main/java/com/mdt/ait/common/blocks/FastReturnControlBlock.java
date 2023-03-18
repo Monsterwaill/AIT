@@ -1,10 +1,10 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.tileentities.FastReturnControlTile;
-import com.mdt.ait.common.tileentities.TardisCoordinateControlTile;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITTiles;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,9 +17,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-import javax.annotation.Nullable;
-import java.util.UUID;
-
 public class FastReturnControlBlock extends Block {
 
     public FastReturnControlBlock(Properties p_i48440_1_) {
@@ -29,7 +26,13 @@ public class FastReturnControlBlock extends Block {
     public UUID tardisID;
 
     @Override
-    public ActionResultType use(BlockState pState, World pWorldIn, BlockPos pPos, PlayerEntity pPlayer, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType use(
+            BlockState pState,
+            World pWorldIn,
+            BlockPos pPos,
+            PlayerEntity pPlayer,
+            Hand pHandIn,
+            BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
         if (tileEntity instanceof FastReturnControlTile) {
             ((FastReturnControlTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
@@ -43,7 +46,7 @@ public class FastReturnControlBlock extends Block {
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
             FastReturnControlTile fastReturnControlTile = (FastReturnControlTile) serverWorld.getBlockEntity(blockPos);
-            //this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
+            // this.tardisID = AIT.tardisManager.getTardisIDFromPosition(blockPos);
             assert fastReturnControlTile != null;
             fastReturnControlTile.tardisID = this.tardisID;
             serverWorld.setBlockEntity(blockPos, fastReturnControlTile);
@@ -54,10 +57,9 @@ public class FastReturnControlBlock extends Block {
     public boolean hasTileEntity(BlockState state) {
         return true;
     }
-    @Nullable
-    @Override
+
+    @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return AITTiles.TARDIS_FAST_RETURN_CONTROL_TILE_ENTITY_TYPE.get().create();
     }
-
 }

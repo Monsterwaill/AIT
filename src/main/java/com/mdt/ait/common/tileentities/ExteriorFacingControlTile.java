@@ -1,9 +1,10 @@
 package com.mdt.ait.common.tileentities;
 
-import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.ExteriorFacingControlBlock;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumExteriorFacingState;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,9 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
 public class ExteriorFacingControlTile extends TileEntity implements ITickableTileEntity {
 
     public UUID tardisID;
@@ -36,21 +34,21 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
 
     @Override
     public void tick() {
-        if(this.tardisID != null) {
-            if(this.getLevel() != null) {
+        if (this.tardisID != null) {
+            if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(this.tardisID);
-                    if (tardis.landed != false) {
-                        newFacingDirection = tardis.exteriorFacing;
-                        //currentExteriorFacingSetting = exteriorFacingSetting();
-                    }*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(this.tardisID); if (tardis.landed
+                     * != false) { newFacingDirection = tardis.exteriorFacing;
+                     * //currentExteriorFacingSetting = exteriorFacingSetting(); }
+                     */
                 }
             }
         }
     }
 
     public EnumExteriorFacingState getNextExteriorFacingSetting() {
-        switch(currentExteriorFacingSetting) {
+        switch (currentExteriorFacingSetting) {
             case NORTH:
                 return EnumExteriorFacingState.EAST;
             case EAST:
@@ -64,7 +62,7 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     }
 
     public EnumExteriorFacingState exteriorFacingSetting() {
-        switch(currentExteriorFacingSetting) {
+        switch (currentExteriorFacingSetting) {
             case NORTH:
                 return EnumExteriorFacingState.NORTH;
             case EAST:
@@ -78,28 +76,29 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     }
 
     public void changeDirectionFromControl() {
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.NORTH) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.NORTH) {
             this.newFacingDirection = Direction.NORTH;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.EAST) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.EAST) {
             this.newFacingDirection = Direction.EAST;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.SOUTH) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.SOUTH) {
             this.newFacingDirection = Direction.SOUTH;
         }
-        if(this.currentExteriorFacingSetting == EnumExteriorFacingState.WEST) {
+        if (this.currentExteriorFacingSetting == EnumExteriorFacingState.WEST) {
             this.newFacingDirection = Direction.WEST;
         }
         if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    //AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
+                    // AIT.tardisManager.setTardisExteriorFacing(tardisID, newFacingDirection);
                 }
             }
         }
     }
 
-    public ActionResultType useOn(World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {
+    public ActionResultType useOn(
+            World world, PlayerEntity pPlayer, BlockPos pPos, Hand pHandIn, BlockRayTraceResult pHit) {
         BlockState blockstate = world.getBlockState(pPos);
         Block block = blockstate.getBlock();
         if (block instanceof ExteriorFacingControlBlock && pHandIn == Hand.MAIN_HAND) {
@@ -111,25 +110,19 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     }
 
     public void onPlace() {
-        if(this.tardisID != null) {
+        if (this.tardisID != null) {
             if (this.getLevel() != null) {
                 if (!this.getLevel().isClientSide()) {
-                    /*Tardis tardis = AIT.tardisManager.getTardis(tardisID);
-                    newFacingDirection = tardis.exteriorFacing;
-                    if (tardis.exteriorFacing == Direction.NORTH) {
-                        currentExteriorFacingSetting = EnumExteriorFacingState.NORTH;
-                    }
-                    if (tardis.exteriorFacing == Direction.EAST) {
-                        currentExteriorFacingSetting = EnumExteriorFacingState.EAST;
-                    }
-                    if (tardis.exteriorFacing == Direction.SOUTH) {
-                        currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH;
-                    }
-                    if (tardis.exteriorFacing == Direction.WEST) {
-                        currentExteriorFacingSetting = EnumExteriorFacingState.WEST;
-                    }
-                    changeDirectionFromControl();
-                    sync();*/
+                    /*
+                     * Tardis tardis = AIT.tardisManager.getTardis(tardisID); newFacingDirection =
+                     * tardis.exteriorFacing; if (tardis.exteriorFacing == Direction.NORTH) {
+                     * currentExteriorFacingSetting = EnumExteriorFacingState.NORTH; } if
+                     * (tardis.exteriorFacing == Direction.EAST) { currentExteriorFacingSetting =
+                     * EnumExteriorFacingState.EAST; } if (tardis.exteriorFacing == Direction.SOUTH)
+                     * { currentExteriorFacingSetting = EnumExteriorFacingState.SOUTH; } if
+                     * (tardis.exteriorFacing == Direction.WEST) { currentExteriorFacingSetting =
+                     * EnumExteriorFacingState.WEST; } changeDirectionFromControl(); sync();
+                     */
                 }
             }
         }
@@ -143,7 +136,8 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     @Override
     public void load(BlockState pState, CompoundNBT nbt) {
         this.exteriorFacingSetting = nbt.getFloat("exteriorFacingSetting");
-        this.currentExteriorFacingSetting = EnumExteriorFacingState.values()[nbt.getInt("currentExteriorFacingSetting")];
+        this.currentExteriorFacingSetting =
+                EnumExteriorFacingState.values()[nbt.getInt("currentExteriorFacingSetting")];
         if (nbt.contains("tardisID")) {
             this.tardisID = nbt.getUUID("tardisID");
         }
@@ -181,7 +175,8 @@ public class ExteriorFacingControlTile extends TileEntity implements ITickableTi
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

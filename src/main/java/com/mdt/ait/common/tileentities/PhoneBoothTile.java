@@ -3,6 +3,7 @@ package com.mdt.ait.common.tileentities;
 import com.mdt.ait.common.blocks.PhoneBoothBlock;
 import com.mdt.ait.core.init.AITTiles;
 import com.mdt.ait.core.init.enums.EnumPhoneDoorState;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,8 +20,6 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
 
@@ -69,14 +68,14 @@ public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
                 secondaryDoorRotation = 175f;
             }
         } else {
-            if(mainDoorRotation > 0.0f) {
+            if (mainDoorRotation > 0.0f) {
                 mainDoorRotation -= 15.0f;
             }
-            if(secondaryDoorRotation > 0.0f) {
+            if (secondaryDoorRotation > 0.0f) {
                 secondaryDoorRotation -= 30.0f;
             }
         }
-        if(currentState() == EnumPhoneDoorState.CLOSED) {
+        if (currentState() == EnumPhoneDoorState.CLOSED) {
             if (mainDoorRotation <= -2.5f) {
                 mainDoorRotation = 0.0f;
             }
@@ -103,18 +102,21 @@ public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
     }
 
     public void entityInside(BlockState pState, World pLevel, BlockPos pPos, Entity pEntity) {
-        if(pEntity instanceof PlayerEntity) {
-            if(this.currentstate == EnumPhoneDoorState.FIRST) {
+        if (pEntity instanceof PlayerEntity) {
+            if (this.currentstate == EnumPhoneDoorState.FIRST) {
                 System.out.println(pEntity.getDisplayName());
-            /*LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, pLevel);
-            bolt.setPos(pPos.getX() - 0.5, pPos.getY() + 2.5, pPos.getZ() - 0.5);
-            pLevel.addFreshEntity(bolt);*/
+                /*
+                 * LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT,
+                 * pLevel); bolt.setPos(pPos.getX() - 0.5, pPos.getY() + 2.5, pPos.getZ() - 0.5);
+                 * pLevel.addFreshEntity(bolt);
+                 */
                 atNewLocation = true;
                 pEntity.moveTo(pPos.getX() + 0.5, 128.125, pPos.getZ() + 0.5);
                 this.setDoorState(EnumPhoneDoorState.CLOSED);
             }
 
-            pLevel.addParticle(ParticleTypes.CLOUD, pPos.getX() + 0.5, pPos.getY() + 2.5, pPos.getZ() + 0.5, 0.1, 0.1, 0.1);
+            pLevel.addParticle(
+                    ParticleTypes.CLOUD, pPos.getX() + 0.5, pPos.getY() + 2.5, pPos.getZ() + 0.5, 0.1, 0.1, 0.1);
         }
         syncToClient();
     }
@@ -150,7 +152,8 @@ public class PhoneBoothTile extends TileEntity implements ITickableTileEntity {
     public void syncToClient() {
         assert level != null;
         level.setBlocksDirty(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition));
-        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
+        level.sendBlockUpdated(
+                worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
         setChanged();
     }
 }

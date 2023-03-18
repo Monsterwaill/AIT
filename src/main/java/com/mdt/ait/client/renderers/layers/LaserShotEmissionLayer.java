@@ -12,11 +12,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LaserShotEmissionLayer<T extends Entity, M extends SpiderModel<T>> extends AITAbstractEyesLayer<T, M> {
-    private static final RenderType BEAM_EMISSION = RenderType.eyes(new ResourceLocation(AIT.MOD_ID, "textures/entity/projectiles/laser_shot.png"));
+    private static final RenderType BEAM_EMISSION =
+            RenderType.eyes(new ResourceLocation(AIT.MOD_ID, "textures/entity/projectiles/laser_shot.png"));
 
     public LaserShotEmissionLayer(IEntityRenderer<T, M> p_116981_) {
-       super(p_116981_);
+        super(p_116981_);
     }
+
     @Override
     public RenderType renderType() {
         return BEAM_EMISSION;

@@ -51,8 +51,7 @@ public abstract class AbstractConsoleInteractionControl implements INBTSerializa
 
     public abstract ControlInteractionEntity getEntity();
 
-    @Nullable
-    public PartEntity<?>[] getParts() {
+    @Nullable public PartEntity<?>[] getParts() {
         return new PartEntity[0];
     }
 }*/

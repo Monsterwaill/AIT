@@ -19,14 +19,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.StringTextComponent;
 
-
 public class DimensionSwitchControlRenderer extends TileEntityRenderer<DimensionSwitchControlTile> {
 
-    public static final ResourceLocation EARTH = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_earth.png");
-    public static final ResourceLocation NETHER = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_hell.png");
-    public static final ResourceLocation END = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_end.png");
-    public static final ResourceLocation GALLIFREY = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_gallifrey.png");
-    public static final ResourceLocation MONDAS = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_mondas.png");
+    public static final ResourceLocation EARTH =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_earth.png");
+    public static final ResourceLocation NETHER =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_hell.png");
+    public static final ResourceLocation END =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_end.png");
+    public static final ResourceLocation GALLIFREY =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_gallifrey.png");
+    public static final ResourceLocation MONDAS =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/tardis_dimension_switch_mondas.png");
 
     public DimensionSwitchControl model;
     private ResourceLocation texture;
@@ -47,22 +51,22 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
 
     public void mathy(DimensionSwitchControlTile tile) {
         Direction facing = tile.getBlockState().getValue(DimensionSwitchControlBlock.FACING);
-        if(facing == Direction.NORTH) {
+        if (facing == Direction.NORTH) {
             rotationForText = 180f;
             xpos = -0.675;
             zpos = -0.0005;
         }
-        if(facing == Direction.EAST) {
+        if (facing == Direction.EAST) {
             rotationForText = -90f;
             xpos = -1.0005;
             zpos = 0.675;
         }
-        if(facing == Direction.SOUTH) {
+        if (facing == Direction.SOUTH) {
             rotationForText = 0f;
             xpos = -0.325;
             zpos = 1.0005;
         }
-        if(facing == Direction.WEST) {
+        if (facing == Direction.WEST) {
             rotationForText = 90f;
             xpos = 0.0005;
             zpos = 0.325;
@@ -70,25 +74,31 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
     }
 
     @Override
-    public void render(DimensionSwitchControlTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
+    public void render(
+            DimensionSwitchControlTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
         mathy(tile);
-        if(tile.currentdimensionstate == EnumDimensionControlState.EARTH) {
+        if (tile.currentdimensionstate == EnumDimensionControlState.EARTH) {
             this.texture = EARTH;
             this.setDimension = "Earth";
         }
-        if(tile.currentdimensionstate == EnumDimensionControlState.NETHER) {
+        if (tile.currentdimensionstate == EnumDimensionControlState.NETHER) {
             this.texture = NETHER;
             this.setDimension = "Nether";
         }
-        if(tile.currentdimensionstate == EnumDimensionControlState.END) {
+        if (tile.currentdimensionstate == EnumDimensionControlState.END) {
             this.texture = END;
             this.setDimension = "End";
         }
-        if(tile.currentdimensionstate == EnumDimensionControlState.GALLIFREY) {
+        if (tile.currentdimensionstate == EnumDimensionControlState.GALLIFREY) {
             this.texture = GALLIFREY;
             this.setDimension = "Gallifrey";
         }
-        if(tile.currentdimensionstate == EnumDimensionControlState.MONDAS) {
+        if (tile.currentdimensionstate == EnumDimensionControlState.MONDAS) {
             this.texture = MONDAS;
             this.setDimension = "Mondas";
         }
@@ -98,12 +108,24 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
         MatrixStackIn.translate(0.5, 1.5, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(TardisLeverBlock.FACING).toYRot()));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(TardisLeverBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         model.planet.yRot = (float) Math.toRadians(tile.spinny / 32);
-        //model.planet.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        // model.planet.render(MatrixStackIn,
+        // Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight,
+        // CombinedOverlay, 1, 1, 1, 1);
         MatrixStackIn.popPose();
-        model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
         MatrixStackIn.popPose();
     }
 
@@ -116,7 +138,8 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotationForText));
         FontRenderer fontRenderer = this.rendererDispatcher.getFont();
         IReorderingProcessor irp = new StringTextComponent(this.setDimension).getVisualOrderText();
-        fontRenderer.drawInBatch(irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
+        fontRenderer.drawInBatch(
+                irp, -5, 5, 16777215, false, MatrixStackIn.last().pose(), Buffer, false, 0, MaxLight);
         MatrixStackIn.popPose();
     }
 }

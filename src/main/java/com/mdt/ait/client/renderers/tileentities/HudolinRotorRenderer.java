@@ -13,11 +13,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 
-
 public class HudolinRotorRenderer extends TileEntityRenderer<HudolinRotorTile> {
 
-    public static final ResourceLocation LOCATION = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/hudolin_rotor.png");
-    public static final ResourceLocation LIGHTING = new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/hudolin_rotor_emission.png");
+    public static final ResourceLocation LOCATION =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/hudolin_rotor.png");
+    public static final ResourceLocation LIGHTING =
+            new ResourceLocation(AIT.MOD_ID, "textures/tileentities/block_rotors/hudolin_rotor_emission.png");
     public HudolinRotor model;
     private final TileEntityRendererDispatcher rendererDispatcher;
 
@@ -28,38 +29,70 @@ public class HudolinRotorRenderer extends TileEntityRenderer<HudolinRotorTile> {
     }
 
     @Override
-    public void render(HudolinRotorTile tile, float PartialTicks, MatrixStack MatrixStackIn, IRenderTypeBuffer Buffer, int CombinedLight, int CombinedOverlay) {
-        //tile.rotorTick = tile.currentState() == EnumRotorState.MOVING ? 0.0f : 0.8f;
-            if (tile.currentState() == EnumRotorState.MOVING) {
-                if (tile.rotorTick < 0f/*1.5f*/) {
-                    tile.rotorTick += 0.0015f;
-                } else {
-                    tile.rotorTick = 0f/*1.5f*/;
-                    tile.currentstate = EnumRotorState.STATIC;
-                }
+    public void render(
+            HudolinRotorTile tile,
+            float PartialTicks,
+            MatrixStack MatrixStackIn,
+            IRenderTypeBuffer Buffer,
+            int CombinedLight,
+            int CombinedOverlay) {
+        // tile.rotorTick = tile.currentState() == EnumRotorState.MOVING ? 0.0f : 0.8f;
+        if (tile.currentState() == EnumRotorState.MOVING) {
+            if (tile.rotorTick < 0f /* 1.5f */) {
+                tile.rotorTick += 0.0015f;
+            } else {
+                tile.rotorTick = 0f /* 1.5f */;
+                tile.currentstate = EnumRotorState.STATIC;
             }
-            if (tile.currentState() == EnumRotorState.STATIC) {
-                if (tile.rotorTick > -0.6f) {
-                    tile.rotorTick -= 0.0015f;
-                } else {
-                    tile.rotorTick = -0.6f;
-                    tile.currentstate = EnumRotorState.MOVING;
-                }
+        }
+        if (tile.currentState() == EnumRotorState.STATIC) {
+            if (tile.rotorTick > -0.6f) {
+                tile.rotorTick -= 0.0015f;
+            } else {
+                tile.rotorTick = -0.6f;
+                tile.currentstate = EnumRotorState.MOVING;
             }
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0.5, 1.5, 0.5);
-            MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-            MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(tile.getBlockState().getValue(BasicRotorBlock.FACING).toYRot()));
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
-            model.bottom.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
-            MatrixStackIn.popPose();
-            MatrixStackIn.pushPose();
-            MatrixStackIn.translate(0, -tile.rotorTick / 1.25, 0);
-            model.top.render(MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)), CombinedLight, CombinedOverlay, 1, 1, 1, 0.9f);
-            MatrixStackIn.popPose();
-            model.render(tile, MatrixStackIn, Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)), CombinedLight, CombinedOverlay, 1, 1, 1, 1);
-            MatrixStackIn.popPose();
+        }
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(0.5, 1.5, 0.5);
+        MatrixStackIn.scale(1f, 1f, 1f);
+        MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+                tile.getBlockState().getValue(BasicRotorBlock.FACING).toYRot()));
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(0, tile.rotorTick / 1.25, 0);
+        model.bottom.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                0.9f);
+        MatrixStackIn.popPose();
+        MatrixStackIn.pushPose();
+        MatrixStackIn.translate(0, -tile.rotorTick / 1.25, 0);
+        model.top.render(
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisLightmap(LOCATION, true)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                0.9f);
+        MatrixStackIn.popPose();
+        model.render(
+                tile,
+                MatrixStackIn,
+                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(LOCATION)),
+                CombinedLight,
+                CombinedOverlay,
+                1,
+                1,
+                1,
+                1);
+        MatrixStackIn.popPose();
     }
 }

@@ -15,8 +15,8 @@ public class RenderInfo {
 
     public float ticks;
 
-
-    public RenderInfo(TARDISRenderer renderer, MatrixStack stack, IRenderTypeBuffer buffer, int light, int overlay, float ticks) {
+    public RenderInfo(
+            TARDISRenderer renderer, MatrixStack stack, IRenderTypeBuffer buffer, int light, int overlay, float ticks) {
         this.renderer = renderer;
 
         this.stack = stack;

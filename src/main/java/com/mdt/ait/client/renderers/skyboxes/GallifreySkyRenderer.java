@@ -1,7 +1,6 @@
 package com.mdt.ait.client.renderers.skyboxes;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,7 +19,7 @@ public class GallifreySkyRenderer implements ISkyRenderHandler {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuilder();
 
-        for(int i = 0; i < 6; ++i) {
+        for (int i = 0; i < 6; ++i) {
             pMatrixStack.pushPose();
 
             if (i == 1) pMatrixStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
@@ -32,14 +31,29 @@ public class GallifreySkyRenderer implements ISkyRenderHandler {
             Matrix4f matrix4f = pMatrixStack.last().pose();
 
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F,  100.0F).uv(0.0F, 0.0F).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(matrix4f,  100.0F, -100.0F,  100.0F).uv(0.0F, 0.0F).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.vertex(matrix4f,  100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(0, 0, 0, 255).endVertex();
+            bufferbuilder
+                    .vertex(matrix4f, -100.0F, -100.0F, -100.0F)
+                    .uv(0.0F, 0.0F)
+                    .color(0, 0, 0, 255)
+                    .endVertex();
+            bufferbuilder
+                    .vertex(matrix4f, -100.0F, -100.0F, 100.0F)
+                    .uv(0.0F, 0.0F)
+                    .color(0, 0, 0, 255)
+                    .endVertex();
+            bufferbuilder
+                    .vertex(matrix4f, 100.0F, -100.0F, 100.0F)
+                    .uv(0.0F, 0.0F)
+                    .color(0, 0, 0, 255)
+                    .endVertex();
+            bufferbuilder
+                    .vertex(matrix4f, 100.0F, -100.0F, -100.0F)
+                    .uv(0.0F, 0.0F)
+                    .color(0, 0, 0, 255)
+                    .endVertex();
             tessellator.end();
 
             pMatrixStack.popPose();
         }
     }
-
 }

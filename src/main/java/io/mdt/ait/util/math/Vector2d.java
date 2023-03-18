@@ -9,7 +9,7 @@ public class Vector2d {
     public static final Vector2d NEG_UNIT_Y = new Vector2d(0.0F, -1.0F);
     public static final Vector2d MAX = new Vector2d(Double.MAX_VALUE, Double.MAX_VALUE);
     public static final Vector2d MIN = new Vector2d(Double.MIN_VALUE, Double.MIN_VALUE);
-    
+
     public final double x;
     public final double y;
 
