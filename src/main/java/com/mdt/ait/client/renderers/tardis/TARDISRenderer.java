@@ -50,8 +50,7 @@ public class TARDISRenderer extends TileEntityRenderer<TARDISTileEntity> {
 
             stack.pushPose();
             // FIXME: it crashes here, TARDIS.getExterior() is null.
-            TARDISExteriorModelSchema model = tile.getTARDIS()
-                    .getExterior()
+            TARDISExteriorModelSchema model = tile.getExterior()
                     .getSchema()
                     .render(new RenderInfo(this, stack, buffer, light, overlay, ticks), tile);
 

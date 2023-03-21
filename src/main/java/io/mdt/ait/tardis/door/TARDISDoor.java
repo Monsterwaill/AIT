@@ -1,8 +1,8 @@
 package io.mdt.ait.tardis.door;
 
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import io.mdt.ait.tardis.portal.DoublePortal;
@@ -52,14 +52,14 @@ public class TARDISDoor extends TARDISLinkableBasic {
         return this.portal;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISDoor>, NBTUnserializeable<TARDISDoor> {
+    public static class Serializer implements NBTSerializer<TARDISDoor>, NBTDeserializer<TARDISDoor> {
 
         private static final TARDISDoorState.Serializer STATE_SERIALIZER = new TARDISDoorState.Serializer();
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISDoor door) {
             STATE_SERIALIZER.serialize(nbt, door.state);
-            nbt.putLong("tile", door.getTile().getBlockPos().asLong());
+            nbt.putLong("tile", door.getTile().getBlockPos().asLong()); // TODO: update
         }
 
         @Override

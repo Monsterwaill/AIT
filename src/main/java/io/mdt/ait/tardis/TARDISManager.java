@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.builder.TARDISBuilder;
 import io.mdt.ait.tardis.exterior.TARDISExteriors;
 import io.mdt.ait.tardis.interior.TARDISInteriors;
@@ -78,7 +78,7 @@ public class TARDISManager {
         // right away.
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISManager>, NBTUnserializeable<TARDISManager> {
+    public static class Serializer implements NBTSerializer<TARDISManager>, NBTDeserializer<TARDISManager> {
 
         private static final TARDISMap.Serializer MAP_SERIALIZER = new TARDISMap.Serializer();
 

@@ -18,6 +18,11 @@ public interface TARDISLinkable {
 
     default void link(TARDIS tardis) {
         this.getLink().link(tardis);
+
+        System.out.println("------------------------");
+        System.out.println("Myself: " + this);
+        System.out.println("Linked with: " + tardis);
+        System.out.println("------------------------");
     }
 
     default TARDIS getTARDIS() {

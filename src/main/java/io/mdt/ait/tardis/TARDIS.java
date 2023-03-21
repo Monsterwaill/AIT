@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.nbt.wrapped.AbsoluteBlockPos;
 import io.mdt.ait.nbt.wrapped.NBTSerializers;
 import io.mdt.ait.tardis.door.TARDISDoor;
@@ -78,6 +78,7 @@ public class TARDIS {
         }
 
         new TARDISStateManager.Serializer().unserialize(raw, this.stateManager);
+        this.travelManager.link(this); // unserialize(?)
     }
 
     public UUID getUUID() {
@@ -121,7 +122,7 @@ public class TARDIS {
         return false;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDIS>, NBTUnserializeable<TARDIS> {
+    public static class Serializer implements NBTSerializer<TARDIS>, NBTDeserializer<TARDIS> {
 
         private static final NBTSerializers.AbsolutePosition ABSOLUTE_POSITION_SERIALIZER =
                 new NBTSerializers.AbsolutePosition();

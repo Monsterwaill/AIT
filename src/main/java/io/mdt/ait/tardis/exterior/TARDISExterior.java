@@ -1,8 +1,8 @@
 package io.mdt.ait.tardis.exterior;
 
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import io.mdt.ait.util.TARDISUtil;
@@ -21,8 +21,8 @@ public class TARDISExterior extends TARDISLinkableBasic {
     public void link(TARDIS tardis) {
         super.link(tardis);
 
-        this.tile = (TARDISTileEntity) TARDISUtil.getWorld(tardis.getPosition().getDimension())
-                .getBlockEntity(tardis.getPosition().get());
+        this.tile = (TARDISTileEntity)
+                TARDISUtil.getWorld(tardis.getPosition().getDimension()).getBlockEntity(tardis.getPosition());
         if (this.tile != null) {
             this.tile.link(tardis);
         }
@@ -40,18 +40,21 @@ public class TARDISExterior extends TARDISLinkableBasic {
         this.schema = schema;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISExterior>, NBTUnserializeable<TARDISExterior> {
+    public static class Serializer implements NBTSerializer<TARDISExterior>, NBTDeserializer<TARDISExterior> {
 
         private static final TARDISExteriorSchema.Serializer SCHEMA_SERIALIZER = new TARDISExteriorSchema.Serializer();
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISExterior exterior) {
-            SCHEMA_SERIALIZER.serialize(nbt, exterior.schema);
+            CompoundNBT schema = new CompoundNBT();
+            SCHEMA_SERIALIZER.serialize(schema, exterior.schema);
+
+            nbt.put("schema", schema);
         }
 
         @Override
         public TARDISExterior unserialize(CompoundNBT nbt) {
-            return new TARDISExterior(SCHEMA_SERIALIZER.unserialize(nbt));
+            return new TARDISExterior(SCHEMA_SERIALIZER.unserialize(nbt.getCompound("schema")));
         }
     }
 }

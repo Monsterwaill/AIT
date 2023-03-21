@@ -1,8 +1,8 @@
 package io.mdt.ait.tardis.interior;
 
 import io.mdt.ait.config.TARDISConfig;
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.util.TARDISUtil;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -105,7 +105,7 @@ public abstract class TARDISInteriorSchema {
     }
 
     public static class Serializer
-            implements NBTSerializeable<TARDISInteriorSchema>, NBTUnserializeable<TARDISInteriorSchema> {
+            implements NBTSerializer<TARDISInteriorSchema>, NBTDeserializer<TARDISInteriorSchema> {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISInteriorSchema interior) {

@@ -73,7 +73,7 @@ public class ExteriorFacingControlBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean bool) {
+    public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide) {
             TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
 

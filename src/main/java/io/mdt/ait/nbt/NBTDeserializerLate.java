@@ -2,7 +2,7 @@ package io.mdt.ait.nbt;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public interface NBTUnserializeableLate<T> {
+public interface NBTDeserializerLate<T> {
     /**
      * Unserializes a {@link CompoundNBT} to the existing object.
      *

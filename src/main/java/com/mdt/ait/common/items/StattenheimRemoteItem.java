@@ -1,6 +1,7 @@
 package com.mdt.ait.common.items;
 
 import io.mdt.ait.common.tiles.TARDISTileEntity;
+import io.mdt.ait.nbt.wrapped.AbsoluteBlockPos;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public class StattenheimRemoteItem extends TARDISLinkableItem {
             return ActionResultType.SUCCESS;
         }
 
-        this.getTravelManager(stack).to(pos);
+        this.getTravelManager(stack).to(new AbsoluteBlockPos(world.dimension(), pos));
         return ActionResultType.sidedSuccess(world.isClientSide());
     }
 }

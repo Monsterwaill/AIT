@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis.door;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import net.minecraft.nbt.CompoundNBT;
 
 public class TARDISDoorState {
@@ -45,7 +45,7 @@ public class TARDISDoorState {
         this.isLocked = locked;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISDoorState>, NBTUnserializeable<TARDISDoorState> {
+    public static class Serializer implements NBTSerializer<TARDISDoorState>, NBTDeserializer<TARDISDoorState> {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISDoorState state) {

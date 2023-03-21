@@ -49,11 +49,11 @@ public class ToyotaWhirlagigTile extends TileEntity implements ITickableTileEnti
                             AIT.server.getLevel(tardis.getPosition().getDimension());
                     if (!atCurrentCoordinates) {
                         addToRotorSpin(thing);
-                        if (ExteriorWorld.getBlockEntity(tardis.getPosition().get()) != null) {
+                        if (ExteriorWorld.getBlockEntity(tardis.getPosition()) != null) {
                             addToRotorSpin(spinny);
                         }
                     }
-                    if (ExteriorWorld.getBlockEntity(tardis.getPosition().get()) == null) {
+                    if (ExteriorWorld.getBlockEntity(tardis.getPosition()) == null) {
                         atCurrentCoordinates = false;
                     }
                 }

@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis.state;
 
-import io.mdt.ait.nbt.NBTSerializeableSelf;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializerSelf;
 import net.minecraft.nbt.CompoundNBT;
 
 public abstract class TARDISComponentState<T extends TARDISComponentState<?>> {
@@ -32,7 +32,7 @@ public abstract class TARDISComponentState<T extends TARDISComponentState<?>> {
     }
 
     public abstract static class Serializer<T extends TARDISComponentState<?>>
-            implements NBTSerializeableSelf<Object>, NBTUnserializeable<T> {
+            implements NBTSerializerSelf<Object>, NBTDeserializer<T> {
 
         private final Class<T> type;
 

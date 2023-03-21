@@ -2,8 +2,8 @@ package io.mdt.ait.tardis.exterior;
 
 import com.mdt.ait.client.renderers.tardis.RenderInfo;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.portal.Portal3i;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -37,7 +37,7 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
     }
 
     public static class Serializer
-            implements NBTSerializeable<TARDISExteriorSchema<?>>, NBTUnserializeable<TARDISExteriorSchema<?>> {
+            implements NBTSerializer<TARDISExteriorSchema<?>>, NBTDeserializer<TARDISExteriorSchema<?>> {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISExteriorSchema<?> exterior) {

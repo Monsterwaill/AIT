@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis.interior;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,18 +27,21 @@ public class TARDISInterior extends TARDISLinkableBasic {
         this.schema = schema;
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISInterior>, NBTUnserializeable<TARDISInterior> {
+    public static class Serializer implements NBTSerializer<TARDISInterior>, NBTDeserializer<TARDISInterior> {
 
         private static final TARDISInteriorSchema.Serializer SCHEMA_SERIALIZER = new TARDISInteriorSchema.Serializer();
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISInterior interior) {
-            SCHEMA_SERIALIZER.serialize(nbt, interior.schema);
+            CompoundNBT schema = new CompoundNBT();
+            SCHEMA_SERIALIZER.serialize(schema, interior.schema);
+
+            nbt.put("schema", schema);
         }
 
         @Override
         public TARDISInterior unserialize(CompoundNBT nbt) {
-            return new TARDISInterior(SCHEMA_SERIALIZER.unserialize(nbt));
+            return new TARDISInterior(SCHEMA_SERIALIZER.unserialize(nbt.getCompound("schema")));
         }
     }
 }

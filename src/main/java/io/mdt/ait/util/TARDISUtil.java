@@ -76,7 +76,6 @@ public class TARDISUtil {
     }
 
     public static TARDISTileEntity getExteriorTile(TARDIS tardis) {
-        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis)
-                .getBlockEntity(tardis.getPosition().get());
+        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition());
     }
 }

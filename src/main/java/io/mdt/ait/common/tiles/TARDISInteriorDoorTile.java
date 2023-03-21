@@ -136,32 +136,39 @@ public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements 
     public void onKey(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
 
-        if (TARDISUtil.getExteriorTile(this.getTARDIS()) == null) {
+        if (player != null) {
+            if (TARDISUtil.getExteriorTile(this.getTARDIS()) == null) {
+                player.displayClientMessage(
+                        new TranslationTextComponent("TARDIS is in flight!")
+                                .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
+                        true);
+                return;
+            }
+
+            if (!this.getTARDIS().ownsKey(context.getItemInHand())) {
+                player.displayClientMessage(
+                        new TranslationTextComponent("This TARDIS is not yours!")
+                                .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
+                        true);
+                return;
+            }
+
+            this.getState().setLocked(player.isCrouching());
+            this.level.playSound(
+                    null,
+                    this.getDoor().getDoorPosition(),
+                    AITSounds.TARDIS_LOCK.get(),
+                    SoundCategory.MASTER,
+                    1.0F,
+                    1.0F);
+
             player.displayClientMessage(
-                    new TranslationTextComponent("TARDIS is in flight!")
+                    new TranslationTextComponent(this.getState().isLocked() ? "Door is locked!" : "Door is unlocked!")
                             .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
                     true);
-            return;
+
+            this.sync();
         }
-
-        if (!this.getTARDIS().ownsKey(context.getItemInHand())) {
-            player.displayClientMessage(
-                    new TranslationTextComponent("This TARDIS is not yours!")
-                            .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
-                    true);
-            return;
-        }
-
-        this.getState().setLocked(player.isCrouching());
-        this.level.playSound(
-                null, this.getDoor().getDoorPosition(), AITSounds.TARDIS_LOCK.get(), SoundCategory.MASTER, 1.0F, 1.0F);
-
-        player.displayClientMessage(
-                new TranslationTextComponent(this.getState().isLocked() ? "Door is locked!" : "Door is unlocked!")
-                        .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
-                true);
-
-        this.sync();
     }
 
     @Override

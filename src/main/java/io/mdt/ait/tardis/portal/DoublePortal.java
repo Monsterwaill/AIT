@@ -54,6 +54,7 @@ public class DoublePortal {
     public void build() {
         this.portal = PortalManipulation.completeBiWayPortal(this.portal, Portal.entityType);
         this.portal.reloadAndSyncToClient();
+        System.out.println(this.portal.getOriginPos());
     }
 
     public Portal get() {

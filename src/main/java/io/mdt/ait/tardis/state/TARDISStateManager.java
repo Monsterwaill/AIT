@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis.state;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeableLate;
+import io.mdt.ait.nbt.NBTDeserializerLate;
+import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class TARDISStateManager extends TARDISLinkableBasic {
     }
 
     public static class Serializer
-            implements NBTSerializeable<TARDISStateManager>, NBTUnserializeableLate<TARDISStateManager> {
+            implements NBTSerializer<TARDISStateManager>, NBTDeserializerLate<TARDISStateManager> {
         @Override
         public void serialize(CompoundNBT nbt, TARDISStateManager manager) {
             ListNBT states = new ListNBT();

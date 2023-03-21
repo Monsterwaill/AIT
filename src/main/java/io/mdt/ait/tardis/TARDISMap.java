@@ -1,7 +1,7 @@
 package io.mdt.ait.tardis;
 
-import io.mdt.ait.nbt.NBTSerializeable;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +70,7 @@ public class TARDISMap extends HashMap<UUID, TARDIS> {
         this.references.addAll(map.references);
     }
 
-    public static class Serializer implements NBTSerializeable<TARDISMap>, NBTUnserializeable<TARDISMap> {
+    public static class Serializer implements NBTSerializer<TARDISMap>, NBTDeserializer<TARDISMap> {
 
         private static final TARDIS.Serializer TARDIS_SERIALIZER = new TARDIS.Serializer();
 

@@ -1,7 +1,7 @@
 package io.mdt.ait.nbt.wrapped;
 
-import io.mdt.ait.nbt.NBTSerializeableStatic;
-import io.mdt.ait.nbt.NBTUnserializeable;
+import io.mdt.ait.nbt.NBTDeserializer;
+import io.mdt.ait.nbt.NBTSerializerStatic;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.RegistryKey;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class NBTSerializers {
 
     public static class Dimension
-            implements NBTSerializeableStatic<RegistryKey<World>>, NBTUnserializeable<RegistryKey<World>> {
+            implements NBTSerializerStatic<RegistryKey<World>>, NBTDeserializer<RegistryKey<World>> {
 
         @Override
         public void serialize(CompoundNBT nbt, RegistryKey<World> registryKey) {
@@ -37,7 +37,7 @@ public class NBTSerializers {
         }
     }
 
-    public static class Position implements NBTSerializeableStatic<BlockPos>, NBTUnserializeable<BlockPos> {
+    public static class Position implements NBTSerializerStatic<BlockPos>, NBTDeserializer<BlockPos> {
 
         @Override
         public void serialize(CompoundNBT nbt, BlockPos pos) {
@@ -72,7 +72,7 @@ public class NBTSerializers {
     }
 
     public static class AbsolutePosition
-            implements NBTSerializeableStatic<AbsoluteBlockPos>, NBTUnserializeable<AbsoluteBlockPos> {
+            implements NBTSerializerStatic<AbsoluteBlockPos>, NBTDeserializer<AbsoluteBlockPos> {
 
         private static final NBTSerializers.Dimension DIMENSION_SERIALIZER = new NBTSerializers.Dimension();
         private static final NBTSerializers.Position POSITION_SERIALIZER = new NBTSerializers.Position();

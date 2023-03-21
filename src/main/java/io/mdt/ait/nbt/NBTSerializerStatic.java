@@ -2,7 +2,7 @@ package io.mdt.ait.nbt;
 
 import net.minecraft.nbt.CompoundNBT;
 
-public interface NBTSerializeableStatic<T> extends NBTSerializeable<T> {
+public interface NBTSerializerStatic<T> extends NBTSerializer<T> {
 
     @Override
     @Deprecated
