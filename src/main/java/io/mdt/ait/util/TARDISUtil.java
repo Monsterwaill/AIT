@@ -2,7 +2,6 @@ package io.mdt.ait.util;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITDimensions;
-import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.config.TARDISConfig;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
@@ -74,9 +73,5 @@ public class TARDISUtil {
                         -interior.getCenter().getX(),
                         -interior.getCenter().getY(),
                         -interior.getCenter().getZ());
-    }
-
-    public static TARDISTileEntity getExteriorTile(TARDIS tardis) {
-        return (TARDISTileEntity) TARDISUtil.getExteriorLevel(tardis).getBlockEntity(tardis.getPosition());
     }
 }

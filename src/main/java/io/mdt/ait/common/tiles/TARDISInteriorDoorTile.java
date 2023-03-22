@@ -2,18 +2,18 @@ package io.mdt.ait.common.tiles;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
-import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import io.mdt.ait.tardis.door.TARDISDoorState;
+import io.mdt.ait.tardis.key.KeyInteractable;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableTileEntity;
-import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -22,11 +22,10 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
 
-public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements ITickableTileEntity {
+public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements ITickableTileEntity, KeyInteractable {
 
     private float rightDoorRotation = 0;
     private float leftDoorRotation = 0;
@@ -66,21 +65,18 @@ public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements 
         this.sync();
     }
 
-    TARDISDoorStates previousState = TARDISDoorStates.CLOSED; // TODO: replace
+    private TARDISDoorState previousState = TARDISDoorState.CLOSED;
 
     @Override
     public void tick() {
-        // remove portal if entity removed, probably can implement that in setRemoved()
-        // ...
-
         if (this.isLinked() && this.getState() != null) {
-            TARDISDoorStates state = this.getState().get();
+            TARDISDoorState state = this.getState();
             if (state != this.previousState) {
-                this.rightDoorRotation = state == TARDISDoorStates.FIRST ? 0.0f : 87.5f;
+                this.rightDoorRotation = state == TARDISDoorState.FIRST ? 0.0f : 87.5f;
                 this.leftDoorRotation =
-                        state == TARDISDoorStates.FIRST ? 0.0f : (state == TARDISDoorStates.BOTH ? 0.0f : 87.5f);
+                        state == TARDISDoorState.FIRST ? 0.0f : (state == TARDISDoorState.BOTH ? 0.0f : 87.5f);
             }
-            if (state != TARDISDoorStates.CLOSED) {
+            if (state != TARDISDoorState.CLOSED) {
                 if (this.rightDoorRotation < 87.5f) {
                     this.rightDoorRotation += 5.0f;
                 } else {
@@ -92,14 +88,14 @@ public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements 
                     this.rightDoorRotation -= 15.0f;
                 }
             }
-            if (state == TARDISDoorStates.BOTH) {
+            if (state == TARDISDoorState.BOTH) {
                 if (this.leftDoorRotation < 87.5f) {
                     this.leftDoorRotation += 5.0f;
                 } else {
                     this.leftDoorRotation = 87.5f;
                 }
             }
-            if (state == TARDISDoorStates.CLOSED) {
+            if (state == TARDISDoorState.CLOSED) {
                 if (this.leftDoorRotation == -2.5f) {
                     this.leftDoorRotation = 0.0f;
                 }
@@ -112,62 +108,67 @@ public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements 
         }
     }
 
-    public void use(World world, PlayerEntity player, BlockPos pos) {
-        if (!world.isClientSide) {
-            TARDISDoorStates state = this.getState().get();
+    public ActionResultType use(PlayerEntity player, BlockPos pos) {
+        if (this.getLevel() == null || this.getLevel().isClientSide()) return ActionResultType.FAIL;
 
-            if (!this.getState().isLocked()) {
-                state = this.getState().next();
+        TARDISDoorState state = this.getDoor().nextState(); // even if the door is locked, next state will return LOCKED
+        this.getLevel().playSound(null, pos, state.sound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-                // TARDISUtil.getExteriorTile(this.getTARDIS()).sync();
-            } else {
-                player.displayClientMessage(
-                        new TranslationTextComponent("Door is locked!")
-                                .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
-                        true);
-            }
+        if (state == TARDISDoorState.LOCKED)
+            player.displayClientMessage(
+                    new TranslationTextComponent("Door is locked!")
+                            .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
+                    true);
 
-            world.playSound(null, pos, state.getSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            this.sync();
-        }
+        // sync stuff
+        this.getExterior().getTile().sync();
+        this.sync();
+
+        return ActionResultType.SUCCESS;
     }
 
-    public void onKey(ItemUseContext context) {
-        PlayerEntity player = context.getPlayer();
+    @Override
+    public ActionResultType onKey(PlayerEntity player, ItemStack stack) {
+        if (this.getLevel() == null) return ActionResultType.FAIL;
 
-        if (player != null) {
-            if (TARDISUtil.getExteriorTile(this.getTARDIS()) == null) {
-                player.displayClientMessage(
-                        new TranslationTextComponent("TARDIS is in flight!")
-                                .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
-                        true);
-                return;
-            }
+        if (this.getExterior().getTravelManager().getState().canInteract()) {
+            player.displayClientMessage(
+                    new TranslationTextComponent("TARDIS is in flight!")
+                            .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
+                    true);
+            return ActionResultType.SUCCESS;
+        }
 
-            if (!this.getTARDIS().ownsKey(context.getItemInHand())) {
-                player.displayClientMessage(
-                        new TranslationTextComponent("This TARDIS is not yours!")
-                                .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
-                        true);
-                return;
-            }
+        if (!this.getTARDIS().ownsKey(stack)) {
+            player.displayClientMessage(
+                    new TranslationTextComponent("This TARDIS is not yours!")
+                            .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
+                    true);
+            return ActionResultType.SUCCESS;
+        }
 
-            this.getState().setLocked(player.isCrouching());
-            this.level.playSound(
-                    null,
-                    this.getDoor().getDoorPosition(),
-                    AITSounds.TARDIS_LOCK.get(),
-                    SoundCategory.MASTER,
-                    1.0F,
-                    1.0F);
+        if (player.isCrouching()) {
+            this.getDoor().setState(TARDISDoorState.LOCKED);
+
+            this.getLevel()
+                    .playSound(
+                            null,
+                            this.getDoor().getDoorPosition(),
+                            this.getDoor().getState().sound(),
+                            SoundCategory.MASTER,
+                            1.0F,
+                            1.0F);
 
             player.displayClientMessage(
-                    new TranslationTextComponent(this.getState().isLocked() ? "Door is locked!" : "Door is unlocked!")
+                    new TranslationTextComponent(
+                                    this.getState() == TARDISDoorState.LOCKED ? "Door is locked!" : "Door is unlocked!")
                             .setStyle(Style.EMPTY.withColor(TextFormatting.YELLOW)),
                     true);
 
             this.sync();
         }
+
+        return ActionResultType.SUCCESS;
     }
 
     @Override

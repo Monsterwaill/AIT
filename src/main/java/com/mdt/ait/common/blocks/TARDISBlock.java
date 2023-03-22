@@ -70,7 +70,7 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock {
             BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TARDISTileEntity && hand == Hand.MAIN_HAND) {
-            ((TARDISTileEntity) tile).use(player, pos);
+            return ((TARDISTileEntity) tile).use(player, pos);
         }
 
         return ActionResultType.PASS;

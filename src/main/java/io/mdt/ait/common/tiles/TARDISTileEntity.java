@@ -56,7 +56,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
         super.link(tardis);
 
         if (this.getLevel() != null
-                && !this.getLevel().isClientSide
+                && !this.getLevel().isClientSide()
                 && this.getDoor().getPortal() == null) {
             this.spawnPortal();
         }
@@ -231,11 +231,10 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
     }
 
     public ActionResultType use(PlayerEntity player, BlockPos pos) {
-        if (this.getLevel() == null
-                || this.getLevel().isClientSide()) return ActionResultType.FAIL;
+        if (this.getLevel() == null || this.getLevel().isClientSide()) return ActionResultType.FAIL;
 
-        this.getDoor().nextState(); // even if the door is locked, next state will return LOCKED
-        this.getLevel().playSound(null, pos, this.getDoor().getState().sound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+        TARDISDoorState state = this.getDoor().nextState(); // even if the door is locked, next state will return LOCKED
+        this.getLevel().playSound(null, pos, state.sound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 
         if (this.getDoor().getState() == TARDISDoorState.LOCKED)
             player.displayClientMessage(

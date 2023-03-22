@@ -38,14 +38,40 @@ public class TARDISTravel extends TARDISLinkableBasic {
         this.getExterior().link(this.getTARDIS());
     }
 
+    public State getState() {
+        return this.state;
+    }
+
     public void setState(State state) {
         this.state = state;
     }
 
     public enum State {
-        IDLE,
-        DEMAT,
-        VORTEX,
-        REMAT,
+        IDLE() {
+            @Override
+            public boolean canInteract() {
+                return true;
+            }
+        },
+        DEMAT() {
+            @Override
+            public boolean canInteract() {
+                return false;
+            }
+        },
+        VORTEX() {
+            @Override
+            public boolean canInteract() {
+                return false;
+            }
+        },
+        REMAT() {
+            @Override
+            public boolean canInteract() {
+                return false;
+            }
+        };
+
+        public abstract boolean canInteract();
     }
 }

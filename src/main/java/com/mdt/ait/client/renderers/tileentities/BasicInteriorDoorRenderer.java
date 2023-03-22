@@ -9,6 +9,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
+
+import io.mdt.ait.tardis.door.TARDISDoorState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -49,17 +51,17 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
     @Override
     public void render(
             TARDISInteriorDoorTile tile,
-            float PartialTicks,
-            MatrixStack MatrixStackIn,
-            IRenderTypeBuffer Buffer,
-            int CombinedLight,
-            int CombinedOverlay) {
-        MatrixStackIn.pushPose();
-        MatrixStackIn.translate(0.5, 0, 0.5);
+            float ticks,
+            MatrixStack stack,
+            IRenderTypeBuffer buffer,
+            int light,
+            int overlay) {
+        stack.pushPose();
+        stack.translate(0.5, 0, 0.5);
         // MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
-        MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0f));
-        MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
+        stack.mulPose(Vector3f.XN.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+        stack.mulPose(Vector3f.YP.rotationDegrees(
                 tile.getBlockState().getValue(BasicInteriorDoorBlock.FACING).toYRot()));
 
         EnumInteriorDoorType interiordoor =
@@ -80,8 +82,8 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             }
             this.model.right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
             this.model.left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
-            MatrixStackIn.translate(0, -1.085f, 0);
-            MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
+            stack.translate(0, -1.085f, 0);
+            stack.scale(0.725f, 0.725f, 0.725f);
         }
         if (interiordoor.getSerializedName().equals("door_mint_exterior") && interiordoortype == 1) {
             this.model = new BasicInteriorDoor();
@@ -97,46 +99,46 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
             }
             this.model.right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
             this.model.left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
-            MatrixStackIn.translate(0, -1.085f, 0);
-            MatrixStackIn.scale(0.725f, 0.725f, 0.725f);
+            stack.translate(0, -1.085f, 0);
+            stack.scale(0.725f, 0.725f, 0.725f);
         }
         if (interiordoor.getSerializedName().equals("door_classic_exterior") && interiordoortype == 11) {
             this.model = new ClassicInteriorDoors();
             this.texture = CLASSIC;
-            MatrixStackIn.translate(0, 1.085f, 0);
-            MatrixStackIn.scale(0.9f, 0.85f, 0.9f);
+            stack.translate(0, 1.085f, 0);
+            stack.scale(0.9f, 0.85f, 0.9f);
             ((ClassicInteriorDoors) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
             ((ClassicInteriorDoors) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
         if (interiordoor.getSerializedName().equals("door_hudolin_exterior") && interiordoortype == 13) {
             this.model = new HudolinInteriorDoors();
             this.texture = HUDOLIN;
-            MatrixStackIn.scale(0.65f, 0.65f, 0.65f);
-            MatrixStackIn.translate(0, -1.5, 0.1);
+            stack.scale(0.65f, 0.65f, 0.65f);
+            stack.translate(0, -1.5, 0.1);
             ((HudolinInteriorDoors) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
             ((HudolinInteriorDoors) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
         if (interiordoor.getSerializedName().equals("door_tardim_exterior") && interiordoortype == 15) {
             this.model = new TARDIMInteriorDoor();
             this.texture = TARDIM;
-            MatrixStackIn.translate(0, -1.5, 0);
-            MatrixStackIn.scale(1f, 1f, 1f);
-            ((TARDIMInteriorDoor) this.model).door.visible = tile.getState().get() == TARDISDoorStates.CLOSED;
+            stack.translate(0, -1.5, 0);
+            stack.scale(1f, 1f, 1f);
+            ((TARDIMInteriorDoor) this.model).door.visible = tile.getState() == TARDISDoorState.CLOSED;
         }
         if (interiordoor.getSerializedName().equals("door_hellbent_tt_capsule") && interiordoortype == 6) {
             this.model = new TTCapsuleInteriorDoor();
             this.texture = HELLBENT_CAPSULE;
-            MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.translate(0, -1.5, 0);
+            stack.scale(1f, 1f, 1f);
+            stack.translate(0, -1.5, 0);
             ((TTCapsuleInteriorDoor) this.model).right_door.yRot = (float) Math.toRadians(tile.getRightDoorRotation());
             ((TTCapsuleInteriorDoor) this.model).left_door.yRot = -(float) Math.toRadians(tile.getLeftDoorRotation());
         }
         if (interiordoor.getSerializedName().equals("door_fallout_shelter_exterior") && interiordoortype == 19) {
             this.model = new FalloutShelterInteriorDoor();
             this.texture = FALLOUT_SHELTER;
-            MatrixStackIn.scale(1f, 1f, 1f);
-            MatrixStackIn.translate(0, -1.5, 0);
-            if (tile.getState().get() != TARDISDoorStates.CLOSED) {
+            stack.scale(1f, 1f, 1f);
+            stack.translate(0, -1.5, 0);
+            if (tile.getState() != TARDISDoorState.CLOSED) {
                 ((FalloutShelterInteriorDoor) this.model).door.x -= 12;
             } else {
                 ((FalloutShelterInteriorDoor) this.model).door.x = -5.5F;
@@ -145,14 +147,14 @@ public class BasicInteriorDoorRenderer extends TileEntityRenderer<TARDISInterior
         // System.out.println(interiordoor.getSerializedName() + interiordoortype);
         model.render(
                 tile,
-                MatrixStackIn,
-                Buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)),
-                CombinedLight,
-                CombinedOverlay,
+                stack,
+                buffer.getBuffer(AITRenderTypes.tardisRenderOver(this.texture)),
+                light,
+                overlay,
                 1,
                 1,
                 1,
                 1);
-        MatrixStackIn.popPose();
+        stack.popPose();
     }
 }

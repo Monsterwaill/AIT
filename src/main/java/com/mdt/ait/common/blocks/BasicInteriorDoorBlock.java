@@ -82,14 +82,12 @@ public class BasicInteriorDoorBlock extends Block {
     @Override
     public ActionResultType use(
             BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        TileEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof TARDISInteriorDoorTile) {
-            if (hand == Hand.MAIN_HAND) {
-                ((TARDISInteriorDoorTile) tileEntity).use(world, player, pos);
-            }
+        TileEntity tile = world.getBlockEntity(pos);
+        if (tile instanceof TARDISInteriorDoorTile && hand == Hand.MAIN_HAND) {
+            return ((TARDISInteriorDoorTile) tile).use(player, pos);
         }
 
-        return super.use(state, world, pos, player, hand, hit);
+        return ActionResultType.PASS;
     }
 
     @Override

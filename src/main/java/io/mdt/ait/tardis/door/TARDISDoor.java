@@ -62,8 +62,9 @@ public class TARDISDoor extends TARDISLinkableBasic {
         this.state = state;
     }
 
-    public void nextState() {
+    public TARDISDoorState nextState() {
         this.state = this.state.next();
+        return this.getState();
     }
 
     public Portal getPortal() {
