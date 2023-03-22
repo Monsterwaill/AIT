@@ -23,7 +23,8 @@ public class TARDISUtil {
 
     public static int getIndexByPos(BlockPos pos) {
         return (int) Math.ceil(
-                (double) TARDISConfig.TARDIS_DIMENSION_START - pos.getX() / (double) TARDISConfig.TARDIS_AREA);
+                        ((double) TARDISConfig.TARDIS_DIMENSION_START - pos.getX()) / (double) TARDISConfig.TARDIS_AREA)
+                - 1;
     }
 
     public static boolean canLand(Block landing) {

@@ -1,7 +1,6 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.ExteriorFacingControlTile;
-import io.mdt.ait.common.tiles.TARDISTileEntity;
 import io.mdt.ait.tardis.TARDISManager;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
@@ -75,7 +74,7 @@ public class ExteriorFacingControlBlock extends Block {
     @Override
     public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide) {
-            TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
+            ExteriorFacingControlTile tile = (ExteriorFacingControlTile) level.getBlockEntity(pos);
 
             if (tile != null) {
                 tile.link(TARDISManager.getInstance().findTARDIS(pos));

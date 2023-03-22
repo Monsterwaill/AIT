@@ -303,7 +303,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
         portal.reloadAndSyncToClient();
         // end TTE
         // start door
-        //portal.setDestination(new Vector3d(
+        // portal.setDestination(new Vector3d(
         //        this.getBlockPos().getX(),
         //        this.getBlockPos().getY(),
         //        this.getBlockPos().getZ()));
