@@ -12,6 +12,7 @@ import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableTileEntity;
 import io.mdt.ait.tardis.portal.Portal3i;
 import io.mdt.ait.util.TARDISUtil;
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,8 +36,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.world.ForgeChunkManager;
-
-import javax.annotation.Nonnull;
 
 public class TARDISTileEntity extends TARDISLinkableTileEntity {
 
@@ -65,14 +64,14 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
     }
 
     private static final double[][] values = new double[][] {
-            { 0.5D, 0.865D }, { 0.5D, 0.135D }, { 0.865D, 0.5D }, { 0.135D, 0.5D },
+        {0.5D, 0.865D}, {0.5D, 0.135D}, {0.865D, 0.5D}, {0.135D, 0.5D},
     };
 
     private static final float[][] rvalues = new float[][] {
-            { 180.0F, 0.0F, -90.0F, 90.0F },
-            { 0.0F, 180.0F, 90.0F, -90.0F },
-            { 90.0F, -90.0F, 180.0F, 0.0F },
-            { -90.0F, 90.0F, 0.0F, 180.0F },
+        {180.0F, 0.0F, -90.0F, 90.0F},
+        {0.0F, 180.0F, 90.0F, -90.0F},
+        {90.0F, -90.0F, 180.0F, 0.0F},
+        {-90.0F, 90.0F, 0.0F, 180.0F},
     };
 
     public void spawnPortal() {
@@ -96,29 +95,27 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
         int index2 = doorFacing.ordinal() - 2;
 
         PortalManipulation.setPortalTransformation(
-                portal, AITDimensions.TARDIS_DIMENSION,
+                portal,
+                AITDimensions.TARDIS_DIMENSION,
                 new Vector3d(
                         doorPos.getX() + values[index2][0],
                         doorPos.getY() + portal3i.y(),
-                        doorPos.getZ() + values[index2][1]
-                ), new Quaternion(
-                        Vector3f.YP, rvalues[index1][index2],
-                        true
-                ), 1D
-        );
+                        doorPos.getZ() + values[index2][1]),
+                new Quaternion(Vector3f.YP, rvalues[index1][index2], true),
+                1D);
 
-        PortalManipulation.rotatePortalBody(
-                portal, new Quaternion(Vector3f.YN, rvalues[index1][0], true)
-        );
+        PortalManipulation.rotatePortalBody(portal, new Quaternion(Vector3f.YN, rvalues[index1][0], true));
 
         Vector3d vector3d = new Vector3d(
                 this.getBlockPos().getX() + this.getFacing().getNormal().getX() * portal3i.x(),
                 this.getBlockPos().getY() + portal3i.y(),
-                this.getBlockPos().getZ() + this.getFacing().getNormal().getZ() * portal3i.z()
-        );
+                this.getBlockPos().getZ() + this.getFacing().getNormal().getZ() * portal3i.z());
 
         if (this.getFacing().getAxisDirection() == Direction.AxisDirection.POSITIVE) {
-            vector3d.add(this.getFacing().getNormal().getX(), 0, this.getFacing().getNormal().getZ());
+            vector3d.add(
+                    this.getFacing().getNormal().getX(),
+                    0,
+                    this.getFacing().getNormal().getZ());
         }
 
         portal.setOriginPos(vector3d);
@@ -136,6 +133,7 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
 
     public void setFacing(Direction direction) {
         this.getBlockState().setValue(BasicInteriorDoorBlock.FACING, direction);
+        this.sync();
     }
 
     @Override

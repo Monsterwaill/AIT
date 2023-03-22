@@ -49,7 +49,7 @@ public class ExteriorFacingControlBlock extends Block {
             BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof ExteriorFacingControlTile && hand == Hand.MAIN_HAND) {
-            ((ExteriorFacingControlTile) tileEntity).used();
+            ((ExteriorFacingControlTile) tileEntity).used(player, pos, hand);
         }
 
         return super.use(state, world, pos, player, hand, hit);

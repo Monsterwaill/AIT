@@ -8,11 +8,10 @@ import io.mdt.ait.nbt.wrapped.NBTSerializers;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
 import io.mdt.ait.util.TARDISUtil;
+import java.util.UUID;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.UUID;
 
 public class TARDISDoor extends TARDISLinkableBasic {
 
@@ -43,8 +42,7 @@ public class TARDISDoor extends TARDISLinkableBasic {
             this.tile.link(tardis);
         }
 
-        if (!(this.getTile().getLevel() instanceof ServerWorld))
-            return;
+        if (!(this.getTile().getLevel() instanceof ServerWorld)) return;
 
         if (this.portalId != null && this.portal == null) {
             this.portal = (Portal) (TARDISUtil.getTARDISWorld()).getEntity(this.portalId);
@@ -87,10 +85,7 @@ public class TARDISDoor extends TARDISLinkableBasic {
         @Override
         public TARDISDoor unserialize(CompoundNBT nbt) {
             return new TARDISDoor(
-                    nbt.getUUID("portal"),
-                    POSITION_SERIALIZER.unserialize(nbt),
-                    STATE_SERIALIZER.unserialize(nbt)
-            );
+                    nbt.getUUID("portal"), POSITION_SERIALIZER.unserialize(nbt), STATE_SERIALIZER.unserialize(nbt));
         }
     }
 }
