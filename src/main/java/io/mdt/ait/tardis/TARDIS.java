@@ -38,13 +38,12 @@ public class TARDIS {
             TARDISExteriorSchema<?> exterior,
             TARDISInteriorSchema interior) {
         this(
-                new CompoundNBT(),
-                uuid,
+                new CompoundNBT(), uuid,
                 new AbsoluteBlockPos(dimension, position),
-                new TARDISExterior(exterior),
-                new TARDISInterior(interior),
+                new TARDISExterior(exterior), new TARDISInterior(interior),
                 new TARDISDoor(TARDISUtil.getInteriorPos(interior).offset(interior.getDoorPosition())),
-                false);
+                false
+        );
 
         this.interior.getSchema().place(TARDISUtil.getTARDISWorld());
 
