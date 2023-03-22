@@ -1,10 +1,12 @@
 package io.mdt.ait.tardis.door;
 
+import com.mdt.ait.core.init.AITSounds;
 import io.mdt.ait.nbt.NBTDeserializer;
-import io.mdt.ait.nbt.NBTSerializer;
+import io.mdt.ait.nbt.NBTSerializerStatic;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.SoundEvent;
 
-public class TARDISDoorState {
+/*public class TARDISDoorState {
     private final TARDISDoorStates[] states =
             new TARDISDoorStates[] {TARDISDoorStates.CLOSED, TARDISDoorStates.FIRST, TARDISDoorStates.BOTH};
 
@@ -70,6 +72,74 @@ public class TARDISDoorState {
             }
 
             return state;
+        }
+    }
+}*/
+
+public enum TARDISDoorState {
+    CLOSED() {
+        @Override
+        public TARDISDoorState next() {
+            return FIRST;
+        }
+
+        @Override
+        public SoundEvent sound() {
+            return AITSounds.POLICE_BOX_CLOSE.get();
+        }
+    },
+    FIRST() {
+        @Override
+        public TARDISDoorState next() {
+            return BOTH;
+        }
+
+        @Override
+        public SoundEvent sound() {
+            return AITSounds.POLICE_BOX_OPEN.get();
+        }
+    },
+    BOTH() {
+        @Override
+        public TARDISDoorState next() {
+            return CLOSED;
+        }
+
+        @Override
+        public SoundEvent sound() {
+            return AITSounds.POLICE_BOX_OPEN.get();
+        }
+    },
+    LOCKED() {
+        @Override
+        public TARDISDoorState next() {
+            return LOCKED;
+        }
+
+        @Override
+        public SoundEvent sound() {
+            return AITSounds.TARDIS_LOCK.get();
+        }
+    };
+
+    public abstract TARDISDoorState next();
+
+    public abstract SoundEvent sound(); // sound that will play when state A will change to state B -> B.sound();
+
+    public static TARDISDoorState defaultValue() {
+        return CLOSED;
+    }
+
+    public static class Serializer implements NBTSerializerStatic<TARDISDoorState>, NBTDeserializer<TARDISDoorState> {
+
+        @Override
+        public void serialize(CompoundNBT nbt, TARDISDoorState state) {
+            nbt.putInt("door", state.ordinal());
+        }
+
+        @Override
+        public TARDISDoorState unserialize(CompoundNBT nbt) {
+            return TARDISDoorState.values()[nbt.getInt("door")];
         }
     }
 }

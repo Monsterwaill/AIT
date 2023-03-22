@@ -5,7 +5,6 @@ import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
 import io.mdt.ait.tardis.door.TARDISDoorState;
-import io.mdt.ait.tardis.door.TARDISDoorStates;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableTileEntity;
 import io.mdt.ait.util.TARDISUtil;
 import net.minecraft.block.BlockState;
@@ -52,7 +51,7 @@ public class TARDISInteriorDoorTile extends TARDISLinkableTileEntity implements 
     public void setRemoved() {
         super.setRemoved();
 
-        if (this.getLevel() != null && !this.getLevel().isClientSide) {
+        if (this.getLevel() != null && !this.getLevel().isClientSide()) {
             ChunkPos chunkPos = new ChunkPos(this.getBlockPos());
             ForgeChunkManager.forceChunk(
                     (ServerWorld) this.getLevel(),

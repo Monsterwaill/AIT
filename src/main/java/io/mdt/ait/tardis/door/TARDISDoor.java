@@ -11,20 +11,19 @@ import io.mdt.ait.util.TARDISUtil;
 import java.util.UUID;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
 
 public class TARDISDoor extends TARDISLinkableBasic {
 
     private TARDISInteriorDoorTile tile;
     private final BlockPos position;
 
-    private final TARDISDoorState state;
+    private TARDISDoorState state;
 
     private final UUID portalId;
     private Portal portal;
 
     public TARDISDoor(BlockPos position) {
-        this(null, position, new TARDISDoorState());
+        this(null, position, TARDISDoorState.defaultValue());
     }
 
     private TARDISDoor(UUID portalId, BlockPos position, TARDISDoorState state) {
@@ -40,12 +39,10 @@ public class TARDISDoor extends TARDISLinkableBasic {
         this.tile = (TARDISInteriorDoorTile) TARDISUtil.getTARDISWorld().getBlockEntity(position);
         if (this.tile != null) {
             this.tile.link(tardis);
-        }
 
-        if (!(this.getTile().getLevel() instanceof ServerWorld)) return;
-
-        if (this.portalId != null && this.portal == null) {
-            this.portal = (Portal) (TARDISUtil.getTARDISWorld()).getEntity(this.portalId);
+            if (this.portalId != null && this.portal == null) {
+                this.portal = (Portal) (TARDISUtil.getTARDISWorld()).getEntity(this.portalId);
+            }
         }
     }
 
@@ -59,6 +56,14 @@ public class TARDISDoor extends TARDISLinkableBasic {
 
     public TARDISDoorState getState() {
         return this.state;
+    }
+
+    public void setState(TARDISDoorState state) {
+        this.state = state;
+    }
+
+    public void nextState() {
+        this.state = this.state.next();
     }
 
     public Portal getPortal() {
@@ -76,10 +81,12 @@ public class TARDISDoor extends TARDISLinkableBasic {
 
         @Override
         public void serialize(CompoundNBT nbt, TARDISDoor door) {
-            STATE_SERIALIZER.serialize(nbt, door.state);
-            POSITION_SERIALIZER.serialize(nbt, door.getDoorPosition());
+            if (door.portal != null) {
+                nbt.putUUID("portal", door.portal.getUUID());
+            }
 
-            nbt.putUUID("portal", door.portal.getUUID());
+            STATE_SERIALIZER.serialize(nbt, door.state);
+            POSITION_SERIALIZER.serialize(nbt, door.position);
         }
 
         @Override

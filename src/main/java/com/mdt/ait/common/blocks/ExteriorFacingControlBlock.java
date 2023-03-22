@@ -1,7 +1,6 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.ExteriorFacingControlTile;
-import io.mdt.ait.tardis.TARDISManager;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -49,7 +48,7 @@ public class ExteriorFacingControlBlock extends Block {
             BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof ExteriorFacingControlTile && hand == Hand.MAIN_HAND) {
-            ((ExteriorFacingControlTile) tileEntity).used(player, pos, hand);
+            ((ExteriorFacingControlTile) tileEntity).used(player);
         }
 
         return super.use(state, world, pos, player, hand, hit);
@@ -69,17 +68,6 @@ public class ExteriorFacingControlBlock extends Block {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.defaultBlockState()
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
-
-    @Override
-    public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (!level.isClientSide) {
-            ExteriorFacingControlTile tile = (ExteriorFacingControlTile) level.getBlockEntity(pos);
-
-            if (tile != null) {
-                tile.link(TARDISManager.getInstance().findTARDIS(pos));
-            }
-        }
     }
 
     @Nullable @Override

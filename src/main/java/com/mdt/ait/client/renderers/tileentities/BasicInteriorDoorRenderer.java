@@ -7,7 +7,6 @@ import com.mdt.ait.common.blocks.BasicInteriorDoorBlock;
 import com.mdt.ait.core.init.enums.EnumInteriorDoorType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import io.mdt.ait.common.tiles.TARDISInteriorDoorTile;
-import io.mdt.ait.tardis.door.TARDISDoorStates;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

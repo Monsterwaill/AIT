@@ -2,7 +2,6 @@ package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.core.init.interfaces.ITARDISBlock;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.TARDISManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -29,17 +28,6 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock {
 
     public TARDISBlock() {
         super(Properties.of(Material.STONE).strength(-1.0F, 3600000.0F).noOcclusion());
-    }
-
-    @Override
-    public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (!level.isClientSide) {
-            TARDISTileEntity tile = (TARDISTileEntity) level.getBlockEntity(pos);
-
-            if (tile != null) {
-                tile.link(TARDISManager.getInstance().create(pos, level.dimension()));
-            }
-        }
     }
 
     @Override
@@ -81,8 +69,8 @@ public class TARDISBlock extends FallingBlock implements ITARDISBlock {
     public ActionResultType use(
             BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TARDISTileEntity) {
-            ((TARDISTileEntity) tile).use(world, player, pos, hand);
+        if (tile instanceof TARDISTileEntity && hand == Hand.MAIN_HAND) {
+            ((TARDISTileEntity) tile).use(player, pos);
         }
 
         return ActionResultType.PASS;

@@ -5,7 +5,6 @@ import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.client.renderers.tardis.RenderInfo;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.common.tiles.TARDISTileEntity;
-import io.mdt.ait.tardis.door.TARDISDoorStates;
 import io.mdt.ait.tardis.exterior.TARDISExteriorSchema;
 import io.mdt.ait.tardis.exterior.impl.model.BasicBoxModel;
 import io.mdt.ait.tardis.portal.Portal3i;
