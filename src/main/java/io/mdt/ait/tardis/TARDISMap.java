@@ -92,10 +92,10 @@ public class TARDISMap extends HashMap<UUID, TARDIS> {
         }
 
         @Override
-        public TARDISMap unserialize(CompoundNBT nbt) {
+        public TARDISMap deserialize(CompoundNBT nbt) {
             TARDISMap map = new TARDISMap();
             nbt.getList("tardises", Constants.NBT.TAG_COMPOUND)
-                    .forEach(inbt -> map.put(TARDIS_SERIALIZER.unserialize((CompoundNBT) inbt)));
+                    .forEach(inbt -> map.put(TARDIS_SERIALIZER.deserialize((CompoundNBT) inbt)));
             nbt.getList("references", Constants.NBT.TAG_COMPOUND)
                     .forEach(inbt -> map.getReferences().add(((CompoundNBT) inbt).getUUID("uuid")));
 

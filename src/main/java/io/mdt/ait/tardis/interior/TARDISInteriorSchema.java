@@ -113,7 +113,7 @@ public abstract class TARDISInteriorSchema {
         }
 
         @Override
-        public TARDISInteriorSchema unserialize(CompoundNBT nbt) {
+        public TARDISInteriorSchema deserialize(CompoundNBT nbt) {
             return TARDISInteriors.get(nbt.getString("id"));
         }
     }

@@ -77,9 +77,9 @@ public class AITTiles {
                     .build(null));
 
     // Controls
-    public static final RegistryObject<TileEntityType<TardisLeverTile>> TARDIS_LEVER_TILE_ENTITY_TYPE =
+    public static final RegistryObject<TileEntityType<TARDISLeverControlTile>> TARDIS_LEVER_TILE_ENTITY_TYPE =
             TILE_ENTITIES.register("tardis_lever", () -> TileEntityType.Builder.of(
-                            TardisLeverTile::new, AITBlocks.TARDIS_LEVER_BLOCK.get())
+                            TARDISLeverControlTile::new, AITBlocks.TARDIS_LEVER_BLOCK.get())
                     .build(null));
 
     public static final RegistryObject<TileEntityType<RoundelFaceTile>> ROUNDEL_FACE_TILE_ENTITY_TYPE =

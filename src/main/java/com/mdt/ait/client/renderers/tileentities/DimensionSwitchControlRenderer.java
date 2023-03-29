@@ -4,7 +4,7 @@ import com.mdt.ait.AIT;
 import com.mdt.ait.client.models.tileentities.controls.DimensionSwitchControl;
 import com.mdt.ait.client.renderers.AITRenderTypes;
 import com.mdt.ait.common.blocks.DimensionSwitchControlBlock;
-import com.mdt.ait.common.blocks.TardisLeverBlock;
+import com.mdt.ait.common.blocks.TARDISLeverBlock;
 import com.mdt.ait.common.tileentities.DimensionSwitchControlTile;
 import com.mdt.ait.core.init.enums.EnumDimensionControlState;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -109,7 +109,7 @@ public class DimensionSwitchControlRenderer extends TileEntityRenderer<Dimension
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.mulPose(Vector3f.XN.rotationDegrees(180.0f));
         MatrixStackIn.mulPose(Vector3f.YP.rotationDegrees(
-                tile.getBlockState().getValue(TardisLeverBlock.FACING).toYRot()));
+                tile.getBlockState().getValue(TARDISLeverBlock.FACING).toYRot()));
         MatrixStackIn.pushPose();
         model.planet.yRot = (float) Math.toRadians(tile.spinny / 32);
         // model.planet.render(MatrixStackIn,

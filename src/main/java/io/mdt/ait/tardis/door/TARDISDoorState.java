@@ -55,7 +55,7 @@ import net.minecraft.util.SoundEvent;
         }
 
         @Override
-        public TARDISDoorState unserialize(CompoundNBT nbt) {
+        public TARDISDoorState deserialize(CompoundNBT nbt) {
             return this.fromRaw(new TARDISDoorState(), nbt.getInt("door"));
         }
 
@@ -138,7 +138,7 @@ public enum TARDISDoorState {
         }
 
         @Override
-        public TARDISDoorState unserialize(CompoundNBT nbt) {
+        public TARDISDoorState deserialize(CompoundNBT nbt) {
             return TARDISDoorState.values()[nbt.getInt("door")];
         }
     }

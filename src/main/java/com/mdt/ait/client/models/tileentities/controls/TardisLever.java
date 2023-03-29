@@ -3,7 +3,7 @@ package com.mdt.ait.client.models.tileentities.controls; // Made with Blockbench
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-import com.mdt.ait.common.tileentities.TardisLeverTile;
+import com.mdt.ait.common.tileentities.TARDISLeverControlTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -79,7 +79,7 @@ public class TardisLever extends EntityModel<Entity> {
     }
 
     public void render(
-            TardisLeverTile tile,
+            TARDISLeverControlTile tile,
             MatrixStack matrixStackIn,
             IVertexBuilder buffer,
             int combinedLight,

@@ -1,6 +1,6 @@
 package com.mdt.ait.common.blocks;
 
-import com.mdt.ait.common.tileentities.TardisLeverTile;
+import com.mdt.ait.common.tileentities.TARDISLeverControlTile;
 import com.mdt.ait.core.init.AITDimensions;
 import io.mdt.ait.tardis.TARDISManager;
 import java.util.UUID;
@@ -25,7 +25,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-public class TardisLeverBlock extends Block {
+public class TARDISLeverBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
@@ -33,7 +33,7 @@ public class TardisLeverBlock extends Block {
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 1, 16);
 
-    public TardisLeverBlock() {
+    public TARDISLeverBlock() {
         super(Properties.of(Material.STONE).strength(15.0f).noOcclusion());
     }
 
@@ -56,8 +56,8 @@ public class TardisLeverBlock extends Block {
             Hand pHandIn,
             BlockRayTraceResult pHit) {
         TileEntity tileEntity = pWorldIn.getBlockEntity(pPos);
-        if (tileEntity instanceof TardisLeverTile) {
-            ((TardisLeverTile) tileEntity).useOn(pWorldIn, pPlayer, pPos, pHandIn, pHit);
+        if (tileEntity instanceof TARDISLeverControlTile) {
+            ((TARDISLeverControlTile) tileEntity).useOn(pWorldIn, pPlayer, pHandIn);
         }
         return super.use(pState, pWorldIn, pPos, pPlayer, pHandIn, pHit);
     }
@@ -83,7 +83,7 @@ public class TardisLeverBlock extends Block {
         super.onPlace(blockState1, world, blockPos, blockState2, bool);
         if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
             ServerWorld serverWorld = ((ServerWorld) world);
-            TardisLeverTile tardisLeverTile = (TardisLeverTile) serverWorld.getBlockEntity(blockPos);
+            TARDISLeverControlTile tardisLeverTile = (TARDISLeverControlTile) serverWorld.getBlockEntity(blockPos);
             this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
             assert tardisLeverTile != null;
             tardisLeverTile.tardisID = this.tardisID;
@@ -94,7 +94,7 @@ public class TardisLeverBlock extends Block {
 
     @Nullable @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        TardisLeverTile tardisLeverTile = new TardisLeverTile();
+        TARDISLeverControlTile tardisLeverTile = new TARDISLeverControlTile();
         return tardisLeverTile;
     }
 }

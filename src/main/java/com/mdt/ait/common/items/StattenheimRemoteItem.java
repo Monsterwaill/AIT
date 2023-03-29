@@ -23,13 +23,15 @@ public class StattenheimRemoteItem extends TARDISLinkableItem {
         BlockPos pos = context.getClickedPos();
         ItemStack stack = context.getItemInHand();
 
-        TileEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TARDISTileEntity) {
-            this.link(stack, ((TARDISTileEntity) tile).getTARDIS());
-            return ActionResultType.SUCCESS;
+        if (!this.isLinked(stack)) {
+            TileEntity tile = world.getBlockEntity(pos);
+            if (tile instanceof TARDISTileEntity) {
+                this.link(stack, ((TARDISTileEntity) tile).getTARDIS());
+                return ActionResultType.SUCCESS;
+            }
         }
 
         this.getTravelManager(stack).to(new AbsoluteBlockPos(world.dimension(), pos));
-        return ActionResultType.sidedSuccess(world.isClientSide());
+        return ActionResultType.SUCCESS;
     }
 }

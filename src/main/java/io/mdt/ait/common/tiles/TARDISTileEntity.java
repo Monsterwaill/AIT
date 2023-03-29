@@ -112,16 +112,16 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
             finalQuaternion = new Quaternion(Vector3f.YN, 180, true);
 
             if (doorFacing == Direction.NORTH) {
-                quaternion = new Quaternion(Vector3f.YP, 180.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 180, true);
             }
             if (doorFacing == Direction.SOUTH) {
-                quaternion = new Quaternion(Vector3f.YP, 0.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 0, true);
             }
             if (doorFacing == Direction.EAST) {
-                quaternion = new Quaternion(Vector3f.YP, 90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 90, true);
             }
             if (doorFacing == Direction.WEST) {
-                quaternion = new Quaternion(Vector3f.YP, -90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, -90, true);
             }
 
             origin = new Vector3d(
@@ -133,16 +133,16 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
             finalQuaternion = new Quaternion(Vector3f.YN, 0, true);
 
             if (doorFacing == Direction.NORTH) {
-                quaternion = new Quaternion(Vector3f.YP, 0.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 0, true);
             }
             if (doorFacing == Direction.SOUTH) {
-                quaternion = new Quaternion(Vector3f.YP, 180.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 180, true);
             }
             if (doorFacing == Direction.EAST) {
-                quaternion = new Quaternion(Vector3f.YP, -90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, -90, true);
             }
             if (doorFacing == Direction.WEST) {
-                quaternion = new Quaternion(Vector3f.YP, 90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 90, true);
             }
 
             origin = new Vector3d(
@@ -154,16 +154,16 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
             finalQuaternion = new Quaternion(Vector3f.YN, -90, true);
 
             if (doorFacing == Direction.NORTH) {
-                quaternion = new Quaternion(Vector3f.YP, -90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, -90, true);
             }
             if (doorFacing == Direction.SOUTH) {
-                quaternion = new Quaternion(Vector3f.YP, 90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 90, true);
             }
             if (doorFacing == Direction.EAST) {
-                quaternion = new Quaternion(Vector3f.YP, 180.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 180, true);
             }
             if (doorFacing == Direction.WEST) {
-                quaternion = new Quaternion(Vector3f.YP, 0.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 0, true);
             }
 
             origin = new Vector3d(
@@ -175,16 +175,16 @@ public class TARDISTileEntity extends TARDISLinkableTileEntity {
             finalQuaternion = new Quaternion(Vector3f.YN, 90, true);
 
             if (doorFacing == Direction.NORTH) {
-                quaternion = new Quaternion(Vector3f.YP, 90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 90, true);
             }
             if (doorFacing == Direction.SOUTH) {
-                quaternion = new Quaternion(Vector3f.YP, -90.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, -90, true);
             }
             if (doorFacing == Direction.EAST) {
-                quaternion = new Quaternion(Vector3f.YP, 0.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 0, true);
             }
             if (doorFacing == Direction.WEST) {
-                quaternion = new Quaternion(Vector3f.YP, 180.0F, true);
+                quaternion = new Quaternion(Vector3f.YP, 180, true);
             }
 
             origin = new Vector3d(

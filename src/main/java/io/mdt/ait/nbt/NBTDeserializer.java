@@ -9,5 +9,5 @@ public interface NBTDeserializer<T> {
      * @param nbt NBT that needs to be unserialized
      * @return unserialized instance of the class
      */
-    T unserialize(CompoundNBT nbt);
+    T deserialize(CompoundNBT nbt);
 }

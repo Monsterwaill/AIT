@@ -21,7 +21,7 @@ public class TARDISWorldData extends WorldSavedData {
 
     @Override
     public void load(CompoundNBT nbt) {
-        MANAGER_SERIALIZER.unserialize(nbt);
+        MANAGER_SERIALIZER.deserialize(nbt);
     }
 
     @Override

@@ -53,8 +53,8 @@ public class TARDISExterior extends TARDISLinkableBasic {
         }
 
         @Override
-        public TARDISExterior unserialize(CompoundNBT nbt) {
-            return new TARDISExterior(SCHEMA_SERIALIZER.unserialize(nbt.getCompound("schema")));
+        public TARDISExterior deserialize(CompoundNBT nbt) {
+            return new TARDISExterior(SCHEMA_SERIALIZER.deserialize(nbt.getCompound("schema")));
         }
     }
 }

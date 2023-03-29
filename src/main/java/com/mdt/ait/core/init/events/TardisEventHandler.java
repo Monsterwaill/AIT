@@ -8,6 +8,7 @@ import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.tardis.exterior.TARDISExteriors;
 import io.mdt.ait.tardis.interior.TARDISInteriors;
+import io.mdt.ait.tardis.state.TARDISStates;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.server.ServerWorld;
@@ -87,6 +88,7 @@ public class TardisEventHandler {
 
                     TARDISExteriors.init();
                     TARDISInteriors.init();
+                    TARDISStates.init();
                 }
             }
         }

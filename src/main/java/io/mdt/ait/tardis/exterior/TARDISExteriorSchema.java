@@ -45,7 +45,7 @@ public abstract class TARDISExteriorSchema<T extends TARDISExteriorModelSchema> 
         }
 
         @Override
-        public TARDISExteriorSchema<?> unserialize(CompoundNBT nbt) {
+        public TARDISExteriorSchema<?> deserialize(CompoundNBT nbt) {
             return TARDISExteriors.get(nbt.getString("id"));
         }
     }

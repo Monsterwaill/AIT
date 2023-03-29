@@ -3,8 +3,8 @@ package io.mdt.ait.tardis;
 import com.mdt.ait.core.init.AITBlocks;
 import io.mdt.ait.nbt.wrapped.AbsoluteBlockPos;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
+import io.mdt.ait.util.Schedule;
 import io.mdt.ait.util.TARDISUtil;
-import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -12,7 +12,6 @@ import net.minecraft.world.World;
 public class TARDISTravel extends TARDISLinkableBasic {
 
     private State state;
-    private CompoundNBT nbtBuffer;
 
     public TARDISTravel() {
         this(State.IDLE);
@@ -22,20 +21,42 @@ public class TARDISTravel extends TARDISLinkableBasic {
         this.state = state;
     }
 
-    public void to(AbsoluteBlockPos pos) {
-        if (this.state == State.DEMAT || this.state == State.REMAT) return;
+    public Result to(AbsoluteBlockPos pos) {
+        if (this.state.inProgress()) return Result.IN_PROGRESS;
 
         TileEntity tile = this.getExterior().getTile();
-        this.nbtBuffer = tile.getTileData();
+        CompoundNBT nbt = tile.getTileData();
 
-        tile.getLevel().setBlock(tile.getBlockPos(), Blocks.AIR.defaultBlockState(), 1);
+        new Schedule(() -> {
+            // idle -> demat
+            this.state = this.state.next();
+            // TODO: animation
+        }, 10 * 1000L).after(new Schedule(() -> {
+            // demat -> vortex
 
-        World world = TARDISUtil.getWorld(pos.getDimension());
-        world.setBlockAndUpdate(pos, AITBlocks.TARDIS_BLOCK.get().defaultBlockState());
-        world.getBlockEntity(pos).load(world.getBlockState(pos), this.nbtBuffer);
+            //noinspection DataFlowIssue
+            tile.getLevel().destroyBlock(tile.getBlockPos(), false);
+            this.state = this.state.next();
+        }, 10 * 1000L)).after(new Schedule(() -> {
+            // vortex -> remat
 
-        this.getTARDIS().setPosition(pos);
-        this.getExterior().link(this.getTARDIS());
+            World world = TARDISUtil.getWorld(pos.getDimension());
+            world.setBlockAndUpdate(pos, AITBlocks.TARDIS_BLOCK.get().defaultBlockState());
+
+            //noinspection DataFlowIssue
+            world.getBlockEntity(pos).load(world.getBlockState(pos), nbt);
+
+            //this.getTARDIS().setPosition(pos);
+            this.getExterior().link(this.getTARDIS());
+
+            this.state = this.state.next();
+            // TODO: animation
+        }, 10 * 1000L)).after(new Schedule(() -> {
+            // remat -> idle
+            this.state = this.state.next();
+        }, 10 * 1000L));
+
+        return Result.SUCCESS;
     }
 
     public State getState() {
@@ -52,26 +73,55 @@ public class TARDISTravel extends TARDISLinkableBasic {
             public boolean canInteract() {
                 return true;
             }
+
+            @Override
+            public State next() {
+                return DEMAT;
+            }
         },
         DEMAT() {
             @Override
-            public boolean canInteract() {
-                return false;
+            public boolean inProgress() {
+                return true;
+            }
+
+            @Override
+            public State next() {
+                return VORTEX;
             }
         },
         VORTEX() {
             @Override
-            public boolean canInteract() {
-                return false;
+            public State next() {
+                return REMAT;
             }
         },
         REMAT() {
             @Override
-            public boolean canInteract() {
-                return false;
+            public boolean inProgress() {
+                return true;
+            }
+
+            @Override
+            public State next() {
+                return IDLE;
             }
         };
 
-        public abstract boolean canInteract();
+        public boolean canInteract() {
+            return false;
+        }
+
+        public boolean inProgress() {
+            return false;
+        }
+
+        public abstract State next();
+    }
+
+    public enum Result {
+        SUCCESS,
+        IN_PROGRESS
+
     }
 }

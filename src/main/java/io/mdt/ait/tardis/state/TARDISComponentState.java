@@ -56,13 +56,24 @@ public abstract class TARDISComponentState<T extends TARDISComponentState<?>> {
                 CompoundNBT nbt = new CompoundNBT();
                 nbt.putString("id", t.getId());
 
-                this.serializeSelf(nbt, t);
+                this.serializeState(nbt, t);
                 return nbt;
             }
 
             throw new IllegalArgumentException("This argument is not state! This should not have happened...");
         }
 
-        public abstract void serializeSelf(CompoundNBT nbt, T t);
+        /**
+         * @deprecated DON'T USE THIS METHOD! IT'S FOR INTERNAL USE ONLY!
+         */
+        @Override
+        @Deprecated
+        public T deserialize(CompoundNBT nbt) {
+            return this.deserializeState(nbt);
+        }
+
+        public abstract void serializeState(CompoundNBT nbt, T t);
+
+        public abstract T deserializeState(CompoundNBT nbt);
     }
 }

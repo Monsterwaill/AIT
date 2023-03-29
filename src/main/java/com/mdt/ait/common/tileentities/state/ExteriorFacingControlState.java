@@ -16,10 +16,10 @@ public class ExteriorFacingControlState extends TARDISComponentState<ExteriorFac
         }
 
         @Override
-        public void serializeSelf(CompoundNBT nbt, ExteriorFacingControlState state) {}
+        public void serializeState(CompoundNBT nbt, ExteriorFacingControlState state) {}
 
         @Override
-        public ExteriorFacingControlState unserialize(CompoundNBT nbt) {
+        public ExteriorFacingControlState deserializeState(CompoundNBT nbt) {
             return new ExteriorFacingControlState();
         }
     }

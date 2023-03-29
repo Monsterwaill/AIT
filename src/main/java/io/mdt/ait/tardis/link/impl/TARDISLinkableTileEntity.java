@@ -7,6 +7,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public abstract class TARDISLinkableTileEntity extends TileEntity implements TARDISLinkable {
 
@@ -41,19 +43,25 @@ public abstract class TARDISLinkableTileEntity extends TileEntity implements TAR
     }
 
     public void sync() {
-        if (this.level != null) {
-            this.level.setBlocksDirty(
-                    this.worldPosition,
-                    this.level.getBlockState(this.worldPosition),
-                    this.level.getBlockState(this.worldPosition));
+        World world = this.getLevel();
+        BlockPos pos = this.getBlockPos();
 
-            this.level.sendBlockUpdated(
-                    this.worldPosition,
-                    this.level.getBlockState(this.worldPosition),
-                    this.level.getBlockState(this.worldPosition),
-                    3);
+        if (world == null)
+            return;
 
-            this.setChanged();
-        }
+        world.setBlocksDirty(
+                pos,
+                world.getBlockState(pos),
+                world.getBlockState(pos)
+        );
+
+        world.sendBlockUpdated(
+                pos,
+                world.getBlockState(pos),
+                world.getBlockState(pos),
+                3
+        );
+
+        this.setChanged();
     }
 }

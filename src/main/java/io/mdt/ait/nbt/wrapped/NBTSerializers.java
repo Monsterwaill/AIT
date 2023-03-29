@@ -28,7 +28,7 @@ public class NBTSerializers {
         }
 
         @Override
-        public RegistryKey<World> unserialize(CompoundNBT nbt) {
+        public RegistryKey<World> deserialize(CompoundNBT nbt) {
             CompoundNBT dimension = nbt.getCompound("dimension");
 
             return RegistryKey.create(
@@ -56,14 +56,14 @@ public class NBTSerializers {
         }
 
         @Override
-        public BlockPos unserialize(CompoundNBT nbt) {
+        public BlockPos deserialize(CompoundNBT nbt) {
             return this.unserialize(nbt, "Pos");
         }
 
         /**
          * This method is only used internally by {@link AbsolutePosition} to avoid code duplication.
          *
-         * @param nbt NBT that this position will unserialize to.
+         * @param nbt NBT that this position will deserialize to.
          * @param id id that will be used to get the position.
          */
         private BlockPos unserialize(CompoundNBT nbt, String id) {
@@ -87,9 +87,9 @@ public class NBTSerializers {
         }
 
         @Override
-        public AbsoluteBlockPos unserialize(CompoundNBT nbt) {
+        public AbsoluteBlockPos deserialize(CompoundNBT nbt) {
             return new AbsoluteBlockPos(
-                    DIMENSION_SERIALIZER.unserialize(nbt), POSITION_SERIALIZER.unserialize(nbt, "at"));
+                    DIMENSION_SERIALIZER.deserialize(nbt), POSITION_SERIALIZER.unserialize(nbt, "at"));
         }
     }
 }

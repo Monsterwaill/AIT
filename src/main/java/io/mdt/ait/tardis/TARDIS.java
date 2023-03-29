@@ -44,7 +44,8 @@ public class TARDIS {
                 new TARDISExterior(exterior),
                 new TARDISInterior(interior),
                 new TARDISDoor(TARDISUtil.getInteriorPos(interior).offset(interior.getDoorPosition())),
-                false);
+                true
+        );
 
         this.interior.getSchema().place(TARDISUtil.getTARDISWorld());
 
@@ -62,7 +63,7 @@ public class TARDIS {
             TARDISExterior exterior,
             TARDISInterior interior,
             TARDISDoor door,
-            boolean init) {
+            boolean firstTime) {
         this.uuid = uuid;
         this.position = position;
 
@@ -71,14 +72,14 @@ public class TARDIS {
 
         this.door = door;
 
-        if (init) {
+        if (!firstTime) {
             this.door.link(this);
             this.exterior.link(this);
             this.interior.link(this);
         }
 
         new TARDISStateManager.Serializer().unserialize(raw, this.stateManager);
-        this.travelManager.link(this); // unserialize(?)
+        this.travelManager.link(this); // deserialize(?)
     }
 
     public UUID getUUID() {
@@ -144,16 +145,15 @@ public class TARDIS {
         }
 
         @Override
-        public TARDIS unserialize(CompoundNBT nbt) {
+        public TARDIS deserialize(CompoundNBT nbt) {
             // State de-serialization happens in the constructor.
             return new TARDIS(
-                    nbt,
-                    nbt.getUUID("uuid"),
-                    ABSOLUTE_POSITION_SERIALIZER.unserialize(nbt),
-                    EXTERIOR_SERIALIZER.unserialize(nbt.getCompound("exterior")),
-                    INTERIOR_SERIALIZER.unserialize(nbt.getCompound("interior")),
-                    DOOR_SERIALIZER.unserialize(nbt.getCompound("door")),
-                    true);
+                    nbt, nbt.getUUID("uuid"),
+                    ABSOLUTE_POSITION_SERIALIZER.deserialize(nbt),
+                    EXTERIOR_SERIALIZER.deserialize(nbt.getCompound("exterior")),
+                    INTERIOR_SERIALIZER.deserialize(nbt.getCompound("interior")),
+                    DOOR_SERIALIZER.deserialize(nbt.getCompound("door")), false
+            );
         }
     }
 }

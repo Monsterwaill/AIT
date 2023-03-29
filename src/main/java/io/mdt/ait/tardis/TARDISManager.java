@@ -89,10 +89,10 @@ public class TARDISManager {
         }
 
         @Override
-        public TARDISManager unserialize(CompoundNBT nbt) {
+        public TARDISManager deserialize(CompoundNBT nbt) {
             TARDISManager manager = TARDISManager.getInstance();
 
-            manager.getTARDISMap().set(MAP_SERIALIZER.unserialize(nbt));
+            manager.getTARDISMap().set(MAP_SERIALIZER.deserialize(nbt));
             manager.getSavedData().setDirty(false);
             return manager;
         }

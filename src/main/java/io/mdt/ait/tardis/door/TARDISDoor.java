@@ -91,9 +91,9 @@ public class TARDISDoor extends TARDISLinkableBasic {
         }
 
         @Override
-        public TARDISDoor unserialize(CompoundNBT nbt) {
+        public TARDISDoor deserialize(CompoundNBT nbt) {
             return new TARDISDoor(
-                    nbt.getUUID("portal"), POSITION_SERIALIZER.unserialize(nbt), STATE_SERIALIZER.unserialize(nbt));
+                    nbt.getUUID("portal"), POSITION_SERIALIZER.deserialize(nbt), STATE_SERIALIZER.deserialize(nbt));
         }
     }
 }

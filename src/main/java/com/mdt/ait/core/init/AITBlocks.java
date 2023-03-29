@@ -51,7 +51,7 @@ public class AITBlocks {
     public static final RegistryObject<Block> GBTCASING_BLOCK = BLOCKS.register("gbtcasing", GBTCasingBlock::new);
 
     public static final RegistryObject<Block> TARDIS_LEVER_BLOCK =
-            BLOCKS.register("tardis_lever", TardisLeverBlock::new);
+            BLOCKS.register("tardis_lever", TARDISLeverBlock::new);
 
     public static final RegistryObject<Block> BASIC_ROTOR_BLOCK = BLOCKS.register("basic_rotor", BasicRotorBlock::new);
 
