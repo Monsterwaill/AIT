@@ -44,8 +44,7 @@ public class TARDIS {
                 new TARDISExterior(exterior),
                 new TARDISInterior(interior),
                 new TARDISDoor(TARDISUtil.getInteriorPos(interior).offset(interior.getDoorPosition())),
-                true
-        );
+                true);
 
         this.interior.getSchema().place(TARDISUtil.getTARDISWorld());
 
@@ -148,12 +147,13 @@ public class TARDIS {
         public TARDIS deserialize(CompoundNBT nbt) {
             // State de-serialization happens in the constructor.
             return new TARDIS(
-                    nbt, nbt.getUUID("uuid"),
+                    nbt,
+                    nbt.getUUID("uuid"),
                     ABSOLUTE_POSITION_SERIALIZER.deserialize(nbt),
                     EXTERIOR_SERIALIZER.deserialize(nbt.getCompound("exterior")),
                     INTERIOR_SERIALIZER.deserialize(nbt.getCompound("interior")),
-                    DOOR_SERIALIZER.deserialize(nbt.getCompound("door")), false
-            );
+                    DOOR_SERIALIZER.deserialize(nbt.getCompound("door")),
+                    false);
         }
     }
 }

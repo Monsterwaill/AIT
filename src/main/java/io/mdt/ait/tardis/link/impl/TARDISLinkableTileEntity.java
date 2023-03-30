@@ -46,21 +46,11 @@ public abstract class TARDISLinkableTileEntity extends TileEntity implements TAR
         World world = this.getLevel();
         BlockPos pos = this.getBlockPos();
 
-        if (world == null)
-            return;
+        if (world == null) return;
 
-        world.setBlocksDirty(
-                pos,
-                world.getBlockState(pos),
-                world.getBlockState(pos)
-        );
+        world.setBlocksDirty(pos, world.getBlockState(pos), world.getBlockState(pos));
 
-        world.sendBlockUpdated(
-                pos,
-                world.getBlockState(pos),
-                world.getBlockState(pos),
-                3
-        );
+        world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
 
         this.setChanged();
     }

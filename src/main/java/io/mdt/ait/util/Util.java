@@ -1,9 +1,8 @@
 package io.mdt.ait.util;
 
+import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
-
-import java.util.UUID;
 
 public class Util {
 

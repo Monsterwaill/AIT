@@ -17,7 +17,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class ExteriorFacingControlTile extends TARDISComponent<ExteriorFacingControlState> {
 
     public ExteriorFacingControlTile() {
-        super(AITTiles.EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE.get());
+        super(AITTiles.EXTERIOR_FACING_CONTROL_TILE_ENTITY_TYPE.get(), ExteriorFacingControlState.class);
     }
 
     @Override

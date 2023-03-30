@@ -2,7 +2,6 @@ package io.mdt.ait.tardis.state;
 
 import com.mdt.ait.common.tileentities.state.ExteriorFacingControlState;
 import com.mdt.ait.common.tileentities.state.TARDISLeverState;
-
 import java.util.HashMap;
 import java.util.Map;
 

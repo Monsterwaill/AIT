@@ -5,6 +5,8 @@ import com.mdt.ait.core.init.AITTiles;
 import io.mdt.ait.tardis.TARDISTravel;
 import io.mdt.ait.tardis.link.impl.stateful.TARDISComponent;
 import io.mdt.ait.tardis.state.TARDISComponentState;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -18,9 +20,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
 public class TARDISLeverControlTile extends TARDISComponent<TARDISLeverState> implements ITickableTileEntity {
 
     public float leverPosition = 0;
@@ -31,8 +30,7 @@ public class TARDISLeverControlTile extends TARDISComponent<TARDISLeverState> im
 
     @Override
     public void tick() {
-        if (!this.isLinked())
-            return;
+        if (!this.isLinked()) return;
 
         this.updateState(state -> {
             if (state.getLeverState() == TARDISLeverState.State.INACTIVE) {
@@ -69,25 +67,22 @@ public class TARDISLeverControlTile extends TARDISComponent<TARDISLeverState> im
     }
 
     public ActionResultType useOn(World world, PlayerEntity playerEntity, Hand hand) {
-        if (world.isClientSide())
-            return ActionResultType.FAIL;
+        if (world.isClientSide()) return ActionResultType.FAIL;
 
-        if (!this.isLinked())
-            return ActionResultType.FAIL;
+        if (!this.isLinked()) return ActionResultType.FAIL;
 
-        if (hand != Hand.MAIN_HAND)
-            return ActionResultType.FAIL;
+        if (hand != Hand.MAIN_HAND) return ActionResultType.FAIL;
 
         this.updateState(state -> {
             state.setLeverState(state.getLeverState().next());
 
-            TARDISTravel.Result result = this.getTravelManager().to(this.getTARDIS().getPosition());
+            TARDISTravel.Result result =
+                    this.getTravelManager().to(this.getTARDIS().getPosition());
             if (result != TARDISTravel.Result.SUCCESS)
                 playerEntity.sendMessage(
                         new TranslationTextComponent("TARDIS has not finished its journey!")
                                 .setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)),
-                        UUID.randomUUID()
-                );
+                        UUID.randomUUID());
 
             state.setLeverState(state.getLeverState().next());
             this.sync();

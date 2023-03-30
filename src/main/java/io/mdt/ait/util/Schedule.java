@@ -1,33 +1,29 @@
 package io.mdt.ait.util;
 
 import java.util.*;
+import java.util.function.Consumer;
 
-
-public class Schedule extends TimerTask {
+public class Schedule {
 
     private final String name;
     private final Runnable runnable;
 
-    private final long delay;
+    private Consumer<Integer> onSecond;
+
+    private final long seconds;
     private int repeat = 0;
 
     private Schedule after;
 
-    public Schedule(Runnable runnable, long delay) {
-        this(UUID.randomUUID().toString(), runnable, delay);
+    public Schedule(Runnable runnable, long seconds) {
+        this(UUID.randomUUID().toString(), runnable, seconds);
     }
 
-    public Schedule(String name, Runnable runnable, long delay) {
+    public Schedule(String name, Runnable runnable, long seconds) {
         this.name = name;
         this.runnable = runnable;
 
-        this.delay = delay;
-    }
-
-    @Override
-    public void run() {
-        this.runnable.run();
-        this.after.schedule();
+        this.seconds = seconds;
     }
 
     public Schedule after(Schedule schedule) {
@@ -45,9 +41,29 @@ public class Schedule extends TimerTask {
         return this;
     }
 
+    public Schedule onSecond(Consumer<Integer> onSecond) {
+        this.onSecond = onSecond;
+        return this;
+    }
+
     public void schedule() {
+        Timer timer = new Timer(this.name);
         for (int i = 0; i < this.repeat; i++) {
-            new Timer(this.name).schedule(this, this.delay);
+            for (int seconds = 1; seconds < this.seconds + 1; seconds++) {
+                int second = seconds;
+
+                timer.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                onSecond.accept(second);
+                            }
+                        },
+                        1000L);
+            }
+
+            this.runnable.run();
+            this.after.schedule();
         }
     }
 }

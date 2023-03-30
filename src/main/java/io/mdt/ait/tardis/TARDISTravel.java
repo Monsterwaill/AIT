@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 public class TARDISTravel extends TARDISLinkableBasic {
 
+    private Schedule schedule;
     private State state;
 
     public TARDISTravel() {
@@ -27,37 +28,54 @@ public class TARDISTravel extends TARDISLinkableBasic {
         TileEntity tile = this.getExterior().getTile();
         CompoundNBT nbt = tile.getTileData();
 
-        new Schedule(() -> {
-            // idle -> demat
-            this.state = this.state.next();
-            // TODO: animation
-        }, 10 * 1000L).after(new Schedule(() -> {
-            // demat -> vortex
+        this.schedule = new Schedule(
+                        () -> {
+                            // idle -> demat
+                            this.state = this.state.next();
+                            // TODO: animation
+                        },
+                        10)
+                .after(new Schedule(
+                        () -> {
+                            // demat -> vortex
 
-            //noinspection DataFlowIssue
-            tile.getLevel().destroyBlock(tile.getBlockPos(), false);
-            this.state = this.state.next();
-        }, 10 * 1000L)).after(new Schedule(() -> {
-            // vortex -> remat
+                            //noinspection DataFlowIssue
+                            tile.getLevel().destroyBlock(tile.getBlockPos(), false);
+                            this.state = this.state.next();
+                        },
+                        10))
+                .after(new Schedule(
+                        () -> {
+                            // vortex -> remat
 
-            World world = TARDISUtil.getWorld(pos.getDimension());
-            world.setBlockAndUpdate(pos, AITBlocks.TARDIS_BLOCK.get().defaultBlockState());
+                            World world = TARDISUtil.getWorld(pos.getDimension());
+                            world.setBlockAndUpdate(
+                                    pos, AITBlocks.TARDIS_BLOCK.get().defaultBlockState());
 
-            //noinspection DataFlowIssue
-            world.getBlockEntity(pos).load(world.getBlockState(pos), nbt);
+                            //noinspection DataFlowIssue
+                            world.getBlockEntity(pos).load(world.getBlockState(pos), nbt);
 
-            //this.getTARDIS().setPosition(pos);
-            this.getExterior().link(this.getTARDIS());
+                            // this.getTARDIS().setPosition(pos);
+                            this.getExterior().link(this.getTARDIS());
 
-            this.state = this.state.next();
-            // TODO: animation
-        }, 10 * 1000L)).after(new Schedule(() -> {
-            // remat -> idle
-            this.state = this.state.next();
-        }, 10 * 1000L));
+                            this.state = this.state.next();
+                            // TODO: animation
+                        },
+                        10))
+                .after(new Schedule(
+                        () -> {
+                            // remat -> idle
+                            this.state = this.state.next();
+                        },
+                        10));
+
+        this.schedule.schedule();
 
         return Result.SUCCESS;
     }
+    // TODO:
+    // #takeOff()
+    // #land()
 
     public State getState() {
         return this.state;
@@ -65,6 +83,10 @@ public class TARDISTravel extends TARDISLinkableBasic {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Schedule getSchedule() {
+        return this.schedule;
     }
 
     public enum State {
@@ -122,6 +144,5 @@ public class TARDISTravel extends TARDISLinkableBasic {
     public enum Result {
         SUCCESS,
         IN_PROGRESS
-
     }
 }

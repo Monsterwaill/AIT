@@ -1,10 +1,6 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.TARDISLeverControlTile;
-import com.mdt.ait.core.init.AITDimensions;
-import io.mdt.ait.tardis.TARDISManager;
-import java.util.UUID;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -23,13 +19,13 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nullable;
 
 public class TARDISLeverBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public UUID tardisID;
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 1, 16);
 
@@ -76,20 +72,6 @@ public class TARDISLeverBlock extends Block {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.defaultBlockState()
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
-
-    @Override
-    public void onPlace(BlockState blockState1, World world, BlockPos blockPos, BlockState blockState2, boolean bool) {
-        super.onPlace(blockState1, world, blockPos, blockState2, bool);
-        if (!world.isClientSide && world.dimension() == AITDimensions.TARDIS_DIMENSION) {
-            ServerWorld serverWorld = ((ServerWorld) world);
-            TARDISLeverControlTile tardisLeverTile = (TARDISLeverControlTile) serverWorld.getBlockEntity(blockPos);
-            this.tardisID = TARDISManager.getInstance().findUUID(blockPos);
-            assert tardisLeverTile != null;
-            tardisLeverTile.tardisID = this.tardisID;
-            serverWorld.setBlockEntity(blockPos, tardisLeverTile);
-            tardisLeverTile.onPlace(blockState1, world, blockPos);
-        }
     }
 
     @Nullable @Override

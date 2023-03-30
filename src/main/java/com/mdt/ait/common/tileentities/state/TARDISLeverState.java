@@ -38,9 +38,7 @@ public class TARDISLeverState extends TARDISComponentState<TARDISLeverState> {
 
         @Override
         public TARDISLeverState deserializeState(CompoundNBT nbt) {
-            return new TARDISLeverState(
-                    State.values()[nbt.getInt("lever_state")]
-            );
+            return new TARDISLeverState(State.values()[nbt.getInt("lever_state")]);
         }
     }
 

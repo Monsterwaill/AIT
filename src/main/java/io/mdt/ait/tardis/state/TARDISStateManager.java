@@ -3,7 +3,6 @@ package io.mdt.ait.tardis.state;
 import io.mdt.ait.nbt.NBTDeserializerLate;
 import io.mdt.ait.nbt.NBTSerializer;
 import io.mdt.ait.tardis.link.impl.TARDISLinkableBasic;
-
 import java.util.*;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
@@ -23,8 +22,7 @@ public class TARDISStateManager extends TARDISLinkableBasic {
      * @param <T> type of the state.
      */
     public <T extends TARDISComponentState<?>> void add(T state) {
-        if (this.states.containsKey(state.getClass()))
-            return;
+        if (this.states.containsKey(state.getClass())) return;
 
         this.states.put(state.getClass(), state);
     }
@@ -55,8 +53,7 @@ public class TARDISStateManager extends TARDISLinkableBasic {
     public <T extends TARDISComponentState<?>> T get(Class<T> type) {
         TARDISComponentState<?> state = this.states.get(type);
 
-        if (state != null)
-            return (T) state;
+        if (state != null) return (T) state;
 
         throw new IllegalArgumentException(
                 "State of this type does not exist or not registered for this state manager!");
@@ -70,9 +67,7 @@ public class TARDISStateManager extends TARDISLinkableBasic {
 
             for (TARDISComponentState<?> state : manager.states.values()) {
                 //noinspection deprecation
-                states.add(
-                        state.getSerializer().serialize(state)
-                );
+                states.add(state.getSerializer().serialize(state));
             }
 
             nbt.put("states", states);
@@ -84,9 +79,7 @@ public class TARDISStateManager extends TARDISLinkableBasic {
 
             for (INBT inbt : states) {
                 CompoundNBT stateNBT = ((CompoundNBT) inbt);
-                TARDISComponentState<?> state = TARDISStates.get(
-                        stateNBT.getString("id")
-                );
+                TARDISComponentState<?> state = TARDISStates.get(stateNBT.getString("id"));
 
                 //noinspection deprecation
                 manager.add(state.getSerializer().deserialize(stateNBT));
