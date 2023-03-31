@@ -5,7 +5,7 @@ import com.mdt.ait.core.init.AITTiles;
 import io.mdt.ait.tardis.TARDISTravel;
 import io.mdt.ait.tardis.link.impl.stateful.TARDISComponent;
 import io.mdt.ait.tardis.state.TARDISComponentState;
-import java.util.UUID;
+import io.mdt.ait.util.Util;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,10 +22,34 @@ import net.minecraft.world.World;
 
 public class TARDISLeverControlTile extends TARDISComponent<TARDISLeverState> implements ITickableTileEntity {
 
-    public float leverPosition = 0;
+    private float leverPosition = 0;
 
     public TARDISLeverControlTile() {
         super(AITTiles.TARDIS_LEVER_TILE_ENTITY_TYPE.get(), TARDISLeverState.class);
+    }
+
+    public ActionResultType useOn(World world, PlayerEntity player, Hand hand) {
+        if (world.isClientSide() || !this.isLinked() || hand != Hand.MAIN_HAND) return ActionResultType.FAIL;
+
+        this.updateState(state -> {
+            TARDISTravel.Result result =
+                    this.getTravelManager().to(this.getTARDIS().getPosition());
+
+            if (result != TARDISTravel.Result.SUCCESS)
+                Util.sendMessage(
+                        player,
+                        new TranslationTextComponent("TARDIS has not finished its journey!")
+                                .setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)));
+
+            state.setLeverState(state.getLeverState().next());
+            this.sync();
+        });
+
+        return ActionResultType.SUCCESS;
+    }
+
+    public float getLeverPosition() {
+        return this.leverPosition;
     }
 
     @Override
@@ -52,43 +76,18 @@ public class TARDISLeverControlTile extends TARDISComponent<TARDISLeverState> im
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(worldPosition).inflate(10, 10, 10);
+        return new AxisAlignedBB(this.getBlockPos()).inflate(10, 10, 10);
     }
 
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+        return this.save(new CompoundNBT());
     }
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(worldPosition, 0, save(new CompoundNBT()));
-    }
-
-    public ActionResultType useOn(World world, PlayerEntity playerEntity, Hand hand) {
-        if (world.isClientSide()) return ActionResultType.FAIL;
-
-        if (!this.isLinked()) return ActionResultType.FAIL;
-
-        if (hand != Hand.MAIN_HAND) return ActionResultType.FAIL;
-
-        this.updateState(state -> {
-            state.setLeverState(state.getLeverState().next());
-
-            TARDISTravel.Result result =
-                    this.getTravelManager().to(this.getTARDIS().getPosition());
-            if (result != TARDISTravel.Result.SUCCESS)
-                playerEntity.sendMessage(
-                        new TranslationTextComponent("TARDIS has not finished its journey!")
-                                .setStyle(Style.EMPTY.withColor(TextFormatting.DARK_AQUA)),
-                        UUID.randomUUID());
-
-            state.setLeverState(state.getLeverState().next());
-            this.sync();
-        });
-
-        return ActionResultType.SUCCESS;
+        return new SUpdateTileEntityPacket(this.getBlockPos(), 0, save(new CompoundNBT()));
     }
 
     @Override
