@@ -1,6 +1,7 @@
 package com.mdt.ait.common.blocks;
 
 import com.mdt.ait.common.tileentities.TARDISLeverControlTile;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -20,12 +21,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class TARDISLeverBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
 
     public static VoxelShape YES_SHAPE = Block.box(0, 0, 0, 16, 1, 16);
 
