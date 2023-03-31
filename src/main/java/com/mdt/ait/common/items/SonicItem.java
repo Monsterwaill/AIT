@@ -198,7 +198,8 @@ public class SonicItem extends Item {
         if (playerentity.isCrouching()) {
             if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
                 Minecraft.getInstance()
-                        .setScreen(new TARDISRoomSelectScreen(new TranslationTextComponent("Room Select Screen"), this));
+                        .setScreen(
+                                new TARDISRoomSelectScreen(new TranslationTextComponent("Room Select Screen"), this));
                 world.playSound(
                         null,
                         blockpos.getX(),

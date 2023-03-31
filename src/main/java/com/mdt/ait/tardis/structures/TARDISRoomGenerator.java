@@ -2,7 +2,9 @@ package com.mdt.ait.tardis.structures;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.core.init.AITBlocks;
+import java.io.File;
 import java.util.*;
+import javax.annotation.Nullable;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,14 +19,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.server.ServerWorld;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 public class TARDISRoomGenerator {
     private final ServerWorld tardisWorld;
     private final String name;
     private final String fileName;
     private final List<ResourceLocation> structureList = new ArrayList<>();
-    //    public ArrayList<String> structureNameList = new ArrayList<>();
-    public static String[] structureNameList = {
+    public ArrayList<String> structureNameList = new ArrayList<>();
+    public static String[] OLDstructureNameList = {
         "ars_tree_room",
         "downstairs_corridor",
         "gardening_room",
@@ -74,12 +78,20 @@ public class TARDISRoomGenerator {
     // PLACE THE BLOCK "ars_centre" WHERE YOU WANT THE ENTRANCE OF YOUR STRUCTURE TO BE
     // THEN, IN LINE WITH THE CENTRE BLOCK, PLACE A "ars_corner" BLOCK IN THE CORNER ON THE RIGHT
 
-    public TARDISRoomGenerator(ServerWorld tardisWorld, String structureName) {
+    public TARDISRoomGenerator(ServerWorld tardisWorld, @Nullable String structureName) {
         this.tardisWorld = tardisWorld;
         this.name = structureName;
         this.fileName = filePrefix + structureName;
-        // addFilesToStructureNameList(directoryToFiles);
+
+        // populateStructureNameList();
+        // @TODO finish proper implementation of auto-adding.
+        structureNameList.addAll(Arrays.asList(OLDstructureNameList));
         populateStructureList();
+
+        if (structureName == null) {
+            structureName = structureNameList.get(0);
+        }
+
         structureTemplate = tardisWorld.getStructureManager().getOrCreate(getStructureLocation(structureName));
     }
 
@@ -377,45 +389,59 @@ public class TARDISRoomGenerator {
     public String getNextStructureName(String name) {
         name = filePrefix + name.toLowerCase();
         int nameLocation = 0;
-        for (int i = 0; i <= structureNameList.length - 1; i++) {
-            if (structureNameList[i] == name) {
+        for (int i = 0; i <= structureNameList.size() - 1; i++) {
+            if (Objects.equals(structureNameList.get(i), name)) {
                 nameLocation = i;
                 break;
             }
         }
 
-        return structureNameList[nameLocation + 1];
+        return structureNameList.get(nameLocation + 1);
     }
 
     public String getPreviousStructureName(String name) {
         name = filePrefix + name.toLowerCase();
         int nameLocation = 0;
-        for (int i = 0; i <= structureNameList.length - 1; i++) {
-            if (structureNameList[i] == name) {
+        for (int i = 0; i <= structureNameList.size() - 1; i++) {
+            if (structureNameList.get(i) == name) {
                 nameLocation = i;
                 break;
             }
         }
 
-        return structureNameList[nameLocation - 1];
+        return structureNameList.get(nameLocation - 1);
     }
 
-    /*private void addFilesToStructureNameList(String directory) {
-        URL resource = AIT.class.getResource("/rooms");
-        File fileDirectory;
-        try {
-            fileDirectory = new File(new File(resource.toURI()).getAbsolutePath());
-        } catch (Exception e) {
-            System.out.println("EXCEPTION WITH ADDING FILES TO BaseStructure: " + e);
-            return;
+    private List<File> getFilesInDirectory(String directory, @Nullable String fileSuffix) {
+        File directoryFile = new File(directory);
+
+        // Return an empty list if the directory doesnt exist.
+        if (!directoryFile.exists()) {
+            return Collections.emptyList();
         }
-        System.out.println(fileDirectory.listFiles());
-        File filesList[] = fileDirectory.listFiles();
-        for (File file : filesList) {
-            System.out.println(file.getName().substring(0,file.getName().length()-4));
-            structureNameList.add(file.getName().substring(0,file.getName().length()-4));
+
+        // Get all the files in the directory
+        Collection<File> files = FileUtils.listFiles(directoryFile, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+
+        // If an ending is provided, remove all files that dont have the ending
+        if (fileSuffix != null) {
+            files.removeIf(file -> !file.getName().endsWith(fileSuffix));
         }
-    }*/
+
+        // Convert collection to list
+        return new ArrayList<>(files);
+    }
+
+    private void populateStructureNameList() {
+        System.out.println(new File("./").getAbsolutePath());
+        ResourceLocation test = new ResourceLocation(AIT.MOD_ID, "rooms/short_corridor");
+        System.out.println(test.getPath());
+        List<File> files = getFilesInDirectory("src/main/resources/data/ait/structures/rooms", ".nbt");
+        for (File file : files) {
+            String name = file.getName();
+            structureNameList.add(name);
+        }
+    }
 
     private void populateStructureList() {
         for (String i : structureNameList) {
