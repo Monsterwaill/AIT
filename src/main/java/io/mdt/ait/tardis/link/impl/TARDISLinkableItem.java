@@ -3,7 +3,6 @@ package io.mdt.ait.tardis.link.impl;
 import io.mdt.ait.tardis.TARDIS;
 import io.mdt.ait.tardis.TARDISManager;
 import io.mdt.ait.tardis.link.TARDISLink;
-import io.mdt.ait.tardis.link.TARDISLinkRestricted;
 import io.mdt.ait.tardis.link.TARDISLinkableStatic;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,12 +16,10 @@ public abstract class TARDISLinkableItem extends Item implements TARDISLinkableS
 
     /**
      * Gets link for this {@link ItemStack}.
-     *
-     * @implNote DO NOT use this method to link something.
      */
     @Override
     public TARDISLink getLink(ItemStack stack) {
-        TARDISLink link = new TARDISLinkRestricted();
+        TARDISLink link = new TARDISLink();
         CompoundNBT nbt = stack.getOrCreateTag();
 
         if (nbt.contains("tardis")) {

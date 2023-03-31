@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class StattenheimRemoteItem extends TARDISLinkableItem {
 
     public StattenheimRemoteItem(Item.Properties properties) {
-        super(properties.stacksTo(1));
+        super(properties);
     }
 
     @Override
@@ -27,6 +27,7 @@ public class StattenheimRemoteItem extends TARDISLinkableItem {
             TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof TARDISTileEntity) {
                 this.link(stack, ((TARDISTileEntity) tile).getTARDIS());
+
                 return ActionResultType.SUCCESS;
             }
         }
