@@ -37,7 +37,7 @@ public class TardisLeverRenderer extends TileEntityRenderer<TARDISLeverControlTi
         // EnumLeverState.values()[tile.serializeNBT().getInt("leverState")];
         // int leverstatetype = tile.serializeNBT().getInt("leverState");
         MatrixStackIn.pushPose();
-        this.model.bone.xRot = (float) Math.toRadians(tile.leverPosition);
+        this.model.bone.xRot = (float) Math.toRadians(tile.getLeverPosition());
         MatrixStackIn.translate(0.5, 0, 0.5);
         MatrixStackIn.scale(1f, 1f, 1f);
         MatrixStackIn.translate(0, 1.5f, 0);

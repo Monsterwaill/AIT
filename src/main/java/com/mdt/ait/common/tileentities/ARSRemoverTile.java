@@ -2,7 +2,7 @@ package com.mdt.ait.common.tileentities;
 
 import com.mdt.ait.core.init.AITSounds;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.tardis.structures.BaseStructure;
+import com.mdt.ait.tardis.structures.TARDISRoomGenerator;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -24,7 +24,7 @@ public class ARSRemoverTile extends TileEntity implements ITickableTileEntity {
     PlayerEntity player;
     String message;
     boolean countdown = false;
-    private BaseStructure structure;
+    private TARDISRoomGenerator structure;
     private Direction direction;
 
     public ARSRemoverTile() {
@@ -42,7 +42,7 @@ public class ARSRemoverTile extends TileEntity implements ITickableTileEntity {
             BlockPos pos,
             PlayerEntity player,
             String message,
-            BaseStructure structure) {
+            TARDISRoomGenerator structure) {
         this.structure = structure;
         this.message = message;
         this.player = player;

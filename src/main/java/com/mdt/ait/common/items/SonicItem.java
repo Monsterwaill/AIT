@@ -4,7 +4,7 @@ import static net.minecraft.block.DoorBlock.OPEN;
 import static net.minecraft.block.RedstoneLampBlock.LIT;
 import static net.minecraft.block.RedstoneWireBlock.POWER;
 
-import com.mdt.ait.client.screen.StructureSelectScreen;
+import com.mdt.ait.client.screen.TARDISRoomSelectScreen;
 import com.mdt.ait.common.blocks.*;
 import com.mdt.ait.common.tileentities.ConsoleTileEntity;
 import com.mdt.ait.common.tileentities.RoundelDoorsTile;
@@ -198,7 +198,7 @@ public class SonicItem extends Item {
         if (playerentity.isCrouching()) {
             if (world.dimension() == AITDimensions.TARDIS_DIMENSION) {
                 Minecraft.getInstance()
-                        .setScreen(new StructureSelectScreen(new TranslationTextComponent("Room Select Screen"), this));
+                        .setScreen(new TARDISRoomSelectScreen(new TranslationTextComponent("Room Select Screen"), this));
                 world.playSound(
                         null,
                         blockpos.getX(),

@@ -8,7 +8,7 @@ import com.mdt.ait.common.tileentities.ARSRemoverTile;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.tardis.structures.BaseStructure;
+import com.mdt.ait.tardis.structures.TARDISRoomGenerator;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -52,7 +52,7 @@ public class ARSRemoverBlock extends Block {
                 || checkHeldItem(pPlayer, AITItems.WHITTAKER_SONIC.get())) {
             if (!pLevel.isClientSide) {
                 ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                BaseStructure baseStructure = new BaseStructure(tardisWorld, this.structure_name);
+                TARDISRoomGenerator TARDISRoomGenerator = new TARDISRoomGenerator(tardisWorld, this.structure_name);
                 Direction block_direction = pHit.getDirection().getOpposite();
                 SonicItem sonic = (SonicItem) pPlayer.getMainHandItem().getItem();
                 this.structure_name = sonic.structure_name;
@@ -68,7 +68,7 @@ public class ARSRemoverBlock extends Block {
                                     pPos,
                                     pPlayer,
                                     "second(s) until room deletion.",
-                                    baseStructure);
+                                    TARDISRoomGenerator);
                 }
                 // baseStructure.placeStructure(tardisWorld, pPos, block_direction,pPlayer);
             }

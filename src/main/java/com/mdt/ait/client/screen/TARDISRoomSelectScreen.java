@@ -2,7 +2,7 @@ package com.mdt.ait.client.screen;
 
 import com.mdt.ait.AIT;
 import com.mdt.ait.common.items.SonicItem;
-import com.mdt.ait.tardis.structures.BaseStructure;
+import com.mdt.ait.tardis.structures.TARDISRoomGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class StructureSelectScreen extends Screen {
+public class TARDISRoomSelectScreen extends Screen {
     private static final ResourceLocation GUI =
             new ResourceLocation(AIT.MOD_ID, "textures/screens/structure_select_screen.png");
     private final SonicItem parentSonic;
@@ -23,7 +23,7 @@ public class StructureSelectScreen extends Screen {
     private int current_selection_id;
     private final FontRenderer fontRenderer = Minecraft.getInstance().font;
 
-    public StructureSelectScreen(ITextComponent label, SonicItem parentSonic) {
+    public TARDISRoomSelectScreen(ITextComponent label, SonicItem parentSonic) {
         super(label);
         this.parentSonic = parentSonic;
         this.imageWidth = 176;
@@ -36,7 +36,7 @@ public class StructureSelectScreen extends Screen {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         current_selection_id = 0;
-        current_selection = BaseStructure.structureNameList[current_selection_id];
+        current_selection = TARDISRoomGenerator.structureNameList[current_selection_id];
         this.addButton(new Button(
                 (this.width / 2) + 96,
                 this.height / 2,
@@ -67,17 +67,17 @@ public class StructureSelectScreen extends Screen {
     private void onPressLeftButton() {
         current_selection_id--;
         if (current_selection_id == -1) {
-            current_selection_id = BaseStructure.structureNameList.length - 1;
+            current_selection_id = TARDISRoomGenerator.structureNameList.length - 1;
         }
-        current_selection = BaseStructure.structureNameList[current_selection_id];
+        current_selection = TARDISRoomGenerator.structureNameList[current_selection_id];
     }
 
     private void onPressRightButton() {
         current_selection_id++;
-        if (current_selection_id == BaseStructure.structureNameList.length) {
+        if (current_selection_id == TARDISRoomGenerator.structureNameList.length) {
             current_selection_id = 0;
         }
-        current_selection = BaseStructure.structureNameList[current_selection_id];
+        current_selection = TARDISRoomGenerator.structureNameList[current_selection_id];
     }
 
     @Override
@@ -86,7 +86,7 @@ public class StructureSelectScreen extends Screen {
         drawCenteredString(
                 matrixStack,
                 fontRenderer,
-                BaseStructure.toStructureName(current_selection),
+                TARDISRoomGenerator.toStructureName(current_selection),
                 this.width / 2,
                 this.height / 2,
                 0xA7C7E7);
