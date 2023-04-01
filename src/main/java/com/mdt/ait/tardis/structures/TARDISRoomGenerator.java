@@ -44,7 +44,7 @@ public class TARDISRoomGenerator {
     }; // blocks that will be ignored if found in the check
 
     private final String filePrefix = "rooms/";
-    private final Template structureTemplate;
+    private Template structureTemplate;
     private final String fallbackStructure = "short_corridor";
 
     /*
@@ -92,8 +92,14 @@ public class TARDISRoomGenerator {
         if (structureName == null) {
             structureName = structureNameList.get(0);
         }
+        System.out.println(structureName);
 
-        structureTemplate = tardisWorld.getStructureManager().getOrCreate(getStructureLocation(structureName));
+        try {
+            structureTemplate = tardisWorld.getStructureManager().getOrCreate(Objects.requireNonNull(getStructureLocation(structureName)));
+        } catch (Exception error) {
+            sendPlaceChat(false,null,"Resorted to a default structure due to error: " + error);
+            structureTemplate = tardisWorld.getStructureManager().getOrCreate(getStructureLocation(fallbackStructure));
+        }
     }
 
     public void placeStructure(
@@ -130,6 +136,7 @@ public class TARDISRoomGenerator {
         // Then we get the position of where the corner block is, so we know where to begin iterating
         // from
         BlockPos cornerBlockPos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CORNER_BLOCK.get());
+        System.out.println("Found corner block at: " + cornerBlockPos);
         int x = cornerBlockPos.getX();
         int y = cornerBlockPos.getY();
         int z = cornerBlockPos.getZ();
@@ -236,8 +243,8 @@ public class TARDISRoomGenerator {
      * @return Returns the {@link BlockPos} where this structure should be placed.
      */
     private BlockPos getPlacementPos(BlockPos pos, Direction direction) {
-        BlockPos centreBlockPos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CENTRE_BLOCK.get());
-        BlockPos cornerBlockPos = findTargetBlockPos(pos, direction, AITBlocks.ARS_CORNER_BLOCK.get());
+        BlockPos centreBlockPos = findTargetBlockPosInTemplate(pos, direction, AITBlocks.ARS_CENTRE_BLOCK.get());
+        BlockPos cornerBlockPos = findTargetBlockPosInTemplate(pos, direction, AITBlocks.ARS_CORNER_BLOCK.get());
 
         // Work out the difference between these two positions
         BlockPos remainderBlockPos = new BlockPos(
@@ -259,9 +266,17 @@ public class TARDISRoomGenerator {
         return placementBlockPos;
     }
 
-    private BlockPos findTargetBlockPos(BlockPos pos, Direction direction, Block targetBlock) {
+    private BlockPos findTargetBlockPosInTemplate(BlockPos pos, Direction direction, Block targetBlock) {
         List<Template.BlockInfo> list = structureTemplate.filterBlocks(
                 pos, new PlacementSettings().setRotation(directionToRotation(direction)), targetBlock);
+        System.out.println(list.get(0).pos);
+        return list.get(0).pos;
+    }
+    private BlockPos findTargetBlockPos(BlockPos pos, Direction direction, Block targetBlock) {
+        BlockPos newPos = getPlacementPos(pos,direction);
+        List<Template.BlockInfo> list = structureTemplate.filterBlocks(
+                newPos, new PlacementSettings().setRotation(directionToRotation(direction)), targetBlock);
+        System.out.println(list.get(0).pos);
         return list.get(0).pos;
     }
 
