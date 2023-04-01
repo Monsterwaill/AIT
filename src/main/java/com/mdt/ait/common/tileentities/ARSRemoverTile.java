@@ -56,7 +56,7 @@ public class ARSRemoverTile extends TileEntity implements ITickableTileEntity  {
     public void tick() {
         if (this.countdown) {
             if (ticks >= 0) {
-                System.out.println(ticks + " % 40 = " + ticks%40);
+                // System.out.println(ticks + " % 40 = " + ticks%40);
                 if (ticks % 40 == 0) {
                     this.seconds = ticks / 40;
                     player.sendMessage(new TranslationTextComponent(this.seconds + " " + this.message).setStyle(Style.EMPTY.withColor(TextFormatting.RED).withItalic(true)), UUID.randomUUID());
