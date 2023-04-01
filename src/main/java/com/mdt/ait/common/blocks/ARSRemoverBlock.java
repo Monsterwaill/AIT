@@ -6,7 +6,7 @@ import com.mdt.ait.common.tileentities.ARSRemoverTile;
 import com.mdt.ait.core.init.AITDimensions;
 import com.mdt.ait.core.init.AITItems;
 import com.mdt.ait.core.init.AITTiles;
-import com.mdt.ait.tardis.structures.BaseStructure;
+import com.mdt.ait.tardis.structures.TARDISRoomGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -28,7 +28,6 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 import static com.mdt.ait.common.blocks.ARSProducerBlock.checkHeldItem;
 
@@ -62,7 +61,7 @@ public class ARSRemoverBlock extends Block {
         if (checkHeldItem(pPlayer, AITItems.TENNANT_SONIC.get()) || checkHeldItem(pPlayer, AITItems.WHITTAKER_SONIC.get())) {
             if (!pLevel.isClientSide) {
                 ServerWorld tardisWorld = AIT.server.getLevel(AITDimensions.TARDIS_DIMENSION);
-                BaseStructure baseStructure = new BaseStructure(tardisWorld, this.structure_name);
+                TARDISRoomGenerator generator = new TARDISRoomGenerator(tardisWorld, this.structure_name);
                 Direction block_direction = pHit.getDirection().getOpposite();
                 SonicItem sonic = (SonicItem) pPlayer.getMainHandItem().getItem();
                 this.structure_name = sonic.structure_name;
@@ -70,7 +69,7 @@ public class ARSRemoverBlock extends Block {
                 System.out.println("sadsad");
                 if (tileEntity instanceof ARSRemoverTile) {
                     System.out.println("is ars tile");
-                    ((ARSRemoverTile) tileEntity).cloisterCountdown(pLevel, block_direction,3, pPos, pPlayer, "second(s) until room deletion.",baseStructure);
+                    ((ARSRemoverTile) tileEntity).cloisterCountdown(pLevel, block_direction,3, pPos, pPlayer, "second(s) until room deletion.",generator);
                 }
                 //baseStructure.placeStructure(tardisWorld, pPos, block_direction,pPlayer);
             }
