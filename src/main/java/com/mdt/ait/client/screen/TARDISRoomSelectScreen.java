@@ -89,7 +89,7 @@ public class TARDISRoomSelectScreen extends Screen {
         drawCenteredString(
                 matrixStack,
                 fontRenderer,
-                this.generator.toStructureName(current_selection),
+                TARDISRoomGenerator.toStructureName(current_selection),
                 this.width / 2,
                 this.height / 2,
                 0xA7C7E7);

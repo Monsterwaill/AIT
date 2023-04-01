@@ -105,7 +105,13 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
 
     public DematTransit dematTransit;
     private int run_once = 0;
-    private int run_once_fail_remat = 0;
+//    private boolean fail_remat_is_decreasing = false;
+    float f_remat_startAlpha = 0.75f; // initial alpha value
+    float f_remat_targetAlpha = 0f; // target alpha value
+    float f_remat_duration = 90f; // fade-out duration in ticks
+    float f_remat_t = (float) ticks / f_remat_duration; // current time as a fraction of the duration
+    boolean f_remat_first_run = true;
+
     private int run_once_remat = 0;
     public TARDISKey tardisKey;
     public boolean lockedState = false;
@@ -595,33 +601,30 @@ public class TardisTileEntity extends TileEntity implements ITickableTileEntity 
                 // Finish
             }*/
         }
-        if(materialState == EnumMatState.FAIL_REMAT) {
-            if (this.alpha == 1 || this.alpha < 0) {
+        if (materialState == EnumMatState.FAIL_REMAT) {
+            ticks++;
+
+            if (this.alpha >= 1 && f_remat_first_run) {
                 this.alpha = 0;
             }
-            if(this.alpha <= 0.75 && run_once_fail_remat == 0) {
-                this.alpha += 0.005;
+
+            if (this.alpha >= 0.75F && f_remat_first_run) {
+                f_remat_first_run = false;
             }
-            if (this.alpha > 0.75 && run_once_fail_remat == 0) {
-                run_once_fail_remat = 1;
-                this.alpha = 0.74F;
-            }
-            if (this.alpha < 0.75 && run_once_fail_remat == 1) {
-                this.alpha -= 0.005; // this doesnt appear to work? @TODO
-            }
-//            System.out.println(this.alpha);
-//            System.out.println("POS: " + this.linked_tardis.exterior_position + "DIMENSION: " + this.linked_tardis.exterior_dimension);
-            if (this.alpha <= 0 && run_once_fail_remat == 1) {
-                run_once_fail_remat++;
-                // Simple check to make sure this only runs once as otherwise the game crashes and thats such poo
-                if (run_once_fail_remat == 2) {
-                    this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.linked_tardis_id);
-                    this.dematTransit.finishedDematAnimation();
-                    this.dematTransit.landTardisPart2();
-                    run_once_fail_remat = 0;
-                } else {
-                    run_once_fail_remat = 0;
-                }
+
+            if (f_remat_t <= 1 && !f_remat_first_run) {
+                // quadratic ease-out function
+                f_remat_targetAlpha = 0f;
+                this.alpha = f_remat_startAlpha + (f_remat_targetAlpha - f_remat_startAlpha) * (1 - (f_remat_t - 1) * (f_remat_t - 1));
+            } else if (f_remat_t <= 1 && f_remat_first_run) {
+                // quadratic ease-in function
+                f_remat_targetAlpha = 0.75f;
+                this.alpha = f_remat_startAlpha + (f_remat_targetAlpha - f_remat_startAlpha) * f_remat_t * f_remat_t;
+            } else {
+                this.dematTransit = AIT.tardisManager.moveTardisToTargetLocation(this.linked_tardis_id);
+                this.dematTransit.finishedDematAnimation();
+                this.dematTransit.landTardisPart2();
+                ticks = 0;
             }
         }
         if(materialState == EnumMatState.REMAT) {
