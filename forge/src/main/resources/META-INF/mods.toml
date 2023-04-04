@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[44,)"
+license="MIT"
+
+[[mods]]
+modId="ait"
+version="${file.jarVersion}"
+
+displayName="AIT"
+logoFile="icon.png"
+description='''Tick tock, Mr. Karma... Tick. Tock.'''
+
+authors="MDTeam"
+credits="Loqor - spending several literal hundred sleepless nights to code this mod."
+
+
+[[dependencies.ait]]
+    modId="forge"
+    mandatory=true
+
+    versionRange="[44,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ait]]
+    modId="minecraft"
+    mandatory=true
+
+    versionRange="[1.19.3,1.20)"
+    ordering="NONE"
+    side="BOTH"
