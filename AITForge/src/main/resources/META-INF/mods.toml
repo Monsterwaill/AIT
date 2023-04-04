@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+
+
+[[mods]]
+modId="ait"
+version="${file.jarVersion}"
+displayName="Adventures In Time"
+logoFile="logo.png"
+credits="Loqor - spending several literal hundred sleepless nights to code this mod."
+authors="MDTeam"
+description='''Tick tock, Mr. Karma... Tick. Tock.'''
+
+[[dependencies.ait]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
+
