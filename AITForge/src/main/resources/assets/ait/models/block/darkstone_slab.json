@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "ait:block/darkstone",
-    "top": "ait:block/darkstone",
-    "side": "ait:block/darkstone"
-  }
-}
