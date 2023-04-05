@@ -5,8 +5,6 @@ import com.mdt.ait.core.init.AITBlocks;
 import java.io.File;
 import java.util.*;
 import javax.annotation.Nullable;
-
-import com.mojang.serialization.Codec;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
