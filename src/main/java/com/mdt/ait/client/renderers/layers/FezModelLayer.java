@@ -115,7 +115,7 @@ public class FezModelLayer<T extends LivingEntity, M extends EntityModel<T>> ext
             }
             IVertexBuilder vertexBuffer = pBuffer.getBuffer(RenderType.entityTranslucent(this.TEXTURE));
             pMatrixStack.translate(-0.025, 0.05, 0);
-            this.fez.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+            fez.renderToBuffer(pMatrixStack, vertexBuffer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
         }
         pMatrixStack.popPose();
     }
