@@ -1,6 +1,6 @@
 # Adventures in time
 
-#### If you're gonna have a time machine, why not fly with style? Introducing AIT (Adventures in Time), a mod that adds machines and paraphernalia from assorted science fiction. Currently only adds the Doctor Who TARDIS. Currently heavy WIP, so stick around! 
+### If you're gonna have a time machine, why not fly with style? Introducing AIT (Adventures in Time), a mod that adds machines and paraphernalia from assorted science fiction. Currently only adds the Doctor Who TARDIS. Currently heavy WIP, so stick around! 
 
 ### Important Information
 - 1.16.5 Forge
